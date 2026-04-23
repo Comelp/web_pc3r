@@ -14,7 +14,7 @@ export default class GameMap extends Component {
 
         return (
             <div>
-            <EuropeMap onClick={handleCountryClick} style={{ width: '100%', height: 'auto' }} />
+            <EuropeMap onClick={handleCountryClick} style={{ width: '90%', height: 'auto' }} />
             </div>
         );
     }
@@ -23,7 +23,7 @@ export default class GameMap extends Component {
         return (
         <div>
         <h1>SVG Test</h1>
-        <EuropeMap />
+        {this.GameBoard()}
         </div>
     );
     }
