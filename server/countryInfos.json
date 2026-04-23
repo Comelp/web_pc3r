@@ -1,0 +1,27 @@
+{
+  "France": {
+    "leader": "Jéremi",
+    "meteo": {
+
+    },
+    "produced_ressources": {
+      "gold": 0
+    },  
+    "troops": {
+      "planes": 0
+    },
+    "attacked_by": null
+  },
+  "Spain": {
+    "leader": "Rodriguez"
+  },
+  "Brazil": {
+    "leader": null
+  },
+  "Germany": {
+    "leader": "Malenfant"
+  },
+  "Argentina": {
+    "leader": "Gigi"
+  }
+}
