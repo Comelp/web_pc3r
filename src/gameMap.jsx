@@ -5,19 +5,22 @@ export default class GameMap extends Component {
     
     GameBoard() {
         const handleCountryClick = (e) => {
-            const countryId = e.target.id;
-            if (countryId) {
-            console.log(`Pays cliqué : ${countryId}`);
-            // Ici, tu peux récupérer les infos du pays via ton API Go
+            const el = e.nativeEvent.target.closest('[data-country]');
+
+            if (el) {
+                console.log("Pays cliqué :", el.dataset.country);
             }
         };
 
-        return (
-            <div>
-            <EuropeMap onClick={handleCountryClick} style={{ width: '90%', height: 'auto' }} />
-            </div>
-        );
-    }
+    return (
+        <div>
+            <EuropeMap 
+                onClick={handleCountryClick} 
+                style={{ width: '90%', height: 'auto' }} 
+            />
+        </div>
+    );
+}
 
     render() {
         return (
