@@ -1,0 +1,15 @@
+{
+  "devDependencies": {
+    "@babel/core": "^7.29.0",
+    "@babel/preset-env": "^7.29.2",
+    "@babel/preset-react": "^7.28.5",
+    "@svgr/webpack": "^8.1.0",
+    "babel-loader": "^10.1.1",
+    "webpack": "^5.106.2",
+    "webpack-cli": "^7.0.2"
+  },
+  "dependencies": {
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5"
+  }
+}
