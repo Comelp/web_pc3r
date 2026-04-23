@@ -1,6 +1,6 @@
 {
   "France": {
-    "leader": "Jéremi",
+    "leader_id": "Jéremi",
     "meteo": {
 
     },
@@ -13,15 +13,15 @@
     "attacked_by": null
   },
   "Spain": {
-    "leader": "Rodriguez"
+    "leader_id": "Rodriguez"
   },
   "Brazil": {
-    "leader": null
+    "leader_id": null
   },
   "Germany": {
-    "leader": "Malenfant"
+    "leader_id": "Malenfant"
   },
   "Argentina": {
-    "leader": "Gigi"
+    "leader_id": "Gigi"
   }
 }
