@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import GameMap from './gameMap';
 import Timer from './timer';
 import Login from './login';
+import Rules from "./rules";
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
     <div>
       <h1>Bienvenue dans le jeu de conquête de l'Europe !</h1>
     </div>
+    <Rules />
     <Login />
     <Timer />
     <GameMap />

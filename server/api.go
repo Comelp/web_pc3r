@@ -555,3 +555,11 @@ func ConquerHandler(w http.ResponseWriter, r *http.Request) {
 		"conqueredBy": playerID,
 	})
 }
+
+func RuleHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodGet {
+		http.ServeFile(w, r, "./dist/rules.html")
+		return
+	}
+	http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+}
