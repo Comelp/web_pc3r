@@ -30,8 +30,8 @@
   "Austria": {
     "leader_id": null,
     "meteo": {
-      "temperature": 23.3,
-      "condition": "Partly Cloudy"
+      "temperature": 21.1,
+      "condition": "Sunny"
     },
     "produced_ressources": {
       "gold": 0
@@ -156,7 +156,7 @@
   "Greece": {
     "leader_id": null,
     "meteo": {
-      "temperature": 24.2,
+      "temperature": 24.1,
       "condition": "Partly cloudy"
     },
     "produced_ressources": {
@@ -168,7 +168,7 @@
     "attacked_by": null
   },
   "Hungary": {
-    "leader_id": "Come",
+    "leader_id": null,
     "meteo": {
       "temperature": 25.1,
       "condition": "Partly Cloudy"
@@ -179,13 +179,13 @@
     "troops": {
       "planes": 0
     },
-    "attacked_by": "Malenfant"
+    "attacked_by": null
   },
   "Iceland": {
     "leader_id": null,
     "meteo": {
-      "temperature": 12.3,
-      "condition": "Light rain"
+      "temperature": 11.1,
+      "condition": "Partly cloudy"
     },
     "produced_ressources": {
       "gold": 0
@@ -240,7 +240,7 @@
   "Liechtenstein": {
     "leader_id": null,
     "meteo": {
-      "temperature": 21,
+      "temperature": 19.6,
       "condition": "Sunny"
     },
     "produced_ressources": {
@@ -254,8 +254,8 @@
   "Malta": {
     "leader_id": null,
     "meteo": {
-      "temperature": 27.3,
-      "condition": "Sunny"
+      "temperature": 24.4,
+      "condition": "Clear"
     },
     "produced_ressources": {
       "gold": 0
@@ -268,7 +268,7 @@
   "Morocco": {
     "leader_id": null,
     "meteo": {
-      "temperature": 33.1,
+      "temperature": 27.3,
       "condition": "Sunny"
     },
     "produced_ressources": {
@@ -296,7 +296,7 @@
   "Norway": {
     "leader_id": null,
     "meteo": {
-      "temperature": 21.3,
+      "temperature": 17.3,
       "condition": "Partly Cloudy"
     },
     "produced_ressources": {
@@ -394,7 +394,7 @@
   "Switzerland": {
     "leader_id": null,
     "meteo": {
-      "temperature": 26.1,
+      "temperature": 21.4,
       "condition": "Sunny"
     },
     "produced_ressources": {
@@ -422,7 +422,7 @@
   "Turkey": {
     "leader_id": null,
     "meteo": {
-      "temperature": 19.2,
+      "temperature": 18.4,
       "condition": "Partly cloudy"
     },
     "produced_ressources": {
@@ -450,8 +450,8 @@
   "West Germany": {
     "leader_id": null,
     "meteo": {
-      "temperature": 27.3,
-      "condition": "Sunny"
+      "temperature": 24.4,
+      "condition": "Partly Cloudy"
     },
     "produced_ressources": {
       "gold": 0
@@ -464,8 +464,8 @@
   "Yugoslavia": {
     "leader_id": null,
     "meteo": {
-      "temperature": 19.5,
-      "condition": "Sunny"
+      "temperature": 11.2,
+      "condition": "Clear"
     },
     "produced_ressources": {
       "gold": 0
