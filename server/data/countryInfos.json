@@ -2,7 +2,7 @@
   "Albania": {
     "leader_id": null,
     "meteo": {
-      "temperature": 28.3,
+      "temperature": 28.1,
       "condition": "Partly cloudy"
     },
     "produced_ressources": {
@@ -16,7 +16,7 @@
   "Algeria": {
     "leader_id": null,
     "meteo": {
-      "temperature": 29.2,
+      "temperature": 28.2,
       "condition": "Sunny"
     },
     "produced_ressources": {
@@ -44,7 +44,7 @@
   "Belgium": {
     "leader_id": null,
     "meteo": {
-      "temperature": 26,
+      "temperature": 26.2,
       "condition": "Sunny"
     },
     "produced_ressources": {
@@ -58,7 +58,7 @@
   "Bulgaria": {
     "leader_id": null,
     "meteo": {
-      "temperature": 18.2,
+      "temperature": 18,
       "condition": "Overcast"
     },
     "produced_ressources": {
@@ -72,7 +72,7 @@
   "Czechia": {
     "leader_id": null,
     "meteo": {
-      "temperature": 23.4,
+      "temperature": 23.3,
       "condition": "Partly Cloudy"
     },
     "produced_ressources": {
@@ -86,8 +86,8 @@
   "Danemark": {
     "leader_id": null,
     "meteo": {
-      "temperature": 10,
-      "condition": "Partly Cloudy"
+      "temperature": 9.6,
+      "condition": "Patchy rain nearby"
     },
     "produced_ressources": {
       "gold": 0
@@ -100,7 +100,7 @@
   "East Germany": {
     "leader_id": null,
     "meteo": {
-      "temperature": 22.1,
+      "temperature": 22,
       "condition": "Partly Cloudy"
     },
     "produced_ressources": {
@@ -114,7 +114,7 @@
   "Finland": {
     "leader_id": null,
     "meteo": {
-      "temperature": 14.4,
+      "temperature": 14.1,
       "condition": "Light rain shower"
     },
     "produced_ressources": {
@@ -126,9 +126,9 @@
     "attacked_by": null
   },
   "France": {
-    "leader_id": "Jéremi",
+    "leader_id": "Yvan",
     "meteo": {
-      "temperature": 27.3,
+      "temperature": 28.1,
       "condition": "Sunny"
     },
     "produced_ressources": {
@@ -142,7 +142,7 @@
   "Germany": {
     "leader_id": "Malenfant",
     "meteo": {
-      "temperature": 22.1,
+      "temperature": 22,
       "condition": "Partly Cloudy"
     },
     "produced_ressources": {
@@ -170,7 +170,7 @@
   "Hungary": {
     "leader_id": "Come",
     "meteo": {
-      "temperature": 25.2,
+      "temperature": 25.1,
       "condition": "Partly Cloudy"
     },
     "produced_ressources": {
@@ -198,7 +198,7 @@
   "Ireland": {
     "leader_id": null,
     "meteo": {
-      "temperature": 17.1,
+      "temperature": 17,
       "condition": "Partly cloudy"
     },
     "produced_ressources": {
@@ -212,7 +212,7 @@
   "Italy": {
     "leader_id": null,
     "meteo": {
-      "temperature": 28.4,
+      "temperature": 28.3,
       "condition": "Sunny"
     },
     "produced_ressources": {
@@ -226,7 +226,7 @@
   "Kazakhstan": {
     "leader_id": null,
     "meteo": {
-      "temperature": 13.5,
+      "temperature": 12.7,
       "condition": "Sunny"
     },
     "produced_ressources": {
@@ -282,7 +282,7 @@
   "Netherlands": {
     "leader_id": null,
     "meteo": {
-      "temperature": 24.2,
+      "temperature": 24,
       "condition": "Sunny"
     },
     "produced_ressources": {
@@ -310,7 +310,7 @@
   "Poland": {
     "leader_id": null,
     "meteo": {
-      "temperature": 23.1,
+      "temperature": 22.3,
       "condition": "Sunny"
     },
     "produced_ressources": {
@@ -324,7 +324,7 @@
   "Portugal": {
     "leader_id": null,
     "meteo": {
-      "temperature": 30.4,
+      "temperature": 31.2,
       "condition": "Sunny"
     },
     "produced_ressources": {
@@ -339,7 +339,7 @@
     "leader_id": null,
     "meteo": {
       "temperature": 22.4,
-      "condition": "Partly cloudy"
+      "condition": "Patchy light rain with thunder"
     },
     "produced_ressources": {
       "gold": 0
@@ -352,7 +352,7 @@
   "Russia": {
     "leader_id": null,
     "meteo": {
-      "temperature": 28.2,
+      "temperature": 28,
       "condition": "Heavy rain at times"
     },
     "produced_ressources": {
@@ -366,7 +366,7 @@
   "Spain": {
     "leader_id": "Rodriguez",
     "meteo": {
-      "temperature": 30.1,
+      "temperature": 32.1,
       "condition": "Sunny"
     },
     "produced_ressources": {
@@ -380,8 +380,8 @@
   "Sweden": {
     "leader_id": null,
     "meteo": {
-      "temperature": 20.3,
-      "condition": "Sunny"
+      "temperature": 20.1,
+      "condition": "Partly Cloudy"
     },
     "produced_ressources": {
       "gold": 0
@@ -408,8 +408,8 @@
   "Tunisia": {
     "leader_id": null,
     "meteo": {
-      "temperature": 27.3,
-      "condition": "Partly cloudy"
+      "temperature": 27.1,
+      "condition": "Sunny"
     },
     "produced_ressources": {
       "gold": 0
@@ -436,8 +436,8 @@
   "Turkmenistan": {
     "leader_id": null,
     "meteo": {
-      "temperature": 23.4,
-      "condition": "Patchy rain nearby"
+      "temperature": 24.3,
+      "condition": "Partly Cloudy"
     },
     "produced_ressources": {
       "gold": 0

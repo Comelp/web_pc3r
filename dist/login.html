@@ -1,21 +1,40 @@
 <!DOCTYPE html>
 <html>
-    <body>
+    <body style="font-family: sans-serif;">
 
-        <div id="login-box">
+        <div id="login-box" style="
+            width: 320px;
+            margin: 80px auto;
+            padding: 20px;
+            background-color: #e6e6e6;
+            border: 2px solid black;
+            border-radius: 8px;
+        ">
 
-            <form id="login-form">
-                <input name="username" placeholder="username">
-                <input type="password" name="password" placeholder="password">
+            <form id="login-form" style="display: flex; flex-direction: column; gap: 10px;">
+                <input name="username" placeholder="username" style="padding: 8px;">
+                <input type="password" name="password" placeholder="password" style="padding: 8px;">
 
-                <input type="color" name="couleur" id="color-input" value="#cccccc" style="display:none;">
+                <input type="color"
+                       name="couleur"
+                       id="color-input"
+                       value="green"
+                       style="display:none; width: 100%; height: 40px; border: none;">
 
-                <button type="submit" id="submit-btn">Login</button>
+                <button type="submit" id="submit-btn" style="padding: 10px;">
+                    Se connecter
+                </button>
             </form>
 
-            <button onclick="swapMod()" id="swap-btn">Créer un compte</button>
+            <button onclick="swapMod()" id="swap-btn" style="
+                margin-top: 10px;
+                width: 100%;
+                padding: 8px;
+            ">
+                Créer un compte
+            </button>
 
-            <div id="error" style="color:red;"></div>
+            <div id="error" style="color:red; margin-top: 10px;"></div>
 
         </div>
 
@@ -40,13 +59,12 @@
                 swap.innerText = "J'ai déjà un compte";
             } else {
                 form.dataset.action = '/login';
-                btn.innerText = 'Login';
+                btn.innerText = 'Se connecter';
                 color.style.display = 'none';
                 swap.innerText = "Créer un compte";
             }
         }
 
-        // default mode
         document.getElementById('login-form').dataset.action = '/login';
 
         document.getElementById('login-form').addEventListener('submit', async (e) => {
@@ -72,14 +90,12 @@
                     return;
                 }
 
-                // succès → reload page
                 window.location.href = "/";
             } catch (err) {
                 error.innerText = "Erreur serveur";
             }
         });
 
-        // check login
         fetch('/me', { credentials: 'include' })
             .then(res => {
                 if (!res.ok) throw new Error();
