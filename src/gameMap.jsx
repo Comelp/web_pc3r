@@ -3,7 +3,7 @@ import EuropeMap from '../assets/europeMap.svg';
 
 export default class GameMap extends Component {
 
-    state = { countryInfo: null, countryName: null, mapInfos: {}};
+    state = { countryInfo: null, countryName: null, mapInfos: {}, gamePhase: ''};
     
     // la map apparait 
     componentDidMount() {
@@ -22,6 +22,16 @@ export default class GameMap extends Component {
             .then(res => res.json())
             .then(data => {
                 this.setState({ mapInfos: data }, () => this.applyCountriesColor());
+                return fetch('/getPhase');
+            })
+            .then(res => res.text())
+            .then(text => {
+                try {
+                    const data = JSON.parse(text);
+                    this.setState({ gamePhase: data.phase });
+                } catch (err) {
+                    console.error('Invalid JSON from /getPhase:', text, err);
+                }
             })
             .catch(err => console.error("Erreur fetchMapInfos :", err));
     }
@@ -126,6 +136,8 @@ export default class GameMap extends Component {
 
         const leader = info.leader_id ? info.leader_id : "Non occupé";
         const meteo = info.meteo ? (`${info.meteo.temperature}°C - ${info.meteo.condition}`) : "Aucune donnée météo";
+        const ressources = info.produced_ressources ? (`${info.produced_ressources.gold}K`) : "Aucune ressource produite";
+
 
         return (
             <div style={{
@@ -146,9 +158,13 @@ export default class GameMap extends Component {
                 <p style={{ margin: '0 0 6px 0' }}>
                     <strong>Leader :</strong> {leader}
                 </p>
-                <p style={{ margin: 0 }}>
+                <p style={{ margin: '0 0 6px 0' }}>
                     <strong>Météo :</strong> {meteo}
                 </p>
+                <p style={{ margin: 0 }}>
+                    <strong>Production :</strong> {ressources}
+                </p>
+                {this.renderActionButton(leader, ressources)}
             </div>
         );
     }
@@ -184,10 +200,29 @@ export default class GameMap extends Component {
             });
     }
 
+    renderActionButton(leader, ressources) {
+        const phase = this.state.gamePhase;
+
+        if (phase === 'Distribution') {
+            if (leader === "Non occupé") {
+                return <button onClick={() => this.conquerCountry()} style={{ marginTop: '10px' }}>Conquérir ({ressources})</button>;
+            }
+            if (leader === "Vous") {
+                return <button style={{ marginTop: '10px' }}>Améliorer ({ressources})</button>;
+            }
+            return null;
+        }
+
+        if (phase === 'Attaque' && leader !== "Non occupé" && leader !== "Vous") {
+            return <button style={{ marginTop: '10px' }}>Attaquer</button>;
+        }
+
+        return null;
+    }
+
     render() {
         return (
             <div style={{ overflowX: 'hidden', margin: 0 }}>
-                <h1>Carte</h1>
                     {this.GameBoard()}
             </div>
         );
