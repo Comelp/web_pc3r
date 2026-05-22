@@ -75,7 +75,7 @@ export default class GameMap extends Component {
         if (country) {
             const el = document.querySelector(`[data-country="${country}"]`);
             if (el) {
-                el.style.fill = 'rgba(255, 200, 0, 0.5)';
+                el.style.fill = 'rgba(180, 73, 192, 0.5)';
                 el.classList.add('selected');
             }
         }

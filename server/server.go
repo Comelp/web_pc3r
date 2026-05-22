@@ -9,6 +9,7 @@ func main() {
 
 	// API
 	http.HandleFunc("/getState", StateHandler)
+	http.HandleFunc("/getMapInfos", MapInfosHandler)
 
 	http.ListenAndServe(":8080", nil)
 }

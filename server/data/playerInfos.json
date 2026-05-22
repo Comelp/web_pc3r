@@ -7,5 +7,14 @@
         "ressources": {
             "gold": 0
         }
+    },
+    "Rodriguez": {
+        "couleur": "#e74c3c",
+        "password": "HeheFunnyPasswordUwU",
+        "friends": ["Jérémi"],
+        "countries": [],
+        "ressources": {
+            "gold": 0
+        }
     }
 }
