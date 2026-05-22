@@ -6,9 +6,16 @@ import (
 	"os"
 )
 
+type MeteoInfo struct {
+	Temperature float64 `json:"temperature"`
+	Condition   string  `json:"condition"`
+}
 type CountryInfo struct {
-	LeaderID   *string `json:"leader_id"`
-	AttackedBy *string `json:"attacked_by"`
+	LeaderID           *string            `json:"leader_id"`
+	AttackedBy         *string            `json:"attacked_by"`
+	Meteo              *MeteoInfo         `json:"meteo"`
+	ProducedRessources map[string]float64 `json:"produced_ressources"`
+	Troops             map[string]float64 `json:"troops"`
 }
 type PlayerInfo struct {
 	Couleur string `json:"couleur"`

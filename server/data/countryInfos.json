@@ -1,42 +1,478 @@
 {
+  "Albania": {
+    "leader_id": null,
+    "meteo": {
+      "temperature": 27,
+      "condition": "Partly cloudy"
+    },
+    "produced_ressources": {
+      "gold": 0
+    },
+    "troops": {
+      "planes": 0
+    },
+    "attacked_by": null
+  },
+  "Algeria": {
+    "leader_id": null,
+    "meteo": {
+      "temperature": 27.3,
+      "condition": "Sunny"
+    },
+    "produced_ressources": {
+      "gold": 0
+    },
+    "troops": {
+      "planes": 0
+    },
+    "attacked_by": null
+  },
+  "Austria": {
+    "leader_id": null,
+    "meteo": {
+      "temperature": 21.1,
+      "condition": "Sunny"
+    },
+    "produced_ressources": {
+      "gold": 0
+    },
+    "troops": {
+      "planes": 0
+    },
+    "attacked_by": null
+  },
+  "Belgium": {
+    "leader_id": null,
+    "meteo": {
+      "temperature": 22.3,
+      "condition": "Sunny"
+    },
+    "produced_ressources": {
+      "gold": 0
+    },
+    "troops": {
+      "planes": 0
+    },
+    "attacked_by": null
+  },
+  "Bulgaria": {
+    "leader_id": null,
+    "meteo": {
+      "temperature": 16.2,
+      "condition": "Light rain"
+    },
+    "produced_ressources": {
+      "gold": 0
+    },
+    "troops": {
+      "planes": 0
+    },
+    "attacked_by": null
+  },
+  "Czechia": {
+    "leader_id": null,
+    "meteo": {
+      "temperature": 20.3,
+      "condition": "Partly Cloudy"
+    },
+    "produced_ressources": {
+      "gold": 0
+    },
+    "troops": {
+      "planes": 0
+    },
+    "attacked_by": null
+  },
+  "Danemark": {
+    "leader_id": null,
+    "meteo": {
+      "temperature": 11.6,
+      "condition": "Partly Cloudy"
+    },
+    "produced_ressources": {
+      "gold": 0
+    },
+    "troops": {
+      "planes": 0
+    },
+    "attacked_by": null
+  },
+  "East Germany": {
+    "leader_id": null,
+    "meteo": {
+      "temperature": 20.3,
+      "condition": "Partly cloudy"
+    },
+    "produced_ressources": {
+      "gold": 0
+    },
+    "troops": {
+      "planes": 0
+    },
+    "attacked_by": null
+  },
+  "Finland": {
+    "leader_id": null,
+    "meteo": {
+      "temperature": 16.1,
+      "condition": "Partly cloudy"
+    },
+    "produced_ressources": {
+      "gold": 0
+    },
+    "troops": {
+      "planes": 0
+    },
+    "attacked_by": null
+  },
   "France": {
     "leader_id": "Jéremi",
-    "meteo": { "temperature": 22, "condition": "ensoleillé" },
-    "produced_ressources": { "gold": 0 },
-    "troops": { "planes": 0 },
+    "meteo": {
+      "temperature": 25.2,
+      "condition": "Sunny"
+    },
+    "produced_ressources": {
+      "gold": 0
+    },
+    "troops": {
+      "planes": 0
+    },
     "attacked_by": "Malenfant"
   },
-  "Spain": { "leader_id": "Rodriguez", "meteo": null, "produced_ressources": { "gold": 0 }, "troops": { "planes": 0 }, "attacked_by": null },
-  "Germany": { "leader_id": "Malenfant", "meteo": null, "produced_ressources": { "gold": 0 }, "troops": { "planes": 0 }, "attacked_by": null },
-  "Albania": { "leader_id": null, "meteo": null, "produced_ressources": { "gold": 0 }, "troops": { "planes": 0 }, "attacked_by": null },
-  "Algeria": { "leader_id": null, "meteo": null, "produced_ressources": { "gold": 0 }, "troops": { "planes": 0 }, "attacked_by": null },
-  "Austria": { "leader_id": null, "meteo": null, "produced_ressources": { "gold": 0 }, "troops": { "planes": 0 }, "attacked_by": null },
-  "Belgium": { "leader_id": null, "meteo": null, "produced_ressources": { "gold": 0 }, "troops": { "planes": 0 }, "attacked_by": null },
-  "Bulgaria": { "leader_id": null, "meteo": null, "produced_ressources": { "gold": 0 }, "troops": { "planes": 0 }, "attacked_by": null },
-  "Czechia": { "leader_id": null, "meteo": null, "produced_ressources": { "gold": 0 }, "troops": { "planes": 0 }, "attacked_by": null },
-  "Danemark": { "leader_id": null, "meteo": null, "produced_ressources": { "gold": 0 }, "troops": { "planes": 0 }, "attacked_by": null },
-  "East Germany": { "leader_id": null, "meteo": null, "produced_ressources": { "gold": 0 }, "troops": { "planes": 0 }, "attacked_by": null },
-  "Finland": { "leader_id": null, "meteo": null, "produced_ressources": { "gold": 0 }, "troops": { "planes": 0 }, "attacked_by": null },
-  "Greece": { "leader_id": null, "meteo": null, "produced_ressources": { "gold": 0 }, "troops": { "planes": 0 }, "attacked_by": null },
-  "Hungary": { "leader_id": null, "meteo": null, "produced_ressources": { "gold": 0 }, "troops": { "planes": 0 }, "attacked_by": null },
-  "Iceland": { "leader_id": null, "meteo": null, "produced_ressources": { "gold": 0 }, "troops": { "planes": 0 }, "attacked_by": null },
-  "Ireland": { "leader_id": null, "meteo": null, "produced_ressources": { "gold": 0 }, "troops": { "planes": 0 }, "attacked_by": null },
-  "Italy": { "leader_id": null, "meteo": null, "produced_ressources": { "gold": 0 }, "troops": { "planes": 0 }, "attacked_by": "Malenfant" },
-  "Kazakhstan": { "leader_id": null, "meteo": null, "produced_ressources": { "gold": 0 }, "troops": { "planes": 0 }, "attacked_by": null },
-  "Liechtenstein": { "leader_id": null, "meteo": null, "produced_ressources": { "gold": 0 }, "troops": { "planes": 0 }, "attacked_by": null },
-  "Malta": { "leader_id": null, "meteo": null, "produced_ressources": { "gold": 0 }, "troops": { "planes": 0 }, "attacked_by": null },
-  "Morocco": { "leader_id": null, "meteo": null, "produced_ressources": { "gold": 0 }, "troops": { "planes": 0 }, "attacked_by": "Malenfant" },
-  "Netherlands": { "leader_id": null, "meteo": null, "produced_ressources": { "gold": 0 }, "troops": { "planes": 0 }, "attacked_by": null },
-  "Norway": { "leader_id": null, "meteo": null, "produced_ressources": { "gold": 0 }, "troops": { "planes": 0 }, "attacked_by": null },
-  "Poland": { "leader_id": null, "meteo": null, "produced_ressources": { "gold": 0 }, "troops": { "planes": 0 }, "attacked_by": null },
-  "Portugal": { "leader_id": null, "meteo": null, "produced_ressources": { "gold": 0 }, "troops": { "planes": 0 }, "attacked_by": null },
-  "Romania": { "leader_id": null, "meteo": null, "produced_ressources": { "gold": 0 }, "troops": { "planes": 0 }, "attacked_by": null },
-  "Russia": { "leader_id": null, "meteo": null, "produced_ressources": { "gold": 0 }, "troops": { "planes": 0 }, "attacked_by": null },
-  "Sweden": { "leader_id": null, "meteo": null, "produced_ressources": { "gold": 0 }, "troops": { "planes": 0 }, "attacked_by": null },
-  "Switzerland": { "leader_id": null, "meteo": null, "produced_ressources": { "gold": 0 }, "troops": { "planes": 0 }, "attacked_by": null },
-  "Tunisia": { "leader_id": null, "meteo": null, "produced_ressources": { "gold": 0 }, "troops": { "planes": 0 }, "attacked_by": null },
-  "Turkey": { "leader_id": null, "meteo": null, "produced_ressources": { "gold": 0 }, "troops": { "planes": 0 }, "attacked_by": null },
-  "Turkmenistan": { "leader_id": null, "meteo": null, "produced_ressources": { "gold": 0 }, "troops": { "planes": 0 }, "attacked_by": null },
-  "West Germany": { "leader_id": null, "meteo": null, "produced_ressources": { "gold": 0 }, "troops": { "planes": 0 }, "attacked_by": null },
-  "Yugoslavia": { "leader_id": null, "meteo": null, "produced_ressources": { "gold": 0 }, "troops": { "planes": 0 }, "attacked_by": null }
+  "Germany": {
+    "leader_id": "Malenfant",
+    "meteo": {
+      "temperature": 20.3,
+      "condition": "Partly cloudy"
+    },
+    "produced_ressources": {
+      "gold": 0
+    },
+    "troops": {
+      "planes": 0
+    },
+    "attacked_by": null
+  },
+  "Greece": {
+    "leader_id": null,
+    "meteo": {
+      "temperature": 24.1,
+      "condition": "Partly cloudy"
+    },
+    "produced_ressources": {
+      "gold": 0
+    },
+    "troops": {
+      "planes": 0
+    },
+    "attacked_by": null
+  },
+  "Hungary": {
+    "leader_id": null,
+    "meteo": {
+      "temperature": 23.3,
+      "condition": "Partly Cloudy"
+    },
+    "produced_ressources": {
+      "gold": 0
+    },
+    "troops": {
+      "planes": 0
+    },
+    "attacked_by": null
+  },
+  "Iceland": {
+    "leader_id": null,
+    "meteo": {
+      "temperature": 11.1,
+      "condition": "Partly cloudy"
+    },
+    "produced_ressources": {
+      "gold": 0
+    },
+    "troops": {
+      "planes": 0
+    },
+    "attacked_by": null
+  },
+  "Ireland": {
+    "leader_id": null,
+    "meteo": {
+      "temperature": 17.1,
+      "condition": "Partly cloudy"
+    },
+    "produced_ressources": {
+      "gold": 0
+    },
+    "troops": {
+      "planes": 0
+    },
+    "attacked_by": null
+  },
+  "Italy": {
+    "leader_id": null,
+    "meteo": {
+      "temperature": 25.3,
+      "condition": "Sunny"
+    },
+    "produced_ressources": {
+      "gold": 0
+    },
+    "troops": {
+      "planes": 0
+    },
+    "attacked_by": null
+  },
+  "Kazakhstan": {
+    "leader_id": null,
+    "meteo": {
+      "temperature": 14,
+      "condition": "Sunny"
+    },
+    "produced_ressources": {
+      "gold": 0
+    },
+    "troops": {
+      "planes": 0
+    },
+    "attacked_by": null
+  },
+  "Liechtenstein": {
+    "leader_id": null,
+    "meteo": {
+      "temperature": 19.6,
+      "condition": "Sunny"
+    },
+    "produced_ressources": {
+      "gold": 0
+    },
+    "troops": {
+      "planes": 0
+    },
+    "attacked_by": null
+  },
+  "Malta": {
+    "leader_id": null,
+    "meteo": {
+      "temperature": 24.4,
+      "condition": "Clear"
+    },
+    "produced_ressources": {
+      "gold": 0
+    },
+    "troops": {
+      "planes": 0
+    },
+    "attacked_by": null
+  },
+  "Morocco": {
+    "leader_id": null,
+    "meteo": {
+      "temperature": 27.3,
+      "condition": "Sunny"
+    },
+    "produced_ressources": {
+      "gold": 0
+    },
+    "troops": {
+      "planes": 0
+    },
+    "attacked_by": null
+  },
+  "Netherlands": {
+    "leader_id": null,
+    "meteo": {
+      "temperature": 22.1,
+      "condition": "Sunny"
+    },
+    "produced_ressources": {
+      "gold": 0
+    },
+    "troops": {
+      "planes": 0
+    },
+    "attacked_by": null
+  },
+  "Norway": {
+    "leader_id": null,
+    "meteo": {
+      "temperature": 17.3,
+      "condition": "Partly Cloudy"
+    },
+    "produced_ressources": {
+      "gold": 0
+    },
+    "troops": {
+      "planes": 0
+    },
+    "attacked_by": null
+  },
+  "Poland": {
+    "leader_id": null,
+    "meteo": {
+      "temperature": 21.2,
+      "condition": "Partly cloudy"
+    },
+    "produced_ressources": {
+      "gold": 0
+    },
+    "troops": {
+      "planes": 0
+    },
+    "attacked_by": null
+  },
+  "Portugal": {
+    "leader_id": null,
+    "meteo": {
+      "temperature": 26.4,
+      "condition": "Sunny"
+    },
+    "produced_ressources": {
+      "gold": 0
+    },
+    "troops": {
+      "planes": 0
+    },
+    "attacked_by": null
+  },
+  "Romania": {
+    "leader_id": null,
+    "meteo": {
+      "temperature": 20.4,
+      "condition": "Partly cloudy"
+    },
+    "produced_ressources": {
+      "gold": 0
+    },
+    "troops": {
+      "planes": 0
+    },
+    "attacked_by": null
+  },
+  "Russia": {
+    "leader_id": null,
+    "meteo": {
+      "temperature": 28.2,
+      "condition": "Thundery outbreaks in nearby"
+    },
+    "produced_ressources": {
+      "gold": 0
+    },
+    "troops": {
+      "planes": 0
+    },
+    "attacked_by": null
+  },
+  "Spain": {
+    "leader_id": "Rodriguez",
+    "meteo": {
+      "temperature": 26.2,
+      "condition": "Sunny"
+    },
+    "produced_ressources": {
+      "gold": 0
+    },
+    "troops": {
+      "planes": 0
+    },
+    "attacked_by": null
+  },
+  "Sweden": {
+    "leader_id": null,
+    "meteo": {
+      "temperature": 16.2,
+      "condition": "Sunny"
+    },
+    "produced_ressources": {
+      "gold": 0
+    },
+    "troops": {
+      "planes": 0
+    },
+    "attacked_by": null
+  },
+  "Switzerland": {
+    "leader_id": null,
+    "meteo": {
+      "temperature": 21.4,
+      "condition": "Sunny"
+    },
+    "produced_ressources": {
+      "gold": 0
+    },
+    "troops": {
+      "planes": 0
+    },
+    "attacked_by": null
+  },
+  "Tunisia": {
+    "leader_id": null,
+    "meteo": {
+      "temperature": 28.2,
+      "condition": "Sunny"
+    },
+    "produced_ressources": {
+      "gold": 0
+    },
+    "troops": {
+      "planes": 0
+    },
+    "attacked_by": null
+  },
+  "Turkey": {
+    "leader_id": null,
+    "meteo": {
+      "temperature": 18.4,
+      "condition": "Partly cloudy"
+    },
+    "produced_ressources": {
+      "gold": 0
+    },
+    "troops": {
+      "planes": 0
+    },
+    "attacked_by": null
+  },
+  "Turkmenistan": {
+    "leader_id": null,
+    "meteo": {
+      "temperature": 30.7,
+      "condition": "Patchy light rain in area with thunder"
+    },
+    "produced_ressources": {
+      "gold": 0
+    },
+    "troops": {
+      "planes": 0
+    },
+    "attacked_by": null
+  },
+  "West Germany": {
+    "leader_id": null,
+    "meteo": {
+      "temperature": 24.4,
+      "condition": "Partly Cloudy"
+    },
+    "produced_ressources": {
+      "gold": 0
+    },
+    "troops": {
+      "planes": 0
+    },
+    "attacked_by": null
+  },
+  "Yugoslavia": {
+    "leader_id": null,
+    "meteo": {
+      "temperature": 11.2,
+      "condition": "Clear"
+    },
+    "produced_ressources": {
+      "gold": 0
+    },
+    "troops": {
+      "planes": 0
+    },
+    "attacked_by": null
+  }
 }
