@@ -3,8 +3,39 @@ import EuropeMap from '../assets/europeMap.svg';
 
 export default class GameMap extends Component {
 
-    state = { countryInfo: null, countryName: null };
+    state = { countryInfo: null, countryName: null, mapInfos: {}};
     
+    // la map apparait 
+    componentDidMount() {
+        this.fetchMapInfos();
+        this.interval = setInterval(() => this.fetchMapInfos(), 5000);
+    }
+
+    // quand la map disparait
+    componentWillUnmount() {
+        clearInterval(this.interval);
+    }
+
+
+    fetchMapInfos() {
+        fetch('/getMapInfos')
+            .then(res => res.json())
+            .then(data => {
+                this.setState({ mapInfos: data }, () => this.applyCountriesColor());
+            })
+            .catch(err => console.error("Erreur fetchMapInfos :", err));
+    }
+
+    applyCountriesColor() {
+        const { mapInfos } = this.state;
+        Object.entries(mapInfos).forEach(([country, info]) => {
+            const el = document.querySelector(`[data-country="${country}"]`);
+            if (!el) return;
+            if (el.classList.contains('selected')) return; // ne pas écraser la sélection en cours
+            el.style.fill = info.color ?? '#c0c0c0';     // couleur de base sinon
+        });
+    }
+
     GameBoard() {
         const handleCountryClick = (e) => {
             const el = e.nativeEvent.target.closest('[data-country]');
@@ -68,7 +99,9 @@ export default class GameMap extends Component {
     handleHighlightCountry(country) {
         const prev = document.querySelector('[data-country].selected');
         if (prev) {
-            prev.style.fill = '#c0c0c0';
+            const prevName = prev.dataset.country;
+            const prevInfo = this.state.mapInfos[prevName];
+            prev.style.fill = prevInfo?.color ?? '#c0c0c0';
             prev.classList.remove('selected');
         }
 
