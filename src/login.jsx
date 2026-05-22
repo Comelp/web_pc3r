@@ -1,23 +1,11 @@
 import React, { Component } from 'react';
+import { AuthContext } from './authContext';
 
 export default class Login extends Component {
-
-    state = {
-        logged: false
-    };
-
-    componentDidMount() {
-        fetch('/me', { credentials: 'include' })
-            .then(res => {
-                if (!res.ok) throw new Error();
-                return res.json();
-            })
-            .then(() => this.setState({ logged: true }))
-            .catch(() => this.setState({ logged: false }));
-    }
+    static contextType = AuthContext;
 
     render() {
-        const isLogged = this.state.logged;
+        const isLogged = Boolean(this.context.currentUser);
 
         return (
             <div style={{
