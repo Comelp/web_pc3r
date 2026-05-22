@@ -203,7 +203,7 @@ export default class GameMap extends Component {
     renderActionButton(leader, ressources) {
         const phase = this.state.gamePhase;
 
-        if (phase === 'Distribution') {
+        if (phase === 'Paix 🤝') {
             if (leader === "Non occupé") {
                 return <button onClick={() => this.conquerCountry()} style={{ marginTop: '10px' }}>Conquérir ({ressources})</button>;
             }
@@ -213,7 +213,7 @@ export default class GameMap extends Component {
             return null;
         }
 
-        if (phase === 'Attaque' && leader !== "Non occupé" && leader !== "Vous") {
+        if (phase === 'Attaque 🪖' && leader !== "Non occupé" && leader !== "Vous") {
             return <button style={{ marginTop: '10px' }}>Attaquer</button>;
         }
 

@@ -12,6 +12,7 @@ func main() {
 		StartWeatherPuller()
 	}()
 	http.HandleFunc("/me", MeHandler)
+	http.HandleFunc("/getPhase", PhaseHandler)
 	http.HandleFunc("/getState", StateHandler)
 	http.HandleFunc("/getMapInfos", MapInfosHandler)
 	http.HandleFunc("/register", RegisterHandler)
