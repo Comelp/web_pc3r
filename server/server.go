@@ -11,6 +11,9 @@ func main() {
 	go func() {
 		StartWeatherPuller()
 	}()
+	go func() {
+		StartPhaseWatcher()
+	}()
 	http.HandleFunc("/me", MeHandler)
 	http.HandleFunc("/getPhase", PhaseHandler)
 	http.HandleFunc("/getState", StateHandler)

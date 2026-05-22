@@ -259,10 +259,7 @@ export default class GameMap extends Component {
         if (leader === "Non occupé") {
             return (countryInfo.attacked_by || countryInfo.conquered_by)
                 ? button({ disabled: true, style: { opacity: 0.6 } }, "Déjà en conquête")
-                : button(
-                    { onClick: () => this.conquerCountry() },
-                    `Conquérir (${ressources})`
-                );
+                : button({ onClick: () => this.conquerCountry() }, "Conquérir");
         }
 
         if (leader === currentUser) {
@@ -275,7 +272,7 @@ export default class GameMap extends Component {
                         cursor: canUpgrade ? 'pointer' : 'not-allowed'
                     }
                 },
-                canUpgrade ? `Améliorer (${ressources})` : "Impossible"
+                canUpgrade ? `Améliorer (${ressources})` : "Déjà Niveau Max"
             );
         }
 
