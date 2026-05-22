@@ -3,17 +3,25 @@ import EuropeMap from '../assets/europeMap.svg';
 
 export default class GameMap extends Component {
 
-    state = { countryInfo: null, countryName: null, mapInfos: {}, gamePhase: ''};
+    state = { countryInfo: null, countryName: null, mapInfos: {}, gamePhase: '', currentUser: null};
     
     // la map apparait 
     componentDidMount() {
         this.fetchMapInfos();
+        this.fetchCurrentUser();
         this.interval = setInterval(() => this.fetchMapInfos(), 5000);
     }
 
     // quand la map disparait
     componentWillUnmount() {
         clearInterval(this.interval);
+    }
+
+    fetchCurrentUser() {
+        fetch('/me')
+            .then(res => res.ok ? res.json() : null)
+            .then(data => this.setState({ currentUser: data?.username ?? null }))
+            .catch(() => this.setState({ currentUser: null }));
     }
 
 
@@ -64,6 +72,12 @@ export default class GameMap extends Component {
                     return res.json();
                 })
                 .then(data => {
+                    if (this.state.countryName === country) {
+                        this.setState({ countryInfo: null, countryName: null });
+                        this.handleHighlightCountry(null);
+                        return;
+                    }
+
                     this.setState({ countryInfo: data, countryName: country });
                     this.handleHighlightCountry(country);
                 })
@@ -136,8 +150,9 @@ export default class GameMap extends Component {
 
         const leader = info.leader_id ? info.leader_id : "Non occupé";
         const meteo = info.meteo ? (`${info.meteo.temperature}°C - ${info.meteo.condition}`) : "Aucune donnée météo";
-        const ressources = info.produced_gold ? (`${info.produced_gold}K`) : "Aucune ressource produite";
-
+        const ressources = (info.produced_gold !== undefined && info.level !== undefined)
+            ? `${(info.level+1) * info.produced_gold}K`
+            : "Aucune ressource produite";
 
         return (
             <div style={{
@@ -161,8 +176,11 @@ export default class GameMap extends Component {
                 <p style={{ margin: '0 0 6px 0' }}>
                     <strong>Météo :</strong> {meteo}
                 </p>
-                <p style={{ margin: 0 }}>
+                <p style={{ margin: '0 0 6px 0' }}>
                     <strong>Production :</strong> {ressources}
+                </p>
+                <p style={{ margin:  0 }}>
+                    <strong>Niveau :</strong> {info.level ?? 0} / 3
                 </p>
                 {this.renderActionButton(leader, ressources)}
             </div>
@@ -201,19 +219,23 @@ export default class GameMap extends Component {
     }
 
     renderActionButton(leader, ressources) {
-        const phase = this.state.gamePhase;
+        const { gamePhase, currentUser } = this.state;
 
-        if (phase === 'Paix 🤝') {
+        if (!currentUser) {
+            return null;
+        }
+        
+        if (gamePhase === 'Paix 🤝') {
             if (leader === "Non occupé") {
                 return <button onClick={() => this.conquerCountry()} style={{ marginTop: '10px' }}>Conquérir ({ressources})</button>;
             }
-            if (leader === "Vous") {
+            if (currentUser && leader === currentUser) {
                 return <button style={{ marginTop: '10px' }}>Améliorer ({ressources})</button>;
             }
             return null;
         }
 
-        if (phase === 'Attaque 🪖' && leader !== "Non occupé" && leader !== "Vous") {
+        if (gamePhase === 'Attaque 🪖' && currentUser && leader !== "Non occupé" && leader !== currentUser) {
             return <button style={{ marginTop: '10px' }}>Attaquer</button>;
         }
 

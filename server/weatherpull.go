@@ -10,27 +10,6 @@ import (
 	"time"
 )
 
-type MeteoData struct {
-	Temperature float64 `json:"temperature"`
-	Condition   string  `json:"condition"`
-}
-
-type ResourcesInfo struct {
-	Gold int `json:"gold"`
-}
-
-type TroopsInfo struct {
-	Planes int `json:"planes"`
-}
-
-type CountryWeatherInfo struct {
-	LeaderID           *string       `json:"leader_id"`
-	Meteo              *MeteoData    `json:"meteo"`
-	ProducedRessources ResourcesInfo `json:"produced_ressources"`
-	Troops             TroopsInfo    `json:"troops"`
-	AttackedBy         *string       `json:"attacked_by"`
-}
-
 type WeatherData struct {
 	Current struct {
 		TempC     float64 `json:"temp_c"`
@@ -52,14 +31,18 @@ const (
 	weatherUpdateTicker = 10 * time.Minute
 )
 
-func getWeatherForCountry(countryName string) (*MeteoData, error) {
+func getWeatherForCountry(countryName string) (*MeteoInfo, error) {
 	queryName := countryName
-	// Certains pays ont pas le même nom dans l'API (parce qu'on utilise une carte du siècle dernier)
 	if mappedName, exists := countryNameMap[countryName]; exists {
 		queryName = mappedName
 	}
 
-	url := fmt.Sprintf("http://api.weatherapi.com/v1/current.json?key=%s&q=%s&aqi=no", apiKey, queryName)
+	url := fmt.Sprintf(
+		"http://api.weatherapi.com/v1/current.json?key=%s&q=%s&aqi=no",
+		apiKey,
+		queryName,
+	)
+
 	resp, err := http.Get(url)
 	if err != nil {
 		return nil, err
@@ -80,7 +63,7 @@ func getWeatherForCountry(countryName string) (*MeteoData, error) {
 		return nil, err
 	}
 
-	return &MeteoData{
+	return &MeteoInfo{
 		Temperature: weather.Current.TempC,
 		Condition:   weather.Current.Condition.Text,
 	}, nil
@@ -93,23 +76,21 @@ func updateWeatherData() {
 		return
 	}
 
-	var countries map[string]CountryWeatherInfo
+	var countries map[string]CountryInfo
 	if err := json.Unmarshal(data, &countries); err != nil {
 		log.Printf("Error unmarshaling JSON: %v", err)
 		return
 	}
 
-	for countryName := range countries {
-		weather, err := getWeatherForCountry(countryName)
+	for name, country := range countries {
+		weather, err := getWeatherForCountry(name)
 		if err != nil {
-			log.Printf("Error fetching weather for %s: %v", countryName, err)
+			log.Printf("Error fetching weather for %s: %v", name, err)
 			continue
 		}
-
-		countryInfo := countries[countryName]
-		countryInfo.Meteo = weather
-		countries[countryName] = countryInfo
-		log.Printf("Updated weather for %s", countryName)
+		country.Meteo = weather
+		countries[name] = country
+		log.Printf("Updated weather for %s", name)
 	}
 
 	updatedData, err := json.MarshalIndent(countries, "", "  ")
@@ -130,7 +111,6 @@ func StartWeatherPuller() {
 	updateWeatherData()
 	ticker := time.NewTicker(weatherUpdateTicker)
 	defer ticker.Stop()
-
 	for range ticker.C {
 		updateWeatherData()
 	}

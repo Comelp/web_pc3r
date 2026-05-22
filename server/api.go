@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"regexp"
 	"time"
 )
 
@@ -18,6 +19,7 @@ type CountryInfo struct {
 	AttackedBy   *string        `json:"attacked_by"`
 	Meteo        *MeteoInfo     `json:"meteo"`
 	ProducedGold int            `json:"produced_gold"`
+	Level        int            `json:"level"`
 	Troops       map[string]int `json:"troops"`
 }
 type PlayerInfo struct {
@@ -30,6 +32,8 @@ type CountryMapInfo struct {
 	Color      *string `json:"color"`
 	IsAttacked bool    `json:"is_attacked"`
 }
+
+var validInput = regexp.MustCompile(`^[a-zA-Z0-9_]+$`)
 
 // Sessions en mémoire qui sont sauvegardés
 var sessions = map[string]string{}
@@ -83,6 +87,21 @@ func RegisterHandler(w http.ResponseWriter, r *http.Request) {
 
 	if _, exists := players[username]; exists {
 		http.Error(w, "Utilisateur déjà existant", http.StatusConflict)
+		return
+	}
+
+	if !validInput.MatchString(username) {
+		http.Error(w, "Username invalide (a-z A-Z 0-9 _ uniquement)", http.StatusBadRequest)
+		return
+	}
+
+	if !validInput.MatchString(password) {
+		http.Error(w, "Password invalide (a-z A-Z 0-9 _ uniquement)", http.StatusBadRequest)
+		return
+	}
+
+	if username == "" || password == "" {
+		http.Error(w, "Champs manquants", http.StatusBadRequest)
 		return
 	}
 
@@ -280,8 +299,19 @@ func UpgradeHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	country := r.URL.Query().Get("country")
-	playerID := r.URL.Query().Get("player_id") // todo: authentification réelle plus tard
 
+	cookie, err := r.Cookie("session_id")
+	if err != nil {
+		http.Error(w, "Not connected", http.StatusUnauthorized)
+		return
+	}
+	playerID, ok := sessions[cookie.Value]
+	if !ok {
+		http.Error(w, "Invalid session", http.StatusUnauthorized)
+		return
+	}
+
+	// --- Charger les pays ---
 	countryFile, err := os.Open("server/data/countryInfos.json")
 	if err != nil {
 		http.Error(w, "Cannot open file", http.StatusInternalServerError)
@@ -303,21 +333,53 @@ func UpgradeHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	goldProduced := countryInfo.ProducedGold
-	upgradeCost := goldProduced * 2
-	currentGold := countryInfo.ProducedGold
-
-	if currentGold < upgradeCost {
-		http.Error(w, "Insufficient resources", http.StatusPaymentRequired)
+	if countryInfo.Level >= 3 {
+		http.Error(w, "Level maximum atteint", http.StatusBadRequest)
 		return
 	}
 
-	countryInfo.ProducedGold = goldProduced * 2
+	// --- Charger les joueurs ---
+	playerFile, err := os.Open("server/data/playerInfos.json")
+	if err != nil {
+		http.Error(w, "Cannot open file", http.StatusInternalServerError)
+		return
+	}
+	defer playerFile.Close()
+
+	var players map[string]PlayerInfo
+	json.NewDecoder(playerFile).Decode(&players)
+
+	playerInfo, ok := players[playerID]
+	if !ok {
+		http.Error(w, "Player not found", http.StatusNotFound)
+		return
+	}
+
+	// --- Vérifier l'or ---
+	upgradeCost := countryInfo.ProducedGold * 2 * (countryInfo.Level + 1)
+	if playerInfo.Gold < upgradeCost {
+		http.Error(w, "Insufficient gold", http.StatusPaymentRequired)
+		return
+	}
+
+	// --- Appliquer l'upgrade ---
+	playerInfo.Gold -= upgradeCost
+	countryInfo.Level += 1
+
+	players[playerID] = playerInfo
 	countries[country] = countryInfo
 
-	data, _ := json.Marshal(countries)
-	os.WriteFile("server/data/countryInfos.json", data, 0644)
+	// --- Sauvegarder les deux fichiers ---
+	countryData, _ := json.MarshalIndent(countries, "", "  ")
+	os.WriteFile("server/data/countryInfos.json", countryData, 0644)
+
+	playerData, _ := json.MarshalIndent(players, "", "  ")
+	os.WriteFile("server/data/playerInfos.json", playerData, 0644)
 
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(map[string]string{"status": "upgraded"})
+	json.NewEncoder(w).Encode(map[string]any{
+		"status":         "upgraded",
+		"new_level":      countryInfo.Level,
+		"gold_remaining": playerInfo.Gold,
+	})
 }

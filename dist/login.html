@@ -15,11 +15,14 @@
                 <input name="username" placeholder="username" style="padding: 8px;">
                 <input type="password" name="password" placeholder="password" style="padding: 8px;">
 
-                <input type="color"
-                       name="couleur"
-                       id="color-input"
-                       value="green"
-                       style="display:none; width: 100%; height: 40px; border: none;">
+                <div id="color-wrapper" style="display:none; flex-direction: column; gap: 5px;">
+                    <label for="color-input">Couleur :</label>
+                    <input type="color"
+                           name="couleur"
+                           id="color-input"
+                           value="#5D8FDE"
+                           style="width: 100%; height: 40px; border: none;">
+                </div>
 
                 <button type="submit" id="submit-btn" style="padding: 10px;">
                     Se connecter
@@ -46,7 +49,7 @@
 
             const form = document.getElementById('login-form');
             const btn = document.getElementById('submit-btn');
-            const color = document.getElementById('color-input');
+            const color = document.getElementById('color-wrapper');
             const swap = document.getElementById('swap-btn');
             const error = document.getElementById('error');
 
@@ -55,7 +58,7 @@
             if (isRegister) {
                 form.dataset.action = '/register';
                 btn.innerText = 'Créer le compte';
-                color.style.display = 'block';
+                color.style.display = 'flex';
                 swap.innerText = "J'ai déjà un compte";
             } else {
                 form.dataset.action = '/login';

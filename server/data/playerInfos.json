@@ -5,8 +5,8 @@
     "gold": 10,
     "troops": {
       "planes": 0,
-      "tanks": 0,
-      "soldiers": 0
+      "soldiers": 0,
+      "tanks": 0
     }
   },
   "Genitrini": {
@@ -15,8 +15,8 @@
     "gold": 10,
     "troops": {
       "planes": 0,
-      "tanks": 0,
-      "soldiers": 0
+      "soldiers": 0,
+      "tanks": 0
     }
   },
   "Jeremi": {
@@ -25,8 +25,8 @@
     "gold": 10,
     "troops": {
       "planes": 0,
-      "tanks": 0,
-      "soldiers": 0
+      "soldiers": 0,
+      "tanks": 0
     }
   },
   "Rodriguez": {
@@ -35,8 +35,8 @@
     "gold": 10,
     "troops": {
       "planes": 0,
-      "tanks": 0,
-      "soldiers": 0
+      "soldiers": 0,
+      "tanks": 0
     }
   },
   "Yvan": {
@@ -45,8 +45,14 @@
     "gold": 10,
     "troops": {
       "planes": 0,
-      "tanks": 0,
-      "soldiers": 0
+      "soldiers": 0,
+      "tanks": 0
     }
+  },
+  "hihi3": {
+    "couleur": "#5d8fde",
+    "password": "dze865",
+    "gold": 0,
+    "troops": null
   }
 }
