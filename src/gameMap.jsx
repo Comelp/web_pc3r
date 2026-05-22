@@ -62,11 +62,15 @@ export default class GameMap extends Component {
 
         return (
             <div>
-                <div style={{ border: '3px solid black', display: 'inline-block', width: '99%' }}>
+                <div
+                    className="map-container"
+                    style={{ position: 'relative', border: '3px solid black', display: 'inline-block', width: '99%' }}
+                >
                     <EuropeMap
                         onClick={handleCountryClick}
                         style={{ width: '98vw', height: 'auto', display: 'block' }}
                     />
+                    {this.renderCombatLogos()}
                 </div>
                 {this.renderInfosCountry()}
             </div>
@@ -147,6 +151,37 @@ export default class GameMap extends Component {
                 </p>
             </div>
         );
+    }
+
+    renderCombatLogos() {
+        const { mapInfos } = this.state;
+        const container = document.querySelector('.map-container');
+        if (!container) return null;
+
+        return Object.entries(mapInfos)
+            .filter(([_, info]) => info.is_attacked)
+            .map(([country]) => {
+                const el = document.querySelector(`[data-country="${country}"]`);
+                if (!el) return null;
+
+                const rect = el.getBoundingClientRect();
+                const containerRect = container.getBoundingClientRect();
+                return (
+                    <div
+                        key={country}
+                        style={{
+                            position: 'absolute',
+                            left: rect.left - containerRect.left + 2 * rect.width / 5,
+                            top: rect.top - containerRect.top + 2 * rect.height / 5,
+                            pointerEvents: 'none',
+                            fontSize: '40px',
+                            zIndex: 10,
+                        }}
+                    >
+                        ⚔️
+                    </div>
+                );
+            });
     }
 
     render() {

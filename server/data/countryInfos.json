@@ -4,7 +4,7 @@
     "meteo": { "temperature": 22, "condition": "ensoleillé" },
     "produced_ressources": { "gold": 0 },
     "troops": { "planes": 0 },
-    "attacked_by": null
+    "attacked_by": "Malenfant"
   },
   "Spain": { "leader_id": "Rodriguez", "meteo": null, "produced_ressources": { "gold": 0 }, "troops": { "planes": 0 }, "attacked_by": null },
   "Germany": { "leader_id": "Malenfant", "meteo": null, "produced_ressources": { "gold": 0 }, "troops": { "planes": 0 }, "attacked_by": null },
@@ -21,11 +21,11 @@
   "Hungary": { "leader_id": null, "meteo": null, "produced_ressources": { "gold": 0 }, "troops": { "planes": 0 }, "attacked_by": null },
   "Iceland": { "leader_id": null, "meteo": null, "produced_ressources": { "gold": 0 }, "troops": { "planes": 0 }, "attacked_by": null },
   "Ireland": { "leader_id": null, "meteo": null, "produced_ressources": { "gold": 0 }, "troops": { "planes": 0 }, "attacked_by": null },
-  "Italy": { "leader_id": null, "meteo": null, "produced_ressources": { "gold": 0 }, "troops": { "planes": 0 }, "attacked_by": null },
+  "Italy": { "leader_id": null, "meteo": null, "produced_ressources": { "gold": 0 }, "troops": { "planes": 0 }, "attacked_by": "Malenfant" },
   "Kazakhstan": { "leader_id": null, "meteo": null, "produced_ressources": { "gold": 0 }, "troops": { "planes": 0 }, "attacked_by": null },
   "Liechtenstein": { "leader_id": null, "meteo": null, "produced_ressources": { "gold": 0 }, "troops": { "planes": 0 }, "attacked_by": null },
   "Malta": { "leader_id": null, "meteo": null, "produced_ressources": { "gold": 0 }, "troops": { "planes": 0 }, "attacked_by": null },
-  "Morocco": { "leader_id": null, "meteo": null, "produced_ressources": { "gold": 0 }, "troops": { "planes": 0 }, "attacked_by": null },
+  "Morocco": { "leader_id": null, "meteo": null, "produced_ressources": { "gold": 0 }, "troops": { "planes": 0 }, "attacked_by": "Malenfant" },
   "Netherlands": { "leader_id": null, "meteo": null, "produced_ressources": { "gold": 0 }, "troops": { "planes": 0 }, "attacked_by": null },
   "Norway": { "leader_id": null, "meteo": null, "produced_ressources": { "gold": 0 }, "troops": { "planes": 0 }, "attacked_by": null },
   "Poland": { "leader_id": null, "meteo": null, "produced_ressources": { "gold": 0 }, "troops": { "planes": 0 }, "attacked_by": null },
