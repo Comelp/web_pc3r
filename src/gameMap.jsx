@@ -136,7 +136,7 @@ export default class GameMap extends Component {
 
         const leader = info.leader_id ? info.leader_id : "Non occupé";
         const meteo = info.meteo ? (`${info.meteo.temperature}°C - ${info.meteo.condition}`) : "Aucune donnée météo";
-        const ressources = info.produced_ressources ? (`${info.produced_ressources.gold}K`) : "Aucune ressource produite";
+        const ressources = info.produced_gold ? (`${info.produced_gold}K`) : "Aucune ressource produite";
 
 
         return (

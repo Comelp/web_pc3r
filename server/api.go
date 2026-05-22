@@ -14,15 +14,17 @@ type MeteoInfo struct {
 	Condition   string  `json:"condition"`
 }
 type CountryInfo struct {
-	LeaderID           *string            `json:"leader_id"`
-	AttackedBy         *string            `json:"attacked_by"`
-	Meteo              *MeteoInfo         `json:"meteo"`
-	ProducedRessources map[string]float64 `json:"produced_ressources"`
-	Troops             map[string]float64 `json:"troops"`
+	LeaderID     *string        `json:"leader_id"`
+	AttackedBy   *string        `json:"attacked_by"`
+	Meteo        *MeteoInfo     `json:"meteo"`
+	ProducedGold int            `json:"produced_gold"`
+	Troops       map[string]int `json:"troops"`
 }
 type PlayerInfo struct {
-	Couleur  string `json:"couleur"`
-	Password string `json:"password"`
+	Couleur  string         `json:"couleur"`
+	Password string         `json:"password"`
+	Gold     int            `json:"gold"`
+	Troops   map[string]int `json:"troops"`
 }
 type CountryMapInfo struct {
 	Color      *string `json:"color"`
@@ -301,16 +303,16 @@ func UpgradeHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	goldProduced := countryInfo.ProducedRessources["gold"]
+	goldProduced := countryInfo.ProducedGold
 	upgradeCost := goldProduced * 2
-	currentGold := countryInfo.ProducedRessources["gold"]
+	currentGold := countryInfo.ProducedGold
 
 	if currentGold < upgradeCost {
 		http.Error(w, "Insufficient resources", http.StatusPaymentRequired)
 		return
 	}
 
-	countryInfo.ProducedRessources["gold"] = goldProduced * 2
+	countryInfo.ProducedGold = goldProduced * 2
 	countries[country] = countryInfo
 
 	data, _ := json.Marshal(countries)

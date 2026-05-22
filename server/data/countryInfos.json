@@ -2,12 +2,10 @@
   "Albania": {
     "leader_id": null,
     "meteo": {
-      "temperature": 28.4,
+      "temperature": 27.4,
       "condition": "Partly cloudy"
     },
-    "produced_ressources": {
-      "gold": 10
-    },
+    "produced_gold": 10,
     "troops": {
       "planes": 0
     },
@@ -16,12 +14,10 @@
   "Algeria": {
     "leader_id": null,
     "meteo": {
-      "temperature": 28.1,
+      "temperature": 27.1,
       "condition": "Sunny"
     },
-    "produced_ressources": {
-      "gold": 10
-    },
+    "produced_gold": 10,
     "troops": {
       "planes": 0
     },
@@ -30,12 +26,10 @@
   "Austria": {
     "leader_id": null,
     "meteo": {
-      "temperature": 23,
+      "temperature": 23.1,
       "condition": "Partly Cloudy"
     },
-    "produced_ressources": {
-      "gold": 10
-    },
+    "produced_gold": 10,
     "troops": {
       "planes": 0
     },
@@ -44,12 +38,10 @@
   "Belgium": {
     "leader_id": null,
     "meteo": {
-      "temperature": 26,
+      "temperature": 26.2,
       "condition": "Sunny"
     },
-    "produced_ressources": {
-      "gold": 10
-    },
+    "produced_gold": 10,
     "troops": {
       "planes": 0
     },
@@ -58,12 +50,10 @@
   "Bulgaria": {
     "leader_id": null,
     "meteo": {
-      "temperature": 17.2,
-      "condition": "Light rain"
+      "temperature": 18.2,
+      "condition": "Moderate rain"
     },
-    "produced_ressources": {
-      "gold": 10
-    },
+    "produced_gold": 10,
     "troops": {
       "planes": 0
     },
@@ -72,12 +62,10 @@
   "Czechia": {
     "leader_id": null,
     "meteo": {
-      "temperature": 23.2,
+      "temperature": 23.4,
       "condition": "Partly Cloudy"
     },
-    "produced_ressources": {
-      "gold": 10
-    },
+    "produced_gold": 10,
     "troops": {
       "planes": 0
     },
@@ -86,12 +74,10 @@
   "Danemark": {
     "leader_id": null,
     "meteo": {
-      "temperature": 11.9,
-      "condition": "Patchy rain nearby"
+      "temperature": 11.1,
+      "condition": "Partly Cloudy"
     },
-    "produced_ressources": {
-      "gold": 10
-    },
+    "produced_gold": 10,
     "troops": {
       "planes": 0
     },
@@ -100,12 +86,10 @@
   "East Germany": {
     "leader_id": null,
     "meteo": {
-      "temperature": 24.3,
+      "temperature": 24.2,
       "condition": "Partly cloudy"
     },
-    "produced_ressources": {
-      "gold": 10
-    },
+    "produced_gold": 10,
     "troops": {
       "planes": 0
     },
@@ -114,12 +98,10 @@
   "Finland": {
     "leader_id": null,
     "meteo": {
-      "temperature": 14.1,
-      "condition": "Light rain shower"
+      "temperature": 16.3,
+      "condition": "Overcast"
     },
-    "produced_ressources": {
-      "gold": 10
-    },
+    "produced_gold": 10,
     "troops": {
       "planes": 0
     },
@@ -128,12 +110,10 @@
   "France": {
     "leader_id": "Yvan",
     "meteo": {
-      "temperature": 29.3,
+      "temperature": 28.1,
       "condition": "Sunny"
     },
-    "produced_ressources": {
-      "gold": 10
-    },
+    "produced_gold": 10,
     "troops": {
       "planes": 0
     },
@@ -145,9 +125,7 @@
       "temperature": 24.3,
       "condition": "Partly cloudy"
     },
-    "produced_ressources": {
-      "gold": 10
-    },
+    "produced_gold": 10,
     "troops": {
       "planes": 0
     },
@@ -156,12 +134,10 @@
   "Greece": {
     "leader_id": null,
     "meteo": {
-      "temperature": 27.1,
-      "condition": "Light rain"
+      "temperature": 24.1,
+      "condition": "Partly cloudy"
     },
-    "produced_ressources": {
-      "gold": 10
-    },
+    "produced_gold": 10,
     "troops": {
       "planes": 0
     },
@@ -170,12 +146,10 @@
   "Hungary": {
     "leader_id": null,
     "meteo": {
-      "temperature": 24.4,
-      "condition": "Partly Cloudy"
+      "temperature": 25.3,
+      "condition": "Sunny"
     },
-    "produced_ressources": {
-      "gold": 10
-    },
+    "produced_gold": 10,
     "troops": {
       "planes": 0
     },
@@ -187,9 +161,7 @@
       "temperature": 12.3,
       "condition": "Light rain"
     },
-    "produced_ressources": {
-      "gold": 10
-    },
+    "produced_gold": 10,
     "troops": {
       "planes": 0
     },
@@ -198,12 +170,10 @@
   "Ireland": {
     "leader_id": null,
     "meteo": {
-      "temperature": 18.2,
+      "temperature": 18.1,
       "condition": "Partly cloudy"
     },
-    "produced_ressources": {
-      "gold": 10
-    },
+    "produced_gold": 10,
     "troops": {
       "planes": 0
     },
@@ -212,12 +182,10 @@
   "Italy": {
     "leader_id": null,
     "meteo": {
-      "temperature": 29.4,
+      "temperature": 29.3,
       "condition": "Sunny"
     },
-    "produced_ressources": {
-      "gold": 10
-    },
+    "produced_gold": 10,
     "troops": {
       "planes": 0
     },
@@ -226,12 +194,10 @@
   "Kazakhstan": {
     "leader_id": null,
     "meteo": {
-      "temperature": 12.7,
+      "temperature": 10.7,
       "condition": "Sunny"
     },
-    "produced_ressources": {
-      "gold": 10
-    },
+    "produced_gold": 10,
     "troops": {
       "planes": 0
     },
@@ -240,12 +206,10 @@
   "Liechtenstein": {
     "leader_id": null,
     "meteo": {
-      "temperature": 21,
+      "temperature": 21.4,
       "condition": "Sunny"
     },
-    "produced_ressources": {
-      "gold": 10
-    },
+    "produced_gold": 10,
     "troops": {
       "planes": 0
     },
@@ -254,12 +218,10 @@
   "Malta": {
     "leader_id": null,
     "meteo": {
-      "temperature": 27.1,
+      "temperature": 27.3,
       "condition": "Sunny"
     },
-    "produced_ressources": {
-      "gold": 10
-    },
+    "produced_gold": 10,
     "troops": {
       "planes": 0
     },
@@ -268,12 +230,10 @@
   "Morocco": {
     "leader_id": null,
     "meteo": {
-      "temperature": 29.3,
+      "temperature": 29.1,
       "condition": "Sunny"
     },
-    "produced_ressources": {
-      "gold": 10
-    },
+    "produced_gold": 10,
     "troops": {
       "planes": 0
     },
@@ -285,9 +245,7 @@
       "temperature": 24.1,
       "condition": "Sunny"
     },
-    "produced_ressources": {
-      "gold": 10
-    },
+    "produced_gold": 10,
     "troops": {
       "planes": 0
     },
@@ -296,12 +254,10 @@
   "Norway": {
     "leader_id": null,
     "meteo": {
-      "temperature": 22.3,
+      "temperature": 22,
       "condition": "Partly Cloudy"
     },
-    "produced_ressources": {
-      "gold": 10
-    },
+    "produced_gold": 10,
     "troops": {
       "planes": 0
     },
@@ -310,12 +266,10 @@
   "Poland": {
     "leader_id": null,
     "meteo": {
-      "temperature": 23.1,
+      "temperature": 22.1,
       "condition": "Sunny"
     },
-    "produced_ressources": {
-      "gold": 10
-    },
+    "produced_gold": 10,
     "troops": {
       "planes": 0
     },
@@ -324,12 +278,10 @@
   "Portugal": {
     "leader_id": null,
     "meteo": {
-      "temperature": 32,
+      "temperature": 30.2,
       "condition": "Sunny"
     },
-    "produced_ressources": {
-      "gold": 10
-    },
+    "produced_gold": 10,
     "troops": {
       "planes": 0
     },
@@ -338,12 +290,10 @@
   "Romania": {
     "leader_id": null,
     "meteo": {
-      "temperature": 23.1,
+      "temperature": 20,
       "condition": "Moderate or heavy rain with thunder"
     },
-    "produced_ressources": {
-      "gold": 10
-    },
+    "produced_gold": 10,
     "troops": {
       "planes": 0
     },
@@ -352,12 +302,10 @@
   "Russia": {
     "leader_id": null,
     "meteo": {
-      "temperature": 28.1,
-      "condition": "Heavy rain at times"
+      "temperature": 29.1,
+      "condition": "Moderate rain at times"
     },
-    "produced_ressources": {
-      "gold": 10
-    },
+    "produced_gold": 10,
     "troops": {
       "planes": 0
     },
@@ -369,9 +317,7 @@
       "temperature": 32.1,
       "condition": "Sunny"
     },
-    "produced_ressources": {
-      "gold": 10
-    },
+    "produced_gold": 10,
     "troops": {
       "planes": 0
     },
@@ -380,12 +326,10 @@
   "Sweden": {
     "leader_id": null,
     "meteo": {
-      "temperature": 21.4,
+      "temperature": 21.2,
       "condition": "Partly Cloudy"
     },
-    "produced_ressources": {
-      "gold": 10
-    },
+    "produced_gold": 10,
     "troops": {
       "planes": 0
     },
@@ -397,9 +341,7 @@
       "temperature": 26.3,
       "condition": "Sunny"
     },
-    "produced_ressources": {
-      "gold": 10
-    },
+    "produced_gold": 10,
     "troops": {
       "planes": 0
     },
@@ -408,12 +350,10 @@
   "Tunisia": {
     "leader_id": null,
     "meteo": {
-      "temperature": 25.3,
+      "temperature": 28.2,
       "condition": "Sunny"
     },
-    "produced_ressources": {
-      "gold": 10
-    },
+    "produced_gold": 10,
     "troops": {
       "planes": 0
     },
@@ -425,9 +365,7 @@
       "temperature": 19,
       "condition": "Partly cloudy"
     },
-    "produced_ressources": {
-      "gold": 10
-    },
+    "produced_gold": 10,
     "troops": {
       "planes": 0
     },
@@ -436,12 +374,10 @@
   "Turkmenistan": {
     "leader_id": null,
     "meteo": {
-      "temperature": 24.3,
-      "condition": "Partly Cloudy"
+      "temperature": 25,
+      "condition": "Sunny"
     },
-    "produced_ressources": {
-      "gold": 10
-    },
+    "produced_gold": 10,
     "troops": {
       "planes": 0
     },
@@ -450,12 +386,10 @@
   "West Germany": {
     "leader_id": null,
     "meteo": {
-      "temperature": 28.1,
+      "temperature": 28,
       "condition": "Sunny"
     },
-    "produced_ressources": {
-      "gold": 10
-    },
+    "produced_gold": 10,
     "troops": {
       "planes": 0
     },
@@ -464,12 +398,10 @@
   "Yugoslavia": {
     "leader_id": null,
     "meteo": {
-      "temperature": 21.6,
+      "temperature": 22.9,
       "condition": "Sunny"
     },
-    "produced_ressources": {
-      "gold": 10
-    },
+    "produced_gold": 10,
     "troops": {
       "planes": 0
     },

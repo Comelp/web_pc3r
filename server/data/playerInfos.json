@@ -1,26 +1,52 @@
 {
   "Come": {
     "couleur": "#2980b9",
-    "password": "HeheFunnyPasswordUwU"
+    "password": "HeheFunnyPasswordUwU",
+    "gold": 10,
+    "troops": {
+      "planes": 0,
+      "tanks": 0,
+      "soldiers": 0
+    }
   },
   "Genitrini": {
     "couleur": "#f2eda6",
-    "password": "Gege"
+    "password": "Gege",
+    "gold": 10,
+    "troops": {
+      "planes": 0,
+      "tanks": 0,
+      "soldiers": 0
+    }
   },
   "Jeremi": {
     "couleur": "#2980b9",
-    "password": "fepalefou02049"
+    "password": "fepalefou02049",
+    "gold": 10,
+    "troops": {
+      "planes": 0,
+      "tanks": 0,
+      "soldiers": 0
+    }
   },
   "Rodriguez": {
     "couleur": "#e74c3c",
-    "password": "HeheFunnyPasswordUwU"
+    "password": "HeheFunnyPasswordUwU",
+    "gold": 10,
+    "troops": {
+      "planes": 0,
+      "tanks": 0,
+      "soldiers": 0
+    }
   },
   "Yvan": {
     "couleur": "#aaccee",
-    "password": "Mi"
-  },
-  "hee": {
-    "couleur": "#008000",
-    "password": "lol"
+    "password": "Mi",
+    "gold": 10,
+    "troops": {
+      "planes": 0,
+      "tanks": 0,
+      "soldiers": 0
+    }
   }
 }
