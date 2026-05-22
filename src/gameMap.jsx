@@ -5,10 +5,10 @@ export default class GameMap extends Component {
 
     state = { countryInfo: null, countryName: null, mapInfos: {}};
     
-    // la map apparait 
+    // quand la map apparait 
     componentDidMount() {
         this.fetchMapInfos();
-        this.interval = setInterval(() => this.fetchMapInfos(), 5000);
+        this.interval = setInterval(() => this.fetchMapInfos(), 3000);
     }
 
     // quand la map disparait
@@ -133,7 +133,7 @@ export default class GameMap extends Component {
                 bottom: '20px',
                 left: '20px',
                 padding: '12px 16px',
-                border: '1px solid black',
+                border: '2px solid black',
                 backgroundColor: 'white',
                 borderRadius: '8px',
                 zIndex: 1000,

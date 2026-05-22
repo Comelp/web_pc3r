@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <body>
+
+        <div id="login-box">
+
+            <form id="login-form">
+                <input name="username" placeholder="username">
+                <input type="password" name="password" placeholder="password">
+
+                <input type="color" name="couleur" id="color-input" value="#cccccc" style="display:none;">
+
+                <button type="submit" id="submit-btn">Login</button>
+            </form>
+
+            <button onclick="swapMod()" id="swap-btn">Créer un compte</button>
+
+            <div id="error" style="color:red;"></div>
+
+        </div>
+
+        <script>
+        let isRegister = false;
+
+        function swapMod() {
+            isRegister = !isRegister;
+
+            const form = document.getElementById('login-form');
+            const btn = document.getElementById('submit-btn');
+            const color = document.getElementById('color-input');
+            const swap = document.getElementById('swap-btn');
+            const error = document.getElementById('error');
+
+            error.innerText = "";
+
+            if (isRegister) {
+                form.dataset.action = '/register';
+                btn.innerText = 'Créer le compte';
+                color.style.display = 'block';
+                swap.innerText = "J'ai déjà un compte";
+            } else {
+                form.dataset.action = '/login';
+                btn.innerText = 'Login';
+                color.style.display = 'none';
+                swap.innerText = "Créer un compte";
+            }
+        }
+
+        // default mode
+        document.getElementById('login-form').dataset.action = '/login';
+
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const form = e.target;
+            const error = document.getElementById('error');
+
+            error.innerText = "";
+
+            const formData = new FormData(form);
+
+            try {
+                const res = await fetch(form.dataset.action, {
+                    method: 'POST',
+                    body: formData,
+                    credentials: 'include'
+                });
+
+                if (!res.ok) {
+                    const text = await res.text();
+                    error.innerText = text;
+                    return;
+                }
+
+                // succès → reload page
+                window.location.href = "/";
+            } catch (err) {
+                error.innerText = "Erreur serveur";
+            }
+        });
+
+        // check login
+        fetch('/me', { credentials: 'include' })
+            .then(res => {
+                if (!res.ok) throw new Error();
+                return res.json();
+            })
+            .then(data => {
+                document.getElementById('login-box').innerHTML =
+                    "<p>Déjà connecté : " + data.username + "</p>";
+            })
+            .catch(() => {});
+        </script>
+
+    </body>
+</html>

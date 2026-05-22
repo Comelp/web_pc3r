@@ -11,8 +11,12 @@ func main() {
 	go func() {
 		StartWeatherPuller()
 	}()
+	http.HandleFunc("/me", MeHandler)
 	http.HandleFunc("/getState", StateHandler)
 	http.HandleFunc("/getMapInfos", MapInfosHandler)
+	http.HandleFunc("/register", RegisterHandler)
+	http.HandleFunc("/login", LoginHandler)
+	http.HandleFunc("/logout", LogoutHandler)
 
 	http.ListenAndServe(":8080", nil)
 }

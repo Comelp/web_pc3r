@@ -1,20 +1,22 @@
 {
-    "Jéremi": {
-        "couleur": "#2980b9",
-        "password": "fépalefou02049!!",
-        "friends": [],
-        "countries": [],
-        "ressources": {
-            "gold": 0
-        }
-    },
-    "Rodriguez": {
-        "couleur": "#e74c3c",
-        "password": "HeheFunnyPasswordUwU",
-        "friends": ["Jérémi"],
-        "countries": [],
-        "ressources": {
-            "gold": 0
-        }
-    }
+  "Come": {
+    "couleur": "#000000",
+    "password": "HeheFunnyPasswordUwU"
+  },
+  "Genitrini": {
+    "couleur": "#f2eda6",
+    "password": "Gege"
+  },
+  "Jeremi": {
+    "couleur": "#2980b9",
+    "password": "fepalefou02049"
+  },
+  "Rodriguez": {
+    "couleur": "#e74c3c",
+    "password": "HeheFunnyPasswordUwU"
+  },
+  "Yvan": {
+    "couleur": "#aaccee",
+    "password": "Mimimi"
+  }
 }
