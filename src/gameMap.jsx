@@ -3,7 +3,7 @@ import EuropeMap from '../assets/europeMap.svg';
 
 export default class GameMap extends Component {
 
-    state = { countryInfo: null, countryName: null, mapInfos: {}, gamePhase: '', currentUser: null};
+    state = { countryInfo: null, countryName: null, mapInfos: {}, gamePhase: '', currentUser: null, playerGold: 0};
     
     // la map apparait 
     componentDidMount() {
@@ -20,7 +20,10 @@ export default class GameMap extends Component {
     fetchCurrentUser() {
         fetch('/me')
             .then(res => res.ok ? res.json() : null)
-            .then(data => this.setState({ currentUser: data?.username ?? null }))
+            .then(data => this.setState({ 
+                currentUser: data?.username ?? null,
+                playerGold: data?.gold ?? 0
+            }))
             .catch(() => this.setState({ currentUser: null }));
     }
 
@@ -193,53 +196,187 @@ export default class GameMap extends Component {
         if (!container) return null;
 
         return Object.entries(mapInfos)
-            .filter(([_, info]) => info.is_attacked)
-            .map(([country]) => {
+            .filter(([_, info]) => info.is_attacked || info.is_conquered)
+            .map(([country, info]) => {
                 const el = document.querySelector(`[data-country="${country}"]`);
                 if (!el) return null;
 
                 const rect = el.getBoundingClientRect();
                 const containerRect = container.getBoundingClientRect();
+
+                const emoji = info.is_conquered ? "🏛️" : "⚔️";
+
+                const size = 40;
+
+                const centerX = rect.left - containerRect.left + rect.width / 2;
+                const centerY = rect.top - containerRect.top + rect.height / 2;
+
                 return (
                     <div
                         key={country}
                         style={{
                             position: 'absolute',
-                            left: rect.left - containerRect.left + 2 * rect.width / 5,
-                            top: rect.top - containerRect.top + 2 * rect.height / 5,
+                            left: centerX - size / 2,
+                            top: centerY - size / 2,
+                            fontSize: `${size}px`,
                             pointerEvents: 'none',
-                            fontSize: '40px',
                             zIndex: 10,
                         }}
                     >
-                        ⚔️
+                        {emoji}
                     </div>
                 );
             });
     }
 
     renderActionButton(leader, ressources) {
-        const { gamePhase, currentUser } = this.state;
+        const { gamePhase, currentUser, playerGold, countryInfo } = this.state;
 
-        if (!currentUser) {
-            return null;
-        }
-        
-        if (gamePhase === 'Paix 🤝') {
-            if (leader === "Non occupé") {
-                return <button onClick={() => this.conquerCountry()} style={{ marginTop: '10px' }}>Conquérir ({ressources})</button>;
-            }
-            if (currentUser && leader === currentUser) {
-                return <button style={{ marginTop: '10px' }}>Améliorer ({ressources})</button>;
-            }
-            return null;
+        if (!currentUser || !countryInfo) return null;
+
+        const level = countryInfo.level ?? 0;
+        const upgradeCost =
+            countryInfo.produced_gold * 1000 * 2 * (level + 1);
+
+        const canUpgrade = level < 3 && playerGold >= upgradeCost;
+
+        const button = (props, text) => (
+            <button style={{ marginTop: '10px', ...props.style }} {...props}>
+                {text}
+            </button>
+        );
+
+        if (gamePhase === 'Attaque 🪖') {
+            if (leader === "Non occupé" || leader === currentUser) return null;
+
+            return countryInfo.attacked_by
+                ? button({ disabled: true, style: { opacity: 0.6 } }, "Déjà en guerre")
+                : button({ onClick: () => this.attackCountry() }, "Attaquer");
         }
 
-        if (gamePhase === 'Attaque 🪖' && currentUser && leader !== "Non occupé" && leader !== currentUser) {
-            return <button style={{ marginTop: '10px' }}>Attaquer</button>;
+        if (gamePhase !== 'Paix 🤝') return null;
+
+        if (leader === "Non occupé") {
+            return (countryInfo.attacked_by || countryInfo.conquered_by)
+                ? button({ disabled: true, style: { opacity: 0.6 } }, "Déjà en conquête")
+                : button(
+                    { onClick: () => this.conquerCountry() },
+                    `Conquérir (${ressources})`
+                );
+        }
+
+        if (leader === currentUser) {
+            return button(
+                {
+                    onClick: () => canUpgrade && this.upgradeCountry(),
+                    disabled: !canUpgrade,
+                    style: {
+                        opacity: canUpgrade ? 1 : 0.5,
+                        cursor: canUpgrade ? 'pointer' : 'not-allowed'
+                    }
+                },
+                canUpgrade ? `Améliorer (${ressources})` : "Impossible"
+            );
         }
 
         return null;
+    }
+
+    attackCountry() {
+        const country = this.state.countryName;
+
+        fetch(`/attackCountry?country=${country}`, {
+            method: 'POST',
+            credentials: 'include'
+        })
+            .then(async res => {
+                const text = await res.text();
+                if (!res.ok) throw new Error(text);
+                return JSON.parse(text);
+            })
+            .then(() => {
+                this.setState(prev => ({
+                    countryInfo: {
+                        ...prev.countryInfo,
+                        attacked_by: prev.currentUser
+                    }
+                }));
+
+                return fetch(`/getState?country=${country}`);
+            })
+            .then(res => res.json())
+            .then(data => {
+                this.setState({ countryInfo: data });
+                this.fetchMapInfos();
+            })
+            .catch(err => {
+                alert(err.message);
+            });
+    }
+
+    conquerCountry() {
+        const country = this.state.countryName;
+
+        fetch(`/conquerCountry?country=${country}`, {
+            method: 'POST',
+            credentials: 'include'
+        })
+            .then(async res => {
+                const text = await res.text();
+                if (!res.ok) throw new Error(text);
+                return JSON.parse(text);
+            })
+            .then(() => {
+                this.setState(prev => ({
+                    countryInfo: {
+                        ...prev.countryInfo,
+                        conquered_by: prev.currentUser
+                    }
+                }));
+
+                return fetch(`/getState?country=${country}`);
+            })
+            .then(res => res.json())
+            .then(data => {
+                this.setState({ countryInfo: data });
+                this.fetchMapInfos();
+            })
+            .catch(err => {
+                alert(err.message);
+            });
+    }
+
+    upgradeCountry() {
+        const country = this.state.countryName;
+
+        fetch(`/upgradeCountry?country=${country}`, {
+            method: 'POST',
+            credentials: 'include'
+        })
+            .then(async res => {
+                const text = await res.text();
+
+                if (!res.ok) {
+                    throw new Error(text);
+                }
+
+                return JSON.parse(text);
+            })
+            .then(data => {
+                console.log("Upgrade réussi :", data);
+
+                // refresh infos du pays
+                return fetch(`/getState?country=${country}`);
+            })
+            .then(res => res.json())
+            .then(data => {
+                this.setState({ countryInfo: data });
+                this.fetchMapInfos();
+            })
+            .catch(err => {
+                console.error("Erreur upgrade :", err);
+                alert(err.message);
+            });
     }
 
     render() {

@@ -2,8 +2,9 @@
   "Albania": {
     "leader_id": null,
     "attacked_by": null,
+    "conquered_by": "Yvan",
     "meteo": {
-      "temperature": 26.1,
+      "temperature": 22.2,
       "condition": "Partly cloudy"
     },
     "produced_gold": 10,
@@ -15,9 +16,10 @@
   "Algeria": {
     "leader_id": null,
     "attacked_by": null,
+    "conquered_by": null,
     "meteo": {
-      "temperature": 26.2,
-      "condition": "Sunny"
+      "temperature": 20.3,
+      "condition": "Clear"
     },
     "produced_gold": 10,
     "level": 1,
@@ -28,9 +30,10 @@
   "Austria": {
     "leader_id": null,
     "attacked_by": null,
+    "conquered_by": null,
     "meteo": {
-      "temperature": 23.3,
-      "condition": "Partly Cloudy"
+      "temperature": 19.2,
+      "condition": "Overcast"
     },
     "produced_gold": 10,
     "level": 1,
@@ -41,8 +44,9 @@
   "Belgium": {
     "leader_id": null,
     "attacked_by": null,
+    "conquered_by": null,
     "meteo": {
-      "temperature": 26.3,
+      "temperature": 23.3,
       "condition": "Sunny"
     },
     "produced_gold": 10,
@@ -54,9 +58,10 @@
   "Bulgaria": {
     "leader_id": null,
     "attacked_by": null,
+    "conquered_by": null,
     "meteo": {
-      "temperature": 17.4,
-      "condition": "Light rain shower"
+      "temperature": 14.1,
+      "condition": "Partly cloudy"
     },
     "produced_gold": 10,
     "level": 0,
@@ -67,9 +72,10 @@
   "Czechia": {
     "leader_id": null,
     "attacked_by": null,
+    "conquered_by": null,
     "meteo": {
-      "temperature": 23.1,
-      "condition": "Partly Cloudy"
+      "temperature": 20.2,
+      "condition": "Clear"
     },
     "produced_gold": 10,
     "level": 0,
@@ -80,8 +86,9 @@
   "Danemark": {
     "leader_id": null,
     "attacked_by": null,
+    "conquered_by": null,
     "meteo": {
-      "temperature": 9.6,
+      "temperature": 10.8,
       "condition": "Cloudy"
     },
     "produced_gold": 10,
@@ -93,9 +100,10 @@
   "East Germany": {
     "leader_id": null,
     "attacked_by": null,
+    "conquered_by": null,
     "meteo": {
-      "temperature": 23.1,
-      "condition": "Partly cloudy"
+      "temperature": 19,
+      "condition": "Patchy rain nearby"
     },
     "produced_gold": 10,
     "level": 0,
@@ -106,9 +114,10 @@
   "Finland": {
     "leader_id": null,
     "attacked_by": null,
+    "conquered_by": null,
     "meteo": {
-      "temperature": 16.1,
-      "condition": "Partly cloudy"
+      "temperature": 13.4,
+      "condition": "Overcast"
     },
     "produced_gold": 10,
     "level": 0,
@@ -119,12 +128,13 @@
   "France": {
     "leader_id": "Yvan",
     "attacked_by": "Malenfant",
+    "conquered_by": null,
     "meteo": {
-      "temperature": 28.1,
+      "temperature": 23.1,
       "condition": "Sunny"
     },
     "produced_gold": 10,
-    "level": 0,
+    "level": 2,
     "troops": {
       "planes": 0
     }
@@ -132,9 +142,10 @@
   "Germany": {
     "leader_id": "Malenfant",
     "attacked_by": null,
+    "conquered_by": null,
     "meteo": {
-      "temperature": 23.1,
-      "condition": "Partly cloudy"
+      "temperature": 19.2,
+      "condition": "Patchy rain nearby"
     },
     "produced_gold": 10,
     "level": 0,
@@ -145,8 +156,9 @@
   "Greece": {
     "leader_id": null,
     "attacked_by": null,
+    "conquered_by": null,
     "meteo": {
-      "temperature": 23.2,
+      "temperature": 20.3,
       "condition": "Partly cloudy"
     },
     "produced_gold": 10,
@@ -158,9 +170,10 @@
   "Hungary": {
     "leader_id": null,
     "attacked_by": null,
+    "conquered_by": null,
     "meteo": {
-      "temperature": 25,
-      "condition": "Sunny"
+      "temperature": 20.4,
+      "condition": "Clear"
     },
     "produced_gold": 10,
     "level": 0,
@@ -171,8 +184,9 @@
   "Iceland": {
     "leader_id": null,
     "attacked_by": null,
+    "conquered_by": null,
     "meteo": {
-      "temperature": 11.3,
+      "temperature": 10.4,
       "condition": "Light rain"
     },
     "produced_gold": 10,
@@ -184,9 +198,10 @@
   "Ireland": {
     "leader_id": null,
     "attacked_by": null,
+    "conquered_by": null,
     "meteo": {
-      "temperature": 18.4,
-      "condition": "Patchy rain nearby"
+      "temperature": 17.3,
+      "condition": "Partly cloudy"
     },
     "produced_gold": 10,
     "level": 0,
@@ -197,9 +212,10 @@
   "Italy": {
     "leader_id": null,
     "attacked_by": null,
+    "conquered_by": null,
     "meteo": {
-      "temperature": 29,
-      "condition": "Sunny"
+      "temperature": 22.1,
+      "condition": "Clear"
     },
     "produced_gold": 10,
     "level": 0,
@@ -210,9 +226,10 @@
   "Kazakhstan": {
     "leader_id": null,
     "attacked_by": null,
+    "conquered_by": null,
     "meteo": {
-      "temperature": 9.6,
-      "condition": "Sunny"
+      "temperature": 7.8,
+      "condition": "Clear"
     },
     "produced_gold": 10,
     "level": 0,
@@ -223,9 +240,10 @@
   "Liechtenstein": {
     "leader_id": null,
     "attacked_by": null,
+    "conquered_by": null,
     "meteo": {
-      "temperature": 20.2,
-      "condition": "Sunny"
+      "temperature": 11,
+      "condition": "Clear"
     },
     "produced_gold": 10,
     "level": 0,
@@ -236,9 +254,10 @@
   "Malta": {
     "leader_id": null,
     "attacked_by": null,
+    "conquered_by": null,
     "meteo": {
-      "temperature": 26.3,
-      "condition": "Sunny"
+      "temperature": 21.1,
+      "condition": "Clear"
     },
     "produced_gold": 10,
     "level": 0,
@@ -249,8 +268,9 @@
   "Morocco": {
     "leader_id": null,
     "attacked_by": null,
+    "conquered_by": null,
     "meteo": {
-      "temperature": 31.1,
+      "temperature": 24.4,
       "condition": "Sunny"
     },
     "produced_gold": 10,
@@ -262,8 +282,9 @@
   "Netherlands": {
     "leader_id": null,
     "attacked_by": null,
+    "conquered_by": null,
     "meteo": {
-      "temperature": 25.3,
+      "temperature": 19.2,
       "condition": "Sunny"
     },
     "produced_gold": 10,
@@ -275,9 +296,10 @@
   "Norway": {
     "leader_id": null,
     "attacked_by": null,
+    "conquered_by": null,
     "meteo": {
-      "temperature": 20.1,
-      "condition": "Partly Cloudy"
+      "temperature": 11.1,
+      "condition": "Partly cloudy"
     },
     "produced_gold": 10,
     "level": 0,
@@ -288,9 +310,10 @@
   "Poland": {
     "leader_id": null,
     "attacked_by": null,
+    "conquered_by": "Yvan",
     "meteo": {
-      "temperature": 22.3,
-      "condition": "Sunny"
+      "temperature": 17.3,
+      "condition": "Clear"
     },
     "produced_gold": 10,
     "level": 0,
@@ -301,8 +324,9 @@
   "Portugal": {
     "leader_id": null,
     "attacked_by": null,
+    "conquered_by": null,
     "meteo": {
-      "temperature": 28.1,
+      "temperature": 24.1,
       "condition": "Sunny"
     },
     "produced_gold": 10,
@@ -314,9 +338,10 @@
   "Romania": {
     "leader_id": null,
     "attacked_by": null,
+    "conquered_by": null,
     "meteo": {
-      "temperature": 18.3,
-      "condition": "Moderate or heavy rain with thunder"
+      "temperature": 18,
+      "condition": "Patchy rain nearby"
     },
     "produced_gold": 10,
     "level": 0,
@@ -327,9 +352,10 @@
   "Russia": {
     "leader_id": null,
     "attacked_by": null,
+    "conquered_by": "Yvan",
     "meteo": {
-      "temperature": 27.2,
-      "condition": "Moderate rain"
+      "temperature": 22,
+      "condition": "Patchy light rain with thunder"
     },
     "produced_gold": 10,
     "level": 0,
@@ -339,9 +365,10 @@
   },
   "Spain": {
     "leader_id": "Rodriguez",
-    "attacked_by": null,
+    "attacked_by": "Yvan",
+    "conquered_by": null,
     "meteo": {
-      "temperature": 33.2,
+      "temperature": 27.2,
       "condition": "Sunny"
     },
     "produced_gold": 10,
@@ -353,9 +380,10 @@
   "Sweden": {
     "leader_id": null,
     "attacked_by": null,
+    "conquered_by": "Yvan",
     "meteo": {
-      "temperature": 19,
-      "condition": "Light rain"
+      "temperature": 18.1,
+      "condition": "Partly Cloudy"
     },
     "produced_gold": 10,
     "level": 0,
@@ -366,8 +394,9 @@
   "Switzerland": {
     "leader_id": null,
     "attacked_by": null,
+    "conquered_by": null,
     "meteo": {
-      "temperature": 26.2,
+      "temperature": 17.3,
       "condition": "Sunny"
     },
     "produced_gold": 10,
@@ -379,9 +408,10 @@
   "Tunisia": {
     "leader_id": null,
     "attacked_by": null,
+    "conquered_by": null,
     "meteo": {
-      "temperature": 27,
-      "condition": "Sunny"
+      "temperature": 20,
+      "condition": "Clear"
     },
     "produced_gold": 10,
     "level": 0,
@@ -392,9 +422,10 @@
   "Turkey": {
     "leader_id": null,
     "attacked_by": null,
+    "conquered_by": null,
     "meteo": {
-      "temperature": 18.3,
-      "condition": "Partly cloudy"
+      "temperature": 14.1,
+      "condition": "Patchy light rain in area with thunder"
     },
     "produced_gold": 10,
     "level": 0,
@@ -405,9 +436,10 @@
   "Turkmenistan": {
     "leader_id": null,
     "attacked_by": null,
+    "conquered_by": null,
     "meteo": {
-      "temperature": 24.9,
-      "condition": "Clear"
+      "temperature": 22.5,
+      "condition": "Patchy rain nearby"
     },
     "produced_gold": 10,
     "level": 0,
@@ -418,8 +450,9 @@
   "West Germany": {
     "leader_id": null,
     "attacked_by": null,
+    "conquered_by": null,
     "meteo": {
-      "temperature": 28.4,
+      "temperature": 24,
       "condition": "Sunny"
     },
     "produced_gold": 10,
@@ -431,8 +464,9 @@
   "Yugoslavia": {
     "leader_id": null,
     "attacked_by": null,
+    "conquered_by": null,
     "meteo": {
-      "temperature": 24.5,
+      "temperature": 26.7,
       "condition": "Sunny"
     },
     "produced_gold": 10,

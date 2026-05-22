@@ -18,6 +18,9 @@ func main() {
 	http.HandleFunc("/register", RegisterHandler)
 	http.HandleFunc("/login", LoginHandler)
 	http.HandleFunc("/logout", LogoutHandler)
+	http.HandleFunc("/upgradeCountry", UpgradeHandler)
+	http.HandleFunc("/conquerCountry", ConquerHandler)
+	http.HandleFunc("/attackCountry", AttackHandler)
 
 	http.ListenAndServe(":8080", nil)
 }

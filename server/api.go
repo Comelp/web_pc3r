@@ -17,6 +17,7 @@ type MeteoInfo struct {
 type CountryInfo struct {
 	LeaderID     *string        `json:"leader_id"`
 	AttackedBy   *string        `json:"attacked_by"`
+	ConqueredBy  *string        `json:"conquered_by"`
 	Meteo        *MeteoInfo     `json:"meteo"`
 	ProducedGold int            `json:"produced_gold"`
 	Level        int            `json:"level"`
@@ -29,8 +30,9 @@ type PlayerInfo struct {
 	Troops   map[string]int `json:"troops"`
 }
 type CountryMapInfo struct {
-	Color      *string `json:"color"`
-	IsAttacked bool    `json:"is_attacked"`
+	Color       *string `json:"color"`
+	IsAttacked  bool    `json:"is_attacked"`
+	IsConquered bool    `json:"is_conquered"`
 }
 
 var validInput = regexp.MustCompile(`^[a-zA-Z0-9_]+$`)
@@ -52,21 +54,32 @@ func MeHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	println("COOKIE:", cookie.Value)
-	println("SESSIONS:")
-	for k, v := range sessions {
-		println(k, "=>", v)
-	}
-
 	username, ok := sessions[cookie.Value]
 	if !ok {
 		http.Error(w, "Invalid session", http.StatusUnauthorized)
 		return
 	}
 
+	file, err := os.Open("server/data/playerInfos.json")
+	if err != nil {
+		http.Error(w, "Cannot open file", http.StatusInternalServerError)
+		return
+	}
+	defer file.Close()
+
+	var players map[string]PlayerInfo
+	json.NewDecoder(file).Decode(&players)
+
+	player, ok := players[username]
+	if !ok {
+		http.Error(w, "Player not found", http.StatusNotFound)
+		return
+	}
+
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(map[string]string{
+	json.NewEncoder(w).Encode(map[string]any{
 		"username": username,
+		"gold":     player.Gold,
 	})
 }
 
@@ -224,8 +237,9 @@ func MapInfosHandler(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 		result[name] = CountryMapInfo{
-			Color:      color,
-			IsAttacked: country.AttackedBy != nil,
+			Color:       color,
+			IsAttacked:  country.AttackedBy != nil,
+			IsConquered: country.ConqueredBy != nil,
 		}
 	}
 
@@ -293,10 +307,19 @@ func PhaseHandler(w http.ResponseWriter, r *http.Request) {
 // et on ne peut améliorer que pendant la phase de distribution.
 func UpgradeHandler(w http.ResponseWriter, r *http.Request) {
 
+	if r.Method != http.MethodPost {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	println("----------------------\nEntering upgrade Handler")
+
 	if GetCurrentPhase() != Distribution {
 		http.Error(w, "Upgrade only allowed during Distribution phase", http.StatusBadRequest)
 		return
 	}
+
+	println("-- phase de jeu correct")
 
 	country := r.URL.Query().Get("country")
 
@@ -310,6 +333,8 @@ func UpgradeHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Invalid session", http.StatusUnauthorized)
 		return
 	}
+
+	println("-- utilisateur bien connecté")
 
 	// --- Charger les pays ---
 	countryFile, err := os.Open("server/data/countryInfos.json")
@@ -328,15 +353,21 @@ func UpgradeHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	println("-- pays trouvé")
+
 	if countryInfo.LeaderID == nil || *countryInfo.LeaderID != playerID {
 		http.Error(w, "Unauthorized", http.StatusForbidden)
 		return
 	}
 
+	println("-- user est le leader")
+
 	if countryInfo.Level >= 3 {
 		http.Error(w, "Level maximum atteint", http.StatusBadRequest)
 		return
 	}
+
+	println("-- possible de level up")
 
 	// --- Charger les joueurs ---
 	playerFile, err := os.Open("server/data/playerInfos.json")
@@ -356,11 +387,13 @@ func UpgradeHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// --- Vérifier l'or ---
-	upgradeCost := countryInfo.ProducedGold * 2 * (countryInfo.Level + 1)
+	upgradeCost := countryInfo.ProducedGold * 1000 * 2 * (countryInfo.Level + 1)
 	if playerInfo.Gold < upgradeCost {
 		http.Error(w, "Insufficient gold", http.StatusPaymentRequired)
 		return
 	}
+	println("-- vérification de l'or passée !")
+	println("-- applique l'upgrade!")
 
 	// --- Appliquer l'upgrade ---
 	playerInfo.Gold -= upgradeCost
@@ -381,5 +414,144 @@ func UpgradeHandler(w http.ResponseWriter, r *http.Request) {
 		"status":         "upgraded",
 		"new_level":      countryInfo.Level,
 		"gold_remaining": playerInfo.Gold,
+	})
+
+}
+
+func AttackHandler(w http.ResponseWriter, r *http.Request) {
+
+	if r.Method != http.MethodPost {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	country := r.URL.Query().Get("country")
+
+	cookie, err := r.Cookie("session_id")
+	if err != nil {
+		http.Error(w, "Not connected", http.StatusUnauthorized)
+		return
+	}
+
+	playerID, ok := sessions[cookie.Value]
+	if !ok {
+		http.Error(w, "Invalid session", http.StatusUnauthorized)
+		return
+	}
+
+	file, err := os.Open("server/data/countryInfos.json")
+	if err != nil {
+		http.Error(w, "Cannot open file", http.StatusInternalServerError)
+		return
+	}
+	defer file.Close()
+
+	var countries map[string]CountryInfo
+	json.NewDecoder(file).Decode(&countries)
+
+	countryInfo, ok := countries[country]
+	if !ok {
+		http.Error(w, "Country not found", http.StatusNotFound)
+		return
+	}
+
+	if countryInfo.LeaderID == nil {
+		http.Error(w, "Country is not occupied", http.StatusBadRequest)
+		return
+	}
+
+	if countryInfo.AttackedBy != nil {
+		http.Error(w, "Country already under attack", http.StatusBadRequest)
+		return
+	}
+
+	if countryInfo.ConqueredBy != nil {
+		http.Error(w, "Country already being conquered", http.StatusBadRequest)
+		return
+	}
+
+	if *countryInfo.LeaderID == playerID {
+		http.Error(w, "Cannot attack your own country", http.StatusForbidden)
+		return
+	}
+
+	countryInfo.AttackedBy = &playerID
+	countries[country] = countryInfo
+
+	data, _ := json.MarshalIndent(countries, "", "  ")
+	os.WriteFile("server/data/countryInfos.json", data, 0644)
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(map[string]any{
+		"status":     "attacking",
+		"country":    country,
+		"attackedBy": playerID,
+	})
+}
+
+func ConquerHandler(w http.ResponseWriter, r *http.Request) {
+
+	if r.Method != http.MethodPost {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	country := r.URL.Query().Get("country")
+
+	cookie, err := r.Cookie("session_id")
+	if err != nil {
+		http.Error(w, "Not connected", http.StatusUnauthorized)
+		return
+	}
+
+	playerID, ok := sessions[cookie.Value]
+	if !ok {
+		http.Error(w, "Invalid session", http.StatusUnauthorized)
+		return
+	}
+
+	file, err := os.Open("server/data/countryInfos.json")
+	if err != nil {
+		http.Error(w, "Cannot open file", http.StatusInternalServerError)
+		return
+	}
+	defer file.Close()
+
+	var countries map[string]CountryInfo
+	json.NewDecoder(file).Decode(&countries)
+
+	countryInfo, ok := countries[country]
+	if !ok {
+		http.Error(w, "Country not found", http.StatusNotFound)
+		return
+	}
+
+	if countryInfo.LeaderID != nil {
+		http.Error(w, "Country is already occupied", http.StatusBadRequest)
+		return
+	}
+
+	if countryInfo.AttackedBy != nil {
+		http.Error(w, "Country already under attack", http.StatusBadRequest)
+		return
+	}
+
+	if countryInfo.ConqueredBy != nil {
+		http.Error(w, "Country already being conquered", http.StatusBadRequest)
+		return
+	}
+
+	countryInfo.ConqueredBy = &playerID
+
+	countries[country] = countryInfo
+
+	data, _ := json.MarshalIndent(countries, "", "  ")
+	os.WriteFile("server/data/countryInfos.json", data, 0644)
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(map[string]any{
+		"status":      "conquering",
+		"country":     country,
+		"conqueredBy": playerID,
 	})
 }
