@@ -14,14 +14,19 @@ type MeteoInfo struct {
 	Temperature float64 `json:"temperature"`
 	Condition   string  `json:"condition"`
 }
+type TroopData struct {
+	Type  string `json:"type"`
+	Count int    `json:"count"`
+}
 type CountryInfo struct {
-	LeaderID     *string        `json:"leader_id"`
-	AttackedBy   *string        `json:"attacked_by"`
-	ConqueredBy  *string        `json:"conquered_by"`
-	Meteo        *MeteoInfo     `json:"meteo"`
-	ProducedGold int            `json:"produced_gold"`
-	Level        int            `json:"level"`
-	Troops       map[string]int `json:"troops"`
+	LeaderID        *string    `json:"leader_id"`
+	AttackedBy      *string    `json:"attacked_by"`
+	ConqueredBy     *string    `json:"conquered_by"`
+	Meteo           *MeteoInfo `json:"meteo"`
+	ProducedGold    int        `json:"produced_gold"`
+	Level           int        `json:"level"`
+	TroopsAttacking TroopData  `json:"troops_attacking"`
+	TroopsDefending TroopData  `json:"troops_defending"`
 }
 type PlayerInfo struct {
 	Couleur  string         `json:"couleur"`
@@ -690,5 +695,134 @@ func BuyTroopHandler(w http.ResponseWriter, r *http.Request) {
 		"troop":          troop,
 		"gold_remaining": player.Gold,
 		"troops":         player.Troops,
+	})
+}
+
+func DeployTroopHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	if GetCurrentPhase() != Attack {
+		http.Error(w, "Deploy only allowed during Attack phase", http.StatusBadRequest)
+		return
+	}
+
+	country := r.URL.Query().Get("country")
+	troop := r.URL.Query().Get("troop")
+	mode := r.URL.Query().Get("mode") // "attacking" ou "defending"
+	count := r.URL.Query().Get("count")
+
+	if _, ok := troopCosts[troop]; !ok {
+		http.Error(w, "Troupe invalide", http.StatusBadRequest)
+		return
+	}
+
+	if mode != "attacking" && mode != "defending" {
+		http.Error(w, "Mode invalide (attacking ou defending)", http.StatusBadRequest)
+		return
+	}
+
+	var troopCount int
+	if _, err := fmt.Sscanf(count, "%d", &troopCount); err != nil || troopCount <= 0 {
+		http.Error(w, "Count invalide", http.StatusBadRequest)
+		return
+	}
+
+	cookie, err := r.Cookie("session_id")
+	if err != nil {
+		http.Error(w, "Not connected", http.StatusUnauthorized)
+		return
+	}
+	playerID, ok := sessions[cookie.Value]
+	if !ok {
+		http.Error(w, "Invalid session", http.StatusUnauthorized)
+		return
+	}
+
+	countryFile, err := os.Open("server/data/countryInfos.json")
+	if err != nil {
+		http.Error(w, "Cannot open file", http.StatusInternalServerError)
+		return
+	}
+	defer countryFile.Close()
+
+	var countries map[string]CountryInfo
+	json.NewDecoder(countryFile).Decode(&countries)
+
+	countryInfo, ok := countries[country]
+	if !ok {
+		http.Error(w, "Country not found", http.StatusNotFound)
+		return
+	}
+
+	playerFile, err := os.Open("server/data/playerInfos.json")
+	if err != nil {
+		http.Error(w, "Cannot open file", http.StatusInternalServerError)
+		return
+	}
+	defer playerFile.Close()
+
+	var players map[string]PlayerInfo
+	json.NewDecoder(playerFile).Decode(&players)
+
+	player, ok := players[playerID]
+	if !ok {
+		http.Error(w, "Player not found", http.StatusNotFound)
+		return
+	}
+
+	switch mode {
+	case "attacking":
+		if countryInfo.AttackedBy == nil || *countryInfo.AttackedBy != playerID {
+			http.Error(w, "Vous n'attaquez pas ce pays", http.StatusForbidden)
+			return
+		}
+		if countryInfo.TroopsAttacking.Count > 0 {
+			http.Error(w, "Vous avez déjà déployé des troupes en attaque", http.StatusBadRequest)
+			return
+		}
+
+	case "defending":
+		if countryInfo.LeaderID == nil || *countryInfo.LeaderID != playerID {
+			http.Error(w, "Vous n'êtes pas le leader de ce pays", http.StatusForbidden)
+			return
+		}
+		if countryInfo.TroopsDefending.Count > 0 {
+			http.Error(w, "Vous avez déjà déployé des troupes en défense", http.StatusBadRequest)
+			return
+		}
+	}
+
+	if player.Troops == nil || player.Troops[troop] < troopCount {
+		http.Error(w, "Troupes insuffisantes", http.StatusPaymentRequired)
+		return
+	}
+
+	player.Troops[troop] -= troopCount
+	players[playerID] = player
+
+	troopData := TroopData{Type: troop, Count: troopCount}
+	if mode == "attacking" {
+		countryInfo.TroopsAttacking = troopData
+	} else {
+		countryInfo.TroopsDefending = troopData
+	}
+	countries[country] = countryInfo
+
+	countryData, _ := json.MarshalIndent(countries, "", "  ")
+	os.WriteFile("server/data/countryInfos.json", countryData, 0644)
+
+	playerData, _ := json.MarshalIndent(players, "", "  ")
+	os.WriteFile("server/data/playerInfos.json", playerData, 0644)
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(map[string]any{
+		"status":  "deployed",
+		"country": country,
+		"mode":    mode,
+		"troop":   troop,
+		"count":   troopCount,
 	})
 }

@@ -28,6 +28,7 @@ func main() {
 	http.HandleFunc("/attackCountry", AttackHandler)
 	http.HandleFunc("/getRules", RuleHandler)
 	http.HandleFunc("/buyTroop", BuyTroopHandler)
+	http.HandleFunc("/deployTroop", DeployTroopHandler)
 
 	http.ListenAndServe(":8080", nil)
 }

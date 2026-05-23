@@ -1,14 +1,17 @@
 import React, {Component} from 'react';
+import { AuthContext } from './authContext';
 import EuropeMap from '../assets/europeMap.svg';
+import DeployForm from './deployForm';
 
 export default class GameMap extends Component {
 
-    state = { countryInfo: null, countryName: null, mapInfos: {}, gamePhase: '', currentUser: null, playerGold: 0};
-    
+    static contextType = AuthContext;
+
+    state = { countryInfo: null, countryName: null, mapInfos: {}, gamePhase: '', deployView: false };
+
     // la map apparait 
     componentDidMount() {
         this.fetchMapInfos();
-        this.fetchCurrentUser();
         this.interval = setInterval(() => this.fetchMapInfos(), 5000);
         this.popupInterval = setInterval(() => this.fetchPhasePopup(), 6000);
     }
@@ -18,17 +21,6 @@ export default class GameMap extends Component {
         clearInterval(this.interval);
         clearInterval(this.popupInterval);
     }
-
-    fetchCurrentUser() {
-        fetch('/me')
-            .then(res => res.ok ? res.json() : null)
-            .then(data => this.setState({ 
-                currentUser: data?.username ?? null,
-                playerGold: data?.gold ?? 0
-            }))
-            .catch(() => this.setState({ currentUser: null }));
-    }
-
 
     fetchMapInfos() {
         fetch('/getMapInfos')
@@ -55,9 +47,20 @@ export default class GameMap extends Component {
             .then(res => res.json())
             .then(data => {
                 if (!data) return;
+
                 const hasAny = (arr) => Array.isArray(arr) && arr.length > 0;
-                if (hasAny(data.lost_to_war) || hasAny(data.lost_to_weather) || hasAny(data.conquered) || hasAny(data.gained_by_attack) || hasAny(data.improved)) {
+
+                const shouldShow =
+                    hasAny(data.conquered) ||
+                    hasAny(data.gained_attack) ||
+                    hasAny(data.lost_attack) ||
+                    hasAny(data.lost_to_weather) ||
+                    hasAny(data.improved);
+
+                if (shouldShow) {
                     this.setState({ phasePopup: data });
+                } else {
+                    this.setState({ phasePopup: null }); // IMPORTANT
                 }
             })
             .catch(err => console.error('Erreur fetchPhasePopup:', err));
@@ -120,11 +123,6 @@ export default class GameMap extends Component {
         );
     }
 
-    closeInfo() {
-        this.setState({ countryInfo: null, countryName: null });
-        this.handleHighlightCountry(null);
-    }
-
     renderCloseButton() {
         return (
             <span
@@ -162,48 +160,85 @@ export default class GameMap extends Component {
     }
 
     renderInfosCountry() {
-        if (!this.state.countryInfo) {
-            return null;
-        }
-        const info = this.state.countryInfo;
+        if (!this.state.countryInfo) return null;
+        const { countryInfo, countryName, deployView } = this.state;
 
-        const leader = info.leader_id ? info.leader_id : "Non occupé";
-        const meteo = info.meteo ? (`${info.meteo.temperature}°C - ${info.meteo.condition}`) : "Aucune donnée météo";
-        const ressources = (info.produced_gold !== undefined && info.level !== undefined)
-            ? `${(info.level+1) * info.produced_gold}K`
+        const leader = countryInfo.leader_id ?? "Non occupé";
+        const meteo = countryInfo.meteo ? `${countryInfo.meteo.temperature}°C - ${countryInfo.meteo.condition}` : "Aucune donnée météo";
+        const ressources = (countryInfo.produced_gold !== undefined && countryInfo.level !== undefined)
+            ? `${(countryInfo.level + 1) * countryInfo.produced_gold}K`
             : "Aucune ressource produite";
 
         return (
             <div style={{
-                position: 'fixed',
-                bottom: '20px',
-                left: '20px',
-                padding: '12px 16px',
-                border: '1px solid black',
-                backgroundColor: 'white',
-                borderRadius: '8px',
-                zIndex: 1000,
-                minWidth: '200px',
+                position: 'fixed', bottom: '20px', left: '20px',
+                padding: '12px 16px', border: '1px solid black',
+                backgroundColor: 'white', borderRadius: '8px',
+                zIndex: 1000, minWidth: '200px',
             }}>
                 {this.renderCloseButton()}
-                <p style={{ margin: '0 0 6px 0' }}>
-                    <strong>Pays :</strong> {this.state.countryName}
-                </p>
-                <p style={{ margin: '0 0 6px 0' }}>
-                    <strong>Leader :</strong> {leader}
-                </p>
-                <p style={{ margin: '0 0 6px 0' }}>
-                    <strong>Météo :</strong> {meteo}
-                </p>
-                <p style={{ margin: '0 0 6px 0' }}>
-                    <strong>Production :</strong> {ressources}
-                </p>
-                <p style={{ margin:  0 }}>
-                    <strong>Niveau :</strong> {info.level ?? 0} / 3
-                </p>
-                {this.renderActionButton(leader, ressources)}
+                {deployView ? this.renderDeployView() : (
+                    <>
+                        <p style={{ margin: '0 0 6px 0' }}><strong>Pays :</strong> {countryName}</p>
+                        <p style={{ margin: '0 0 6px 0' }}><strong>Leader :</strong> {leader}</p>
+                        <p style={{ margin: '0 0 6px 0' }}><strong>Météo :</strong> {meteo}</p>
+                        <p style={{ margin: '0 0 6px 0' }}><strong>Production :</strong> {ressources}</p>
+                        <p style={{ margin: 0 }}><strong>Niveau :</strong> {countryInfo.level ?? 0} / 3</p>
+                        {this.renderActionButton(leader, ressources)}
+                        {this.renderDeployButton()}
+                    </>
+                )}
             </div>
         );
+    }
+
+    renderDeployButton() {
+        const { countryInfo, gamePhase } = this.state;
+        const { currentUser } = this.context;
+        if (!currentUser || !countryInfo) return null;
+        if (gamePhase !== 'Attaque 🪖') return null;
+
+        const isLeader = countryInfo.leader_id === currentUser;
+        const isAttacker = countryInfo.attacked_by === currentUser;
+
+        if (!isLeader && !isAttacker) return null;
+
+        const mode = isLeader ? 'defending' : 'attacking';
+        const slot = isLeader ? countryInfo.troops_defending : countryInfo.troops_attacking;
+        const alreadyDeployed = slot?.count > 0;
+
+        return (
+            <button
+                style={{ marginTop: '8px', display: 'block', opacity: alreadyDeployed ? 0.5 : 1, cursor: alreadyDeployed ? 'not-allowed' : 'pointer' }}
+                disabled={alreadyDeployed}
+                onClick={() => !alreadyDeployed && this.setState({ deployView: { mode } })}
+            >
+                {alreadyDeployed ? "Déploiement déjà fait" : (isLeader ? "Déployer la Défense" : "Déployer l'Attaque")}
+            </button>
+        );
+    }
+
+    renderDeployView() {
+        const { deployView } = this.state;
+        const { mode } = deployView;
+
+        return (
+            <DeployForm
+                mode={mode}
+                countryName={this.state.countryName}
+                onBack={() => this.setState({ deployView: false })}
+                onDeployed={() => {
+                    fetch(`/getState?country=${this.state.countryName}`)
+                        .then(res => res.json())
+                        .then(data => this.setState({ countryInfo: data, deployView: false }));
+                }}
+            />
+        );
+    }
+
+    closeInfo() {
+        this.setState({ countryInfo: null, countryName: null, deployView: false });
+        this.handleHighlightCountry(null);
     }
 
     renderCombatLogos() {
@@ -246,13 +281,17 @@ export default class GameMap extends Component {
     }
 
     renderActionButton(leader, ressources) {
-        const { gamePhase, currentUser, playerGold, countryInfo, mapInfos, countryName } = this.state;
+        const { gamePhase, countryInfo, mapInfos, countryName } = this.state;
+        const { currentUser, playerGold } = this.context;
 
         if (!currentUser || !countryInfo) return null;
 
         const level = countryInfo.level ?? 0;
+        const production = (level + 1) * countryInfo.produced_gold;
         const upgradeCost = countryInfo.produced_gold * 1000 * 2 * (level + 1);
-        const canUpgrade = level < 3 && playerGold >= upgradeCost;
+
+        const isMaxLevel = level >= 3;
+        const hasEnoughGold = playerGold >= upgradeCost;
 
         const alreadyAttacking = Object.entries(mapInfos).find(
             ([name, info]) => info.attacked_by === currentUser && name !== countryName
@@ -273,6 +312,7 @@ export default class GameMap extends Component {
 
             if (countryInfo.attacked_by)
                 return button({ disabled: true, style: { opacity: 0.6 } }, "Déjà en guerre");
+
             if (alreadyAttacking)
                 return button({ disabled: true, style: { opacity: 0.6 } }, `Attaque en cours : ${alreadyAttacking}`);
 
@@ -284,6 +324,7 @@ export default class GameMap extends Component {
         if (leader === "Non occupé") {
             if (countryInfo.attacked_by || countryInfo.conquered_by)
                 return button({ disabled: true, style: { opacity: 0.6 } }, "Déjà en conquête");
+
             if (alreadyConquering)
                 return button({ disabled: true, style: { opacity: 0.6 } }, `Conquête en cours : ${alreadyConquering}`);
 
@@ -291,13 +332,28 @@ export default class GameMap extends Component {
         }
 
         if (leader === currentUser) {
+            let label = "Améliorer";
+
+            if (isMaxLevel) {
+                label = "Déjà Niveau Max";
+            } else if (!hasEnoughGold) {
+                label = "Or insuffisant";
+            } else {
+                label = `Améliorer (${production}K) - Coût: ${Math.round((countryInfo.produced_gold * 1000 * 2 * (level + 1)) / 1000)}K`;
+            }
+
             return button(
                 {
-                    onClick: () => canUpgrade && this.upgradeCountry(),
-                    disabled: !canUpgrade,
-                    style: { opacity: canUpgrade ? 1 : 0.5, cursor: canUpgrade ? 'pointer' : 'not-allowed' }
+                    onClick: () => {
+                        if (!isMaxLevel && hasEnoughGold) this.upgradeCountry();
+                    },
+                    disabled: isMaxLevel || !hasEnoughGold,
+                    style: {
+                        opacity: isMaxLevel || !hasEnoughGold ? 0.5 : 1,
+                        cursor: isMaxLevel || !hasEnoughGold ? 'not-allowed' : 'pointer'
+                    }
                 },
-                canUpgrade ? `Améliorer (${ressources})` : "Déjà Niveau Max"
+                label
             );
         }
 
@@ -415,16 +471,24 @@ export default class GameMap extends Component {
         const popup = this.state.phasePopup;
         if (!popup) return null;
 
-        const section = (title, arr) => (
-            arr && arr.length > 0 ? (
-                <div style={{ marginBottom: '8px' }}>
-                    <strong>{title}:</strong> {arr.join(', ')}
+        const section = (title, arr, renderItem) => {
+            if (!Array.isArray(arr) || arr.length === 0) return null;
+
+            return (
+                <div style={{ marginBottom: '10px' }}>
+                    <strong>{title}:</strong>
+                    <div style={{ marginLeft: '10px' }}>
+                        {arr.map((item, i) => (
+                            <div key={i}>
+                                {renderItem(item)}
+                            </div>
+                        ))}
+                    </div>
                 </div>
-            ) : null
-        );
+            );
+        };
 
         const close = () => {
-            // ack to server then hide
             fetch('/ackPhasePopup', { method: 'POST', credentials: 'include' })
                 .catch(() => {});
             this.setState({ phasePopup: null });
@@ -433,20 +497,45 @@ export default class GameMap extends Component {
 
         return (
             <div style={{ position: 'fixed', left: '50%', top: '20%', transform: 'translateX(-50%)', zIndex: 2000 }}>
-                <div style={{ background: 'white', border: '2px solid black', padding: '16px', minWidth: '360px', borderRadius: '8px' }}>
+                <div style={{ background: 'white', border: '2px solid black', padding: '16px', minWidth: '420px', borderRadius: '8px' }}>
+
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <h3 style={{ margin: 0 }}>Rapport de fin de phase</h3>
                         <button onClick={close} style={{ cursor: 'pointer' }}>✕</button>
                     </div>
+
                     <div style={{ marginTop: '10px' }}>
-                        {section('Pays perdus à la guerre', popup.lost_to_war)}
-                        {section('Pays perdus à cause de la météo', popup.lost_to_weather)}
-                        {section('Pays conquis', popup.conquered)}
-                        {section('Pays gagnés grâce à l\'attaque', popup.gained_by_attack)}
-                        {section('Pays améliorés', popup.improved)}
-                        {(!popup.lost_to_war.length && !popup.lost_to_weather.length && !popup.conquered.length && !popup.gained_by_attack.length && !popup.improved.length) && (
+
+                        {section('Pays conquis', popup.conquered, (e) => (
+                            <span>{e.country} → {e.by}</span>
+                        ))}
+
+                        {section('Attaques réussies', popup.gained_attack, (e) => (
+                            <span>{e.attacker} a pris {e.country} (ancien: {e.previous_owner})</span>
+                        ))}
+
+                        {section('Attaques ratées', popup.lost_attack, (e) => (
+                            <span>{e.attacker} a échoué contre {e.country} (owner: {e.owner})</span>
+                        ))}
+
+                        {section('Météo destructrice', popup.lost_to_weather, (e) => (
+                            <span>{e.country} perdu par {e.previous_owner} ({e.reason})</span>
+                        ))}
+
+                        {section('Améliorations', popup.improved, (e) => (
+                            <span>{e.country} ({e.owner}) : lvl {e.old_level} → {e.new_level}</span>
+                        ))}
+
+                        {!(
+                            (popup.conquered?.length ?? 0) ||
+                            (popup.gained_attack?.length ?? 0) ||
+                            (popup.lost_attack?.length ?? 0) ||
+                            (popup.lost_to_weather?.length ?? 0) ||
+                            (popup.improved?.length ?? 0)
+                        ) && (
                             <div>Aucun changement.</div>
                         )}
+
                     </div>
                 </div>
             </div>

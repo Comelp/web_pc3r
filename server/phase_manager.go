@@ -7,10 +7,41 @@ import (
 	"time"
 )
 
+type ConqueredEvent struct {
+	Country string `json:"country"`
+	By      string `json:"by"`
+}
+
+type GainedAttackEvent struct {
+	Country       string `json:"country"`
+	Attacker      string `json:"attacker"`
+	PreviousOwner string `json:"previous_owner"`
+}
+
+type LostAttackEvent struct {
+	Country  string `json:"country"`
+	Attacker string `json:"attacker"`
+	Owner    string `json:"owner"`
+}
+
+type LostWeatherEvent struct {
+	Country       string `json:"country"`
+	PreviousOwner string `json:"previous_owner"`
+	Reason        string `json:"reason"`
+}
+
+type ImprovedEvent struct {
+	Country  string `json:"country"`
+	Owner    string `json:"owner"`
+	OldLevel int    `json:"old_level"`
+	NewLevel int    `json:"new_level"`
+}
+
 var lastPhase string
 
 func StartPhaseWatcher() {
 	lastPhase = GetCurrentPhase()
+	savePhaseSnapshot()
 	for {
 		sleepUntilNextPhase()
 
@@ -19,8 +50,18 @@ func StartPhaseWatcher() {
 		if current != lastPhase {
 			onPhaseEnd(lastPhase)
 			lastPhase = current
+			savePhaseSnapshot()
 		}
 	}
+}
+
+func savePhaseSnapshot() {
+	data, err := os.ReadFile("server/data/countryInfos.json")
+	if err != nil {
+		println("Erreur snapshot:", err.Error())
+		return
+	}
+	os.WriteFile("server/data/phaseSnapshot.json", data, 0644)
 }
 
 func onPhaseEnd(lastPhase string) {
@@ -38,18 +79,26 @@ func onPhaseEnd(lastPhase string) {
 		return
 	}
 
-	// garder une copie pour détecter les changements (améliorations, pertes, ...)
-	oldCountries := make(map[string]CountryInfo)
-	for k, v := range countries {
-		oldCountries[k] = v
+	// Charger le snapshot du début de phase pour détecter les changements
+	snapshotFile, err := os.Open("server/data/phaseSnapshot.json")
+	if err != nil {
+		println("Erreur open snapshot:", err.Error())
+		return
+	}
+	defer snapshotFile.Close()
+
+	var oldCountries map[string]CountryInfo
+	if err := json.NewDecoder(snapshotFile).Decode(&oldCountries); err != nil {
+		println("Erreur decode snapshot:", err.Error())
+		return
 	}
 
 	// listes d'événements à envoyer au client
-	var lostToWar []string
-	var lostToWeather []string
-	var conquered []string
-	var gainedByAttack []string
-	var improved []string
+	var conquered []ConqueredEvent
+	var gainedByAttack []GainedAttackEvent
+	var lostAttack []LostAttackEvent
+	var lostToWeather []LostWeatherEvent
+	var improved []ImprovedEvent
 
 	// Phase-specific processing
 	switch lastPhase {
@@ -57,12 +106,20 @@ func onPhaseEnd(lastPhase string) {
 		// appliquer les attaques : l'attaquant gagne automatiquement
 		for name, country := range countries {
 			if country.AttackedBy != nil {
+
 				attacker := *country.AttackedBy
-				var prevLeader *string
+
+				var previousOwner string
 				if country.LeaderID != nil {
-					prev := *country.LeaderID
-					prevLeader = &prev
+					previousOwner = *country.LeaderID
 				}
+
+				// event : attaque réussie
+				gainedByAttack = append(gainedByAttack, GainedAttackEvent{
+					Country:       name,
+					Attacker:      attacker,
+					PreviousOwner: previousOwner,
+				})
 
 				newLeader := attacker
 				country.LeaderID = &newLeader
@@ -70,13 +127,10 @@ func onPhaseEnd(lastPhase string) {
 				// cleanup
 				country.ConqueredBy = nil
 				country.AttackedBy = nil
+				country.TroopsAttacking = TroopData{}
+				country.TroopsDefending = TroopData{}
 
 				countries[name] = country
-
-				gainedByAttack = append(gainedByAttack, name)
-				if prevLeader != nil && *prevLeader != newLeader {
-					lostToWar = append(lostToWar, name)
-				}
 			}
 		}
 
@@ -84,25 +138,22 @@ func onPhaseEnd(lastPhase string) {
 		// appliquer les conquêtes en période de paix
 		for name, country := range countries {
 			if country.ConqueredBy != nil {
+
 				newOwner := *country.ConqueredBy
-				var prevLeader *string
-				if country.LeaderID != nil {
-					prev := *country.LeaderID
-					prevLeader = &prev
-				}
 
 				country.LeaderID = &newOwner
+
+				// event : conquête
+				conquered = append(conquered, ConqueredEvent{
+					Country: name,
+					By:      newOwner,
+				})
 
 				// cleanup
 				country.ConqueredBy = nil
 				country.AttackedBy = nil
 
 				countries[name] = country
-
-				conquered = append(conquered, name)
-				if prevLeader != nil && *prevLeader != newOwner {
-					lostToWar = append(lostToWar, name)
-				}
 			}
 		}
 
@@ -114,23 +165,41 @@ func onPhaseEnd(lastPhase string) {
 	for name, country := range countries {
 		if country.Meteo != nil {
 			cond := strings.ToLower(country.Meteo.Condition)
+
 			if strings.Contains(cond, "rain") || strings.Contains(cond, "thunder") {
 				if country.LeaderID != nil {
-					countries[name] = func(c CountryInfo) CountryInfo {
-						c.LeaderID = nil
-						return c
-					}(country)
-					lostToWeather = append(lostToWeather, name)
+
+					prevOwner := *country.LeaderID
+
+					lostToWeather = append(lostToWeather, LostWeatherEvent{
+						Country:       name,
+						PreviousOwner: prevOwner,
+						Reason:        country.Meteo.Condition,
+					})
+
+					country.LeaderID = nil
+					countries[name] = country
 				}
 			}
 		}
 	}
 
-	// détecter les pays améliorés (level augmenté)
+	// détecter les pays améliorés via le snapshot (level augmenté)
 	for name, newInfo := range countries {
 		if old, ok := oldCountries[name]; ok {
 			if newInfo.Level > old.Level {
-				improved = append(improved, name)
+
+				owner := ""
+				if newInfo.LeaderID != nil {
+					owner = *newInfo.LeaderID
+				}
+
+				improved = append(improved, ImprovedEvent{
+					Country:  name,
+					Owner:    owner,
+					OldLevel: old.Level,
+					NewLevel: newInfo.Level,
+				})
 			}
 		}
 	}
@@ -148,12 +217,12 @@ func onPhaseEnd(lastPhase string) {
 
 	// construire le popup à envoyer au client
 	popup := map[string]any{
-		"phase":            lastPhase,
-		"lost_to_war":      lostToWar,
-		"lost_to_weather":  lostToWeather,
-		"conquered":        conquered,
-		"gained_by_attack": gainedByAttack,
-		"improved":         improved,
+		"phase":           lastPhase,
+		"conquered":       conquered,
+		"gained_attack":   gainedByAttack,
+		"lost_attack":     lostAttack,
+		"lost_to_weather": lostToWeather,
+		"improved":        improved,
 	}
 
 	popupData, err := json.MarshalIndent(popup, "", "  ")

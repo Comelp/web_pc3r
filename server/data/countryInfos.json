@@ -4,13 +4,18 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 29.3,
+      "temperature": 21.2,
       "condition": "Partly cloudy"
     },
     "produced_gold": 10,
     "level": 1,
-    "troops": {
-      "planes": 0
+    "troops_attacking": {
+      "type": "",
+      "count": 0
+    },
+    "troops_defending": {
+      "type": "",
+      "count": 0
     }
   },
   "Algeria": {
@@ -18,13 +23,18 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 26.1,
-      "condition": "Sunny"
+      "temperature": 20,
+      "condition": "Clear"
     },
     "produced_gold": 10,
     "level": 1,
-    "troops": {
-      "planes": 0
+    "troops_attacking": {
+      "type": "",
+      "count": 0
+    },
+    "troops_defending": {
+      "type": "",
+      "count": 0
     }
   },
   "Austria": {
@@ -32,13 +42,18 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 25,
-      "condition": "Sunny"
+      "temperature": 19.3,
+      "condition": "Clear"
     },
     "produced_gold": 10,
     "level": 1,
-    "troops": {
-      "planes": 0
+    "troops_attacking": {
+      "type": "",
+      "count": 0
+    },
+    "troops_defending": {
+      "type": "",
+      "count": 0
     }
   },
   "Belgium": {
@@ -46,13 +61,18 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 29.3,
-      "condition": "Sunny"
+      "temperature": 22.4,
+      "condition": "Clear"
     },
     "produced_gold": 10,
     "level": 1,
-    "troops": {
-      "planes": 0
+    "troops_attacking": {
+      "type": "",
+      "count": 0
+    },
+    "troops_defending": {
+      "type": "",
+      "count": 0
     }
   },
   "Bulgaria": {
@@ -60,13 +80,18 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 18.4,
+      "temperature": 16.3,
       "condition": "Partly cloudy"
     },
     "produced_gold": 10,
     "level": 0,
-    "troops": {
-      "planes": 0
+    "troops_attacking": {
+      "type": "",
+      "count": 0
+    },
+    "troops_defending": {
+      "type": "",
+      "count": 0
     }
   },
   "Czechia": {
@@ -74,13 +99,18 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 25.4,
-      "condition": "Sunny"
+      "temperature": 21.2,
+      "condition": "Clear"
     },
     "produced_gold": 10,
     "level": 0,
-    "troops": {
-      "planes": 0
+    "troops_attacking": {
+      "type": "",
+      "count": 0
+    },
+    "troops_defending": {
+      "type": "",
+      "count": 0
     }
   },
   "Danemark": {
@@ -88,27 +118,37 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 9.3,
-      "condition": "Clear"
+      "temperature": 10.3,
+      "condition": "Partly Cloudy"
     },
     "produced_gold": 10,
     "level": 0,
-    "troops": {
-      "planes": 0
+    "troops_attacking": {
+      "type": "",
+      "count": 0
+    },
+    "troops_defending": {
+      "type": "",
+      "count": 0
     }
   },
   "East Germany": {
-    "leader_id": "Genitrini",
+    "leader_id": "Yvan",
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 27.2,
-      "condition": "Sunny"
+      "temperature": 20,
+      "condition": "Clear"
     },
     "produced_gold": 10,
-    "level": 0,
-    "troops": {
-      "planes": 0
+    "level": 3,
+    "troops_attacking": {
+      "type": "soldiers",
+      "count": 12
+    },
+    "troops_defending": {
+      "type": "soldiers",
+      "count": 1
     }
   },
   "Finland": {
@@ -116,27 +156,37 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 25.4,
-      "condition": "Sunny"
+      "temperature": 14.3,
+      "condition": "Patchy rain nearby"
     },
     "produced_gold": 10,
     "level": 0,
-    "troops": {
-      "planes": 0
+    "troops_attacking": {
+      "type": "",
+      "count": 0
+    },
+    "troops_defending": {
+      "type": "",
+      "count": 0
     }
   },
   "France": {
     "leader_id": "Yvan",
-    "attacked_by": null,
+    "attacked_by": "Malenfant",
     "conquered_by": null,
     "meteo": {
-      "temperature": 30.1,
-      "condition": "Sunny"
+      "temperature": 23.2,
+      "condition": "Clear"
     },
     "produced_gold": 10,
-    "level": 2,
-    "troops": {
-      "planes": 0
+    "level": 3,
+    "troops_attacking": {
+      "type": "soldiers",
+      "count": 1
+    },
+    "troops_defending": {
+      "type": "tanks",
+      "count": 1
     }
   },
   "Germany": {
@@ -144,13 +194,18 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 27.2,
-      "condition": "Sunny"
+      "temperature": 20.1,
+      "condition": "Clear"
     },
     "produced_gold": 10,
     "level": 0,
-    "troops": {
-      "planes": 0
+    "troops_attacking": {
+      "type": "",
+      "count": 0
+    },
+    "troops_defending": {
+      "type": "",
+      "count": 0
     }
   },
   "Greece": {
@@ -158,13 +213,18 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 23.2,
-      "condition": "Partly cloudy"
+      "temperature": 20.3,
+      "condition": "Clear"
     },
     "produced_gold": 10,
     "level": 0,
-    "troops": {
-      "planes": 0
+    "troops_attacking": {
+      "type": "",
+      "count": 0
+    },
+    "troops_defending": {
+      "type": "",
+      "count": 0
     }
   },
   "Hungary": {
@@ -172,13 +232,18 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 26.3,
-      "condition": "Partly Cloudy"
+      "temperature": 19.1,
+      "condition": "Clear"
     },
     "produced_gold": 10,
     "level": 0,
-    "troops": {
-      "planes": 0
+    "troops_attacking": {
+      "type": "",
+      "count": 0
+    },
+    "troops_defending": {
+      "type": "",
+      "count": 0
     }
   },
   "Iceland": {
@@ -186,41 +251,56 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 12.1,
-      "condition": "Partly cloudy"
+      "temperature": 10.2,
+      "condition": "Light rain"
     },
     "produced_gold": 10,
     "level": 0,
-    "troops": {
-      "planes": 0
+    "troops_attacking": {
+      "type": "",
+      "count": 0
+    },
+    "troops_defending": {
+      "type": "",
+      "count": 0
     }
   },
   "Ireland": {
-    "leader_id": null,
+    "leader_id": "Yvan",
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 20.1,
-      "condition": "Sunny"
+      "temperature": 17.2,
+      "condition": "Partly Cloudy"
     },
     "produced_gold": 10,
     "level": 0,
-    "troops": {
-      "planes": 0
+    "troops_attacking": {
+      "type": "",
+      "count": 0
+    },
+    "troops_defending": {
+      "type": "",
+      "count": 0
     }
   },
   "Italy": {
-    "leader_id": null,
+    "leader_id": "Yvan",
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 29.1,
-      "condition": "Sunny"
+      "temperature": 20.2,
+      "condition": "Clear"
     },
     "produced_gold": 10,
-    "level": 0,
-    "troops": {
-      "planes": 0
+    "level": 3,
+    "troops_attacking": {
+      "type": "soldiers",
+      "count": 1
+    },
+    "troops_defending": {
+      "type": "",
+      "count": 0
     }
   },
   "Kazakhstan": {
@@ -228,13 +308,18 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 19.5,
+      "temperature": 15.3,
       "condition": "Partly Cloudy"
     },
     "produced_gold": 10,
     "level": 0,
-    "troops": {
-      "planes": 0
+    "troops_attacking": {
+      "type": "",
+      "count": 0
+    },
+    "troops_defending": {
+      "type": "",
+      "count": 0
     }
   },
   "Liechtenstein": {
@@ -242,13 +327,18 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 22.2,
-      "condition": "Sunny"
+      "temperature": 11.3,
+      "condition": "Clear"
     },
     "produced_gold": 10,
     "level": 0,
-    "troops": {
-      "planes": 0
+    "troops_attacking": {
+      "type": "",
+      "count": 0
+    },
+    "troops_defending": {
+      "type": "",
+      "count": 0
     }
   },
   "Malta": {
@@ -256,13 +346,18 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 25.1,
-      "condition": "Sunny"
+      "temperature": 21.4,
+      "condition": "Clear"
     },
     "produced_gold": 10,
     "level": 0,
-    "troops": {
-      "planes": 0
+    "troops_attacking": {
+      "type": "",
+      "count": 0
+    },
+    "troops_defending": {
+      "type": "",
+      "count": 0
     }
   },
   "Morocco": {
@@ -270,13 +365,18 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 31.4,
-      "condition": "Sunny"
+      "temperature": 22.2,
+      "condition": "Clear"
     },
     "produced_gold": 10,
     "level": 0,
-    "troops": {
-      "planes": 0
+    "troops_attacking": {
+      "type": "",
+      "count": 0
+    },
+    "troops_defending": {
+      "type": "",
+      "count": 0
     }
   },
   "Netherlands": {
@@ -284,13 +384,18 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 28,
-      "condition": "Sunny"
+      "temperature": 17.2,
+      "condition": "Clear"
     },
     "produced_gold": 10,
     "level": 0,
-    "troops": {
-      "planes": 0
+    "troops_attacking": {
+      "type": "",
+      "count": 0
+    },
+    "troops_defending": {
+      "type": "",
+      "count": 0
     }
   },
   "Norway": {
@@ -298,27 +403,37 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 11.1,
+      "temperature": 10.1,
       "condition": "Partly cloudy"
     },
     "produced_gold": 10,
     "level": 0,
-    "troops": {
-      "planes": 0
+    "troops_attacking": {
+      "type": "",
+      "count": 0
+    },
+    "troops_defending": {
+      "type": "",
+      "count": 0
     }
   },
   "Poland": {
-    "leader_id": null,
+    "leader_id": "Yvan",
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 23.3,
-      "condition": "Cloudy"
+      "temperature": 15.2,
+      "condition": "Clear"
     },
     "produced_gold": 10,
-    "level": 0,
-    "troops": {
-      "planes": 0
+    "level": 3,
+    "troops_attacking": {
+      "type": "",
+      "count": 0
+    },
+    "troops_defending": {
+      "type": "",
+      "count": 0
     }
   },
   "Portugal": {
@@ -326,13 +441,18 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 28.1,
-      "condition": "Sunny"
+      "temperature": 19.1,
+      "condition": "Clear"
     },
     "produced_gold": 10,
     "level": 0,
-    "troops": {
-      "planes": 0
+    "troops_attacking": {
+      "type": "",
+      "count": 0
+    },
+    "troops_defending": {
+      "type": "",
+      "count": 0
     }
   },
   "Romania": {
@@ -340,41 +460,56 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 25,
-      "condition": "Patchy rain nearby"
+      "temperature": 20.4,
+      "condition": "Clear"
     },
     "produced_gold": 10,
     "level": 0,
-    "troops": {
-      "planes": 0
+    "troops_attacking": {
+      "type": "",
+      "count": 0
+    },
+    "troops_defending": {
+      "type": "",
+      "count": 0
     }
   },
   "Russia": {
-    "leader_id": null,
+    "leader_id": "Malenfant",
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 20.3,
+      "temperature": 15.1,
       "condition": "Partly Cloudy"
     },
     "produced_gold": 10,
-    "level": 0,
-    "troops": {
-      "planes": 0
+    "level": 1,
+    "troops_attacking": {
+      "type": "soldiers",
+      "count": 15
+    },
+    "troops_defending": {
+      "type": "",
+      "count": 0
     }
   },
   "Spain": {
-    "leader_id": "Yvan",
+    "leader_id": "Rodriguez",
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 31.2,
-      "condition": "Sunny"
+      "temperature": 25,
+      "condition": "Clear"
     },
     "produced_gold": 10,
     "level": 0,
-    "troops": {
-      "planes": 0
+    "troops_attacking": {
+      "type": "soldiers",
+      "count": 1
+    },
+    "troops_defending": {
+      "type": "soldiers",
+      "count": 4
     }
   },
   "Sweden": {
@@ -382,27 +517,37 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 24,
+      "temperature": 16.3,
       "condition": "Patchy rain nearby"
     },
     "produced_gold": 10,
     "level": 0,
-    "troops": {
-      "planes": 0
+    "troops_attacking": {
+      "type": "",
+      "count": 0
+    },
+    "troops_defending": {
+      "type": "",
+      "count": 0
     }
   },
   "Switzerland": {
-    "leader_id": null,
+    "leader_id": "Rodriguez",
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 28.1,
-      "condition": "Sunny"
+      "temperature": 16,
+      "condition": "Clear"
     },
     "produced_gold": 10,
     "level": 0,
-    "troops": {
-      "planes": 0
+    "troops_attacking": {
+      "type": "",
+      "count": 0
+    },
+    "troops_defending": {
+      "type": "",
+      "count": 0
     }
   },
   "Tunisia": {
@@ -410,13 +555,18 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 27.2,
-      "condition": "Sunny"
+      "temperature": 21.3,
+      "condition": "Clear"
     },
     "produced_gold": 10,
     "level": 0,
-    "troops": {
-      "planes": 0
+    "troops_attacking": {
+      "type": "",
+      "count": 0
+    },
+    "troops_defending": {
+      "type": "",
+      "count": 0
     }
   },
   "Turkey": {
@@ -424,13 +574,18 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 18.1,
+      "temperature": 13.3,
       "condition": "Partly cloudy"
     },
     "produced_gold": 10,
     "level": 0,
-    "troops": {
-      "planes": 0
+    "troops_attacking": {
+      "type": "",
+      "count": 0
+    },
+    "troops_defending": {
+      "type": "",
+      "count": 0
     }
   },
   "Turkmenistan": {
@@ -438,41 +593,56 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 27.5,
-      "condition": "Thundery outbreaks in nearby"
+      "temperature": 23,
+      "condition": "Clear"
     },
     "produced_gold": 10,
     "level": 0,
-    "troops": {
-      "planes": 0
+    "troops_attacking": {
+      "type": "",
+      "count": 0
+    },
+    "troops_defending": {
+      "type": "",
+      "count": 0
     }
   },
   "West Germany": {
-    "leader_id": null,
+    "leader_id": "Malenfant",
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 30.2,
-      "condition": "Sunny"
+      "temperature": 21.2,
+      "condition": "Clear"
     },
     "produced_gold": 10,
-    "level": 0,
-    "troops": {
-      "planes": 0
+    "level": 3,
+    "troops_attacking": {
+      "type": "",
+      "count": 0
+    },
+    "troops_defending": {
+      "type": "soldiers",
+      "count": 1
     }
   },
   "Yugoslavia": {
-    "leader_id": null,
-    "attacked_by": null,
+    "leader_id": "Malenfant",
+    "attacked_by": "Yvan",
     "conquered_by": null,
     "meteo": {
-      "temperature": 19.9,
+      "temperature": 24.7,
       "condition": "Sunny"
     },
     "produced_gold": 10,
     "level": 0,
-    "troops": {
-      "planes": 0
+    "troops_attacking": {
+      "type": "soldiers",
+      "count": 1
+    },
+    "troops_defending": {
+      "type": "",
+      "count": 0
     }
   }
 }
