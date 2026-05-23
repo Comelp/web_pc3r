@@ -10,11 +10,13 @@ export default class GameMap extends Component {
         this.fetchMapInfos();
         this.fetchCurrentUser();
         this.interval = setInterval(() => this.fetchMapInfos(), 5000);
+        this.popupInterval = setInterval(() => this.fetchPhasePopup(), 6000);
     }
 
     // quand la map disparait
     componentWillUnmount() {
         clearInterval(this.interval);
+        clearInterval(this.popupInterval);
     }
 
     fetchCurrentUser() {
@@ -45,6 +47,20 @@ export default class GameMap extends Component {
                 }
             })
             .catch(err => console.error("Erreur fetchMapInfos :", err));
+    }
+
+    // Récupère le popup de fin de phase et l'affiche si nécessaire
+    fetchPhasePopup() {
+        fetch('/getPhasePopup')
+            .then(res => res.json())
+            .then(data => {
+                if (!data) return;
+                const hasAny = (arr) => Array.isArray(arr) && arr.length > 0;
+                if (hasAny(data.lost_to_war) || hasAny(data.lost_to_weather) || hasAny(data.conquered) || hasAny(data.gained_by_attack) || hasAny(data.improved)) {
+                    this.setState({ phasePopup: data });
+                }
+            })
+            .catch(err => console.error('Erreur fetchPhasePopup:', err));
     }
 
     applyCountriesColor() {
@@ -389,6 +405,50 @@ export default class GameMap extends Component {
         return (
             <div style={{ overflowX: 'hidden', margin: 0 }}>
                     {this.GameBoard()}
+                    {this.renderPhasePopup()}
+            </div>
+        );
+    }
+
+    // Affiche le popup de fin de phase
+    renderPhasePopup() {
+        const popup = this.state.phasePopup;
+        if (!popup) return null;
+
+        const section = (title, arr) => (
+            arr && arr.length > 0 ? (
+                <div style={{ marginBottom: '8px' }}>
+                    <strong>{title}:</strong> {arr.join(', ')}
+                </div>
+            ) : null
+        );
+
+        const close = () => {
+            // ack to server then hide
+            fetch('/ackPhasePopup', { method: 'POST', credentials: 'include' })
+                .catch(() => {});
+            this.setState({ phasePopup: null });
+            this.fetchMapInfos();
+        };
+
+        return (
+            <div style={{ position: 'fixed', left: '50%', top: '20%', transform: 'translateX(-50%)', zIndex: 2000 }}>
+                <div style={{ background: 'white', border: '2px solid black', padding: '16px', minWidth: '360px', borderRadius: '8px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <h3 style={{ margin: 0 }}>Rapport de fin de phase</h3>
+                        <button onClick={close} style={{ cursor: 'pointer' }}>✕</button>
+                    </div>
+                    <div style={{ marginTop: '10px' }}>
+                        {section('Pays perdus à la guerre', popup.lost_to_war)}
+                        {section('Pays perdus à cause de la météo', popup.lost_to_weather)}
+                        {section('Pays conquis', popup.conquered)}
+                        {section('Pays gagnés grâce à l\'attaque', popup.gained_by_attack)}
+                        {section('Pays améliorés', popup.improved)}
+                        {(!popup.lost_to_war.length && !popup.lost_to_weather.length && !popup.conquered.length && !popup.gained_by_attack.length && !popup.improved.length) && (
+                            <div>Aucun changement.</div>
+                        )}
+                    </div>
+                </div>
             </div>
         );
     }

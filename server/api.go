@@ -313,6 +313,44 @@ func PhaseHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(map[string]string{"phase": GetCurrentPhase()})
 }
 
+// Renvoie le dernier popup de fin de phase (généré par onPhaseEnd)
+func PhasePopupHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	data, err := os.ReadFile("server/data/phasePopup.json")
+	if err != nil {
+		// si il n'existe pas, renvoyer une structure vide
+		json.NewEncoder(w).Encode(map[string]any{
+			"phase":            "",
+			"lost_to_war":      []string{},
+			"lost_to_weather":  []string{},
+			"conquered":        []string{},
+			"gained_by_attack": []string{},
+			"improved":         []string{},
+		})
+		return
+	}
+
+	w.Write(data)
+}
+
+// Acquitte et réinitialise le popup de fin de phase (client appelle après affichage)
+func AckPhasePopupHandler(w http.ResponseWriter, r *http.Request) {
+	empty := map[string]any{
+		"phase":            "",
+		"lost_to_war":      []string{},
+		"lost_to_weather":  []string{},
+		"conquered":        []string{},
+		"gained_by_attack": []string{},
+		"improved":         []string{},
+	}
+	data, _ := json.MarshalIndent(empty, "", "  ")
+	os.WriteFile("server/data/phasePopup.json", data, 0644)
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(map[string]string{"status": "ok"})
+}
+
 // Amélioration d'un pays. Un pays amélioré produit plus de ressources,
 // mais il faut être le leader du pays pour pouvoir l'améliorer,
 // et on ne peut améliorer que pendant la phase de distribution.

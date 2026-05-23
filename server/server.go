@@ -16,6 +16,8 @@ func main() {
 	}()
 	http.HandleFunc("/me", MeHandler)
 	http.HandleFunc("/getPhase", PhaseHandler)
+	http.HandleFunc("/getPhasePopup", PhasePopupHandler)
+	http.HandleFunc("/ackPhasePopup", AckPhasePopupHandler)
 	http.HandleFunc("/getState", StateHandler)
 	http.HandleFunc("/getMapInfos", MapInfosHandler)
 	http.HandleFunc("/register", RegisterHandler)
