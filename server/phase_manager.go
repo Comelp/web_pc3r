@@ -135,6 +135,7 @@ func onPhaseEnd(lastPhase string) {
 				country.AttackedBy = nil
 				country.TroopsAttacking = TroopData{}
 				country.TroopsDefending = TroopData{}
+				country.Level = 0
 
 				countries[name] = country
 			}
@@ -207,7 +208,7 @@ func onPhaseEnd(lastPhase string) {
 		println("Incohérence dans onPhaseEnd : phase reçue est \"" + lastPhase + "\"")
 	}
 
-	// Appliquer la logique météo (perte de leader si condition contient rain/thunder)
+	// Appliquer la logique météo (perte de leader et lvl0 si condition contient rain/thunder)
 	for name, country := range countries {
 		if country.Meteo != nil {
 			cond := strings.ToLower(country.Meteo.Condition)
@@ -224,6 +225,7 @@ func onPhaseEnd(lastPhase string) {
 					})
 
 					country.LeaderID = nil
+					country.Level = 0
 					countries[name] = country
 				}
 			}

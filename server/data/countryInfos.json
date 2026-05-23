@@ -4,8 +4,8 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 20.2,
-      "condition": "Clear"
+      "temperature": 19.2,
+      "condition": "Partly cloudy"
     },
     "produced_gold": 10,
     "level": 1,
@@ -19,44 +19,6 @@
     }
   },
   "Algeria": {
-    "leader_id": null,
-    "attacked_by": null,
-    "conquered_by": null,
-    "meteo": {
-      "temperature": 20,
-      "condition": "Clear"
-    },
-    "produced_gold": 10,
-    "level": 1,
-    "troops_attacking": {
-      "type": "",
-      "count": 0
-    },
-    "troops_defending": {
-      "type": "",
-      "count": 0
-    }
-  },
-  "Austria": {
-    "leader_id": null,
-    "attacked_by": null,
-    "conquered_by": null,
-    "meteo": {
-      "temperature": 19.2,
-      "condition": "Clear"
-    },
-    "produced_gold": 10,
-    "level": 1,
-    "troops_attacking": {
-      "type": "",
-      "count": 0
-    },
-    "troops_defending": {
-      "type": "",
-      "count": 0
-    }
-  },
-  "Belgium": {
     "leader_id": null,
     "attacked_by": null,
     "conquered_by": null,
@@ -75,12 +37,50 @@
       "count": 0
     }
   },
+  "Austria": {
+    "leader_id": null,
+    "attacked_by": null,
+    "conquered_by": null,
+    "meteo": {
+      "temperature": 17,
+      "condition": "Clear"
+    },
+    "produced_gold": 10,
+    "level": 1,
+    "troops_attacking": {
+      "type": "",
+      "count": 0
+    },
+    "troops_defending": {
+      "type": "",
+      "count": 0
+    }
+  },
+  "Belgium": {
+    "leader_id": null,
+    "attacked_by": null,
+    "conquered_by": null,
+    "meteo": {
+      "temperature": 21.3,
+      "condition": "Clear"
+    },
+    "produced_gold": 10,
+    "level": 1,
+    "troops_attacking": {
+      "type": "",
+      "count": 0
+    },
+    "troops_defending": {
+      "type": "",
+      "count": 0
+    }
+  },
   "Bulgaria": {
     "leader_id": null,
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 16,
+      "temperature": 15.2,
       "condition": "Partly cloudy"
     },
     "produced_gold": 10,
@@ -99,7 +99,7 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 19.2,
+      "temperature": 19,
       "condition": "Clear"
     },
     "produced_gold": 10,
@@ -119,7 +119,7 @@
     "conquered_by": null,
     "meteo": {
       "temperature": 10.3,
-      "condition": "Partly Cloudy"
+      "condition": "Clear"
     },
     "produced_gold": 10,
     "level": 0,
@@ -137,7 +137,7 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 20.3,
+      "temperature": 18.3,
       "condition": "Clear"
     },
     "produced_gold": 10,
@@ -156,7 +156,7 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 13.3,
+      "temperature": 13.2,
       "condition": "Patchy rain nearby"
     },
     "produced_gold": 10,
@@ -175,7 +175,7 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 23.1,
+      "temperature": 22.3,
       "condition": "Clear"
     },
     "produced_gold": 10,
@@ -194,7 +194,7 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 20.3,
+      "temperature": 18.3,
       "condition": "Clear"
     },
     "produced_gold": 10,
@@ -213,7 +213,7 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 18.1,
+      "temperature": 18.3,
       "condition": "Clear"
     },
     "produced_gold": 10,
@@ -232,7 +232,7 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 19.3,
+      "temperature": 19.2,
       "condition": "Clear"
     },
     "produced_gold": 10,
@@ -251,7 +251,7 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 9.1,
+      "temperature": 9.2,
       "condition": "Light rain"
     },
     "produced_gold": 10,
@@ -270,11 +270,11 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 15.4,
+      "temperature": 16.4,
       "condition": "Partly Cloudy"
     },
     "produced_gold": 10,
-    "level": 0,
+    "level": 2,
     "troops_attacking": {
       "type": "",
       "count": 0
@@ -308,8 +308,8 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 15.3,
-      "condition": "Partly Cloudy"
+      "temperature": 15.1,
+      "condition": "Overcast"
     },
     "produced_gold": 10,
     "level": 0,
@@ -327,7 +327,7 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 11.3,
+      "temperature": 10.6,
       "condition": "Clear"
     },
     "produced_gold": 10,
@@ -365,7 +365,7 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 20.2,
+      "temperature": 19.4,
       "condition": "Clear"
     },
     "produced_gold": 10,
@@ -384,7 +384,7 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 16.1,
+      "temperature": 15.2,
       "condition": "Clear"
     },
     "produced_gold": 10,
@@ -399,7 +399,7 @@
     }
   },
   "Norway": {
-    "leader_id": null,
+    "leader_id": "Yvan",
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
@@ -422,7 +422,7 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 16.1,
+      "temperature": 15.2,
       "condition": "Clear"
     },
     "produced_gold": 10,
@@ -441,7 +441,7 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 18.1,
+      "temperature": 17.4,
       "condition": "Clear"
     },
     "produced_gold": 10,
@@ -460,7 +460,7 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 20.1,
+      "temperature": 18.2,
       "condition": "Clear"
     },
     "produced_gold": 10,
@@ -479,7 +479,7 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 14.2,
+      "temperature": 14.3,
       "condition": "Partly Cloudy"
     },
     "produced_gold": 10,
@@ -498,7 +498,7 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 25.3,
+      "temperature": 23.1,
       "condition": "Clear"
     },
     "produced_gold": 10,
@@ -517,8 +517,8 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 16.3,
-      "condition": "Patchy rain nearby"
+      "temperature": 16.4,
+      "condition": "Clear"
     },
     "produced_gold": 10,
     "level": 0,
@@ -536,7 +536,7 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 16,
+      "temperature": 14.2,
       "condition": "Clear"
     },
     "produced_gold": 10,
@@ -555,7 +555,7 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 19.1,
+      "temperature": 18.1,
       "condition": "Clear"
     },
     "produced_gold": 10,
@@ -574,7 +574,7 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 13.2,
+      "temperature": 13.3,
       "condition": "Partly cloudy"
     },
     "produced_gold": 10,
@@ -593,7 +593,7 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 23,
+      "temperature": 22.5,
       "condition": "Clear"
     },
     "produced_gold": 10,
@@ -631,7 +631,7 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 24.7,
+      "temperature": 18.4,
       "condition": "Sunny"
     },
     "produced_gold": 10,
