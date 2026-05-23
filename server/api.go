@@ -37,6 +37,12 @@ type CountryMapInfo struct {
 	ConqueredBy *string `json:"conquered_by"`
 }
 
+var troopCosts = map[string]int{
+	"soldiers": 10,
+	"tanks":    20,
+	"planes":   30,
+}
+
 var validInput = regexp.MustCompile(`^[a-zA-Z0-9_]+$`)
 
 // Sessions en mémoire qui sont sauvegardés
@@ -81,6 +87,7 @@ func MeHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(map[string]any{
 		"username": username,
+		"troops":   player.Troops,
 		"gold":     player.Gold,
 	})
 }
@@ -582,4 +589,68 @@ func RuleHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+}
+
+func BuyTroopHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	troop := r.URL.Query().Get("troop")
+	cost, ok := troopCosts[troop]
+	if !ok {
+		http.Error(w, "Troupe invalide", http.StatusBadRequest)
+		return
+	}
+
+	cookie, err := r.Cookie("session_id")
+	if err != nil {
+		http.Error(w, "Not connected", http.StatusUnauthorized)
+		return
+	}
+	playerID, ok := sessions[cookie.Value]
+	if !ok {
+		http.Error(w, "Invalid session", http.StatusUnauthorized)
+		return
+	}
+
+	playerFile, err := os.Open("server/data/playerInfos.json")
+	if err != nil {
+		http.Error(w, "Cannot open file", http.StatusInternalServerError)
+		return
+	}
+	defer playerFile.Close()
+
+	var players map[string]PlayerInfo
+	json.NewDecoder(playerFile).Decode(&players)
+
+	player, ok := players[playerID]
+	if !ok {
+		http.Error(w, "Player not found", http.StatusNotFound)
+		return
+	}
+
+	if player.Gold < cost {
+		http.Error(w, "Or insuffisant", http.StatusPaymentRequired)
+		return
+	}
+
+	player.Gold -= cost
+	if player.Troops == nil {
+		player.Troops = map[string]int{}
+	}
+	player.Troops[troop] += 1
+	players[playerID] = player
+
+	data, _ := json.MarshalIndent(players, "", "  ")
+	os.WriteFile("server/data/playerInfos.json", data, 0644)
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(map[string]any{
+		"status":         "ok",
+		"troop":          troop,
+		"gold_remaining": player.Gold,
+		"troops":         player.Troops,
+	})
 }

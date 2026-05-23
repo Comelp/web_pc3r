@@ -42,11 +42,11 @@
   "Yvan": {
     "couleur": "#aaccee",
     "password": "Mi",
-    "gold": 999420000,
+    "gold": 11111111,
     "troops": {
-      "planes": 0,
-      "soldiers": 0,
-      "tanks": 0
+      "planes": 21,
+      "soldiers": 16,
+      "tanks": 50
     }
   },
   "hihi3": {

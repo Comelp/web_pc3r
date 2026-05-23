@@ -19,12 +19,13 @@ func main() {
 	http.HandleFunc("/getState", StateHandler)
 	http.HandleFunc("/getMapInfos", MapInfosHandler)
 	http.HandleFunc("/register", RegisterHandler)
-	http.HandleFunc("/login", LoginHandler)
+	http.HandleFunc("/login", LoginHandler) // Ici il y a un Get ET un Post
 	http.HandleFunc("/logout", LogoutHandler)
 	http.HandleFunc("/upgradeCountry", UpgradeHandler)
 	http.HandleFunc("/conquerCountry", ConquerHandler)
 	http.HandleFunc("/attackCountry", AttackHandler)
 	http.HandleFunc("/getRules", RuleHandler)
+	http.HandleFunc("/buyTroop", BuyTroopHandler)
 
 	http.ListenAndServe(":8080", nil)
 }

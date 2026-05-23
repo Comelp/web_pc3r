@@ -6,8 +6,9 @@ export default class UserInterface extends Component {
 
     render() {
         const { currentUser, playerGold, troops, buyTroop } = this.context;
-
         if (!currentUser) { return null; }
+
+        const gold = parseInt(playerGold) || 0;
 
         const panelStyle = {
             position: 'absolute',
@@ -21,45 +22,42 @@ export default class UserInterface extends Component {
             display: 'grid',
             gap: '12px'
         };
-
         const rowStyle = {
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
             gap: '10px'
         };
-
-        const buttonStyle = {
+        const buttonStyle = (cost) => ({
             padding: '6px 10px',
             border: '1px solid black',
             backgroundColor: '#fff',
-            cursor: 'pointer',
-            fontWeight: 'bold'
-        };
+            fontWeight: 'bold',
+            cursor: gold >= cost ? 'pointer' : 'not-allowed',
+            opacity: gold >= cost ? 1 : 0.5,
+        });
 
         return (
             <div style={panelStyle}>
-                <div>
-                    Bonjour {currentUser}
-                </div>
-                <div>💰 Or: {playerGold}</div>
+                <div>Bonjour {currentUser}</div>
+                <div>💰 Or: {gold}</div>
                 <div style={{ borderTop: '1px solid #999', paddingTop: '8px', display: 'grid', gap: '8px' }}>
                     <div style={{ fontWeight: 'bold' }}>Troupes</div>
                     <div style={rowStyle}>
                         <span>🪖 Soldats: {troops.soldiers}</span>
-                        <button style={buttonStyle} onClick={() => buyTroop('soldiers')} disabled={playerGold < 1}>
+                        <button style={buttonStyle(10)} onClick={() => buyTroop('soldiers')} disabled={gold < 10}>
                             Acheter 10 or
                         </button>
                     </div>
                     <div style={rowStyle}>
                         <span>🦖 Tanks: {troops.tanks}</span>
-                        <button style={buttonStyle} onClick={() => buyTroop('tanks')} disabled={playerGold < 2}>
+                        <button style={buttonStyle(20)} onClick={() => buyTroop('tanks')} disabled={gold < 20}>
                             Acheter 20 or
                         </button>
                     </div>
                     <div style={rowStyle}>
                         <span>✈️ Avions: {troops.planes}</span>
-                        <button style={buttonStyle} onClick={() => buyTroop('planes')} disabled={playerGold < 3}>
+                        <button style={buttonStyle(30)} onClick={() => buyTroop('planes')} disabled={gold < 30}>
                             Acheter 30 or
                         </button>
                     </div>
@@ -67,5 +65,4 @@ export default class UserInterface extends Component {
             </div>
         );
     }
-
 }

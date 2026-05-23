@@ -39,7 +39,11 @@ export class AuthProvider extends Component {
                 this.setState({
                     currentUser: data.username ?? null,
                     playerGold: data.gold ?? 0,
-                    troops: { soldiers: 0, tanks: 0, planes: 0 },
+                    troops: {
+                        soldiers: data.troops?.soldiers ?? 0,
+                        tanks:    data.troops?.tanks    ?? 0,
+                        planes:   data.troops?.planes   ?? 0,
+                    },
                     isLoading: false
                 });
             })
@@ -51,31 +55,29 @@ export class AuthProvider extends Component {
             }));
     };
 
-    buyTroop = (troopType) => { // Todo: send to server and refresh gold/troops from server response
-        const costs = {
-            soldiers: 10,
-            tanks: 20,
-            planes: 30
-        };
+    buyTroop = (troopType) => {
+        if (!this.state.currentUser) return;
 
-        const cost = costs[troopType];
-        if (!cost || !this.state.currentUser) {
-            return;
-        }
-
-        this.setState(prevState => {
-            if (prevState.playerGold < cost) {
-                return null;
-            }
-
-            return {
-                playerGold: prevState.playerGold - cost,
+        fetch(`/buyTroop?troop=${troopType}`, {
+            method: 'POST',
+            credentials: 'include'
+        })
+        .then(async res => {
+            const text = await res.text();
+            if (!res.ok) throw new Error(text);
+            return JSON.parse(text);
+        })
+        .then(data => {
+            this.setState({
+                playerGold: data.gold_remaining,
                 troops: {
-                    ...prevState.troops,
-                    [troopType]: prevState.troops[troopType] + 1
+                    soldiers: data.troops.soldiers ?? 0,
+                    tanks:    data.troops.tanks    ?? 0,
+                    planes:   data.troops.planes   ?? 0,
                 }
-            };
-        });
+            });
+        })
+        .catch(err => alert(err.message));
     };
 
     render() {
