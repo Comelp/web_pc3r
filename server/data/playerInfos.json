@@ -32,15 +32,16 @@
   "Malenfant": {
     "couleur": "#5d8fde",
     "password": "Bonadulte",
-    "gold": 0,
+    "gold": 68950,
     "troops": {
-      "soldiers": 1
+      "planes": 35,
+      "soldiers": 0
     }
   },
   "Rodriguez": {
     "couleur": "#e74c3c",
     "password": "HeheFunnyPasswordUwU",
-    "gold": 0,
+    "gold": 20000,
     "troops": {
       "planes": 0,
       "soldiers": 0,
@@ -50,11 +51,11 @@
   "Yvan": {
     "couleur": "#aaccee",
     "password": "Mi",
-    "gold": 10370831,
+    "gold": 10510831,
     "troops": {
       "planes": 21,
       "soldiers": 9,
-      "tanks": 49
+      "tanks": 30
     }
   }
 }

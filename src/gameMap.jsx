@@ -55,7 +55,8 @@ export default class GameMap extends Component {
                     hasAny(data.gained_attack) ||
                     hasAny(data.lost_attack) ||
                     hasAny(data.lost_to_weather) ||
-                    hasAny(data.improved);
+                    hasAny(data.improved) ||
+                    hasAny(data.gold_earned);
 
                 if (shouldShow) {
                     this.setState({ phasePopup: data });
@@ -443,6 +444,8 @@ export default class GameMap extends Component {
             .then(data => {
                 console.log("Upgrade réussi :", data);
 
+                this.context.refreshAuth()
+                
                 // refresh infos du pays
                 return fetch(`/getState?country=${country}`);
             })
@@ -524,6 +527,10 @@ export default class GameMap extends Component {
 
                         {section('Améliorations', popup.improved, (e) => (
                             <span>{e.country} ({e.owner}) : lvl {e.old_level} → {e.new_level}</span>
+                        ))}
+
+                        {section('Or gagné', popup.gold_earned, (e) => (
+                            <span>{e.player} a gagné {e.amount.toLocaleString()} or</span>
                         ))}
 
                         {!(

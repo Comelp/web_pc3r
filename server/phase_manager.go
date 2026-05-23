@@ -7,6 +7,11 @@ import (
 	"time"
 )
 
+type GoldEarnedEvent struct {
+	Player string `json:"player"`
+	Amount int    `json:"amount"`
+}
+
 type ConqueredEvent struct {
 	Country string `json:"country"`
 	By      string `json:"by"`
@@ -99,6 +104,7 @@ func onPhaseEnd(lastPhase string) {
 	var lostAttack []LostAttackEvent
 	var lostToWeather []LostWeatherEvent
 	var improved []ImprovedEvent
+	var goldEarned []GoldEarnedEvent
 
 	// Phase-specific processing
 	switch lastPhase {
@@ -157,6 +163,46 @@ func onPhaseEnd(lastPhase string) {
 			}
 		}
 
+		// distribuer l'or : chaque pays rapporte (level+1) * produced_gold * 1000 à son leader
+		playerFile, err := os.Open("server/data/playerInfos.json")
+		if err != nil {
+			println("Erreur open playerInfos:", err.Error())
+			return
+		}
+		defer playerFile.Close()
+
+		var players map[string]PlayerInfo
+		if err := json.NewDecoder(playerFile).Decode(&players); err != nil {
+			println("Erreur decode players:", err.Error())
+			return
+		}
+
+		goldPerPlayer := map[string]int{}
+
+		for _, country := range countries {
+			if country.LeaderID == nil {
+				continue
+			}
+			player, ok := players[*country.LeaderID]
+			if !ok {
+				continue
+			}
+			earned := (country.Level + 1) * country.ProducedGold * 1000
+			player.Gold += earned
+			players[*country.LeaderID] = player
+			goldPerPlayer[*country.LeaderID] += earned
+		}
+
+		for player, amount := range goldPerPlayer {
+			goldEarned = append(goldEarned, GoldEarnedEvent{
+				Player: player,
+				Amount: amount,
+			})
+		}
+
+		playerData, _ := json.MarshalIndent(players, "", "  ")
+		os.WriteFile("server/data/playerInfos.json", playerData, 0644)
+
 	default:
 		println("Incohérence dans onPhaseEnd : phase reçue est \"" + lastPhase + "\"")
 	}
@@ -184,7 +230,7 @@ func onPhaseEnd(lastPhase string) {
 		}
 	}
 
-	// détecter les pays améliorés via le snapshot (level augmenté)
+	// détecter les pays améliorés (level augmenté)
 	for name, newInfo := range countries {
 		if old, ok := oldCountries[name]; ok {
 			if newInfo.Level > old.Level {
@@ -223,6 +269,7 @@ func onPhaseEnd(lastPhase string) {
 		"lost_attack":     lostAttack,
 		"lost_to_weather": lostToWeather,
 		"improved":        improved,
+		"gold_earned":     goldEarned,
 	}
 
 	popupData, err := json.MarshalIndent(popup, "", "  ")
