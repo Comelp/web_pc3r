@@ -33,6 +33,8 @@ type CountryMapInfo struct {
 	Color       *string `json:"color"`
 	IsAttacked  bool    `json:"is_attacked"`
 	IsConquered bool    `json:"is_conquered"`
+	AttackedBy  *string `json:"attacked_by"`
+	ConqueredBy *string `json:"conquered_by"`
 }
 
 var validInput = regexp.MustCompile(`^[a-zA-Z0-9_]+$`)
@@ -240,6 +242,8 @@ func MapInfosHandler(w http.ResponseWriter, r *http.Request) {
 			Color:       color,
 			IsAttacked:  country.AttackedBy != nil,
 			IsConquered: country.ConqueredBy != nil,
+			AttackedBy:  country.AttackedBy,
+			ConqueredBy: country.ConqueredBy,
 		}
 	}
 
@@ -449,6 +453,14 @@ func AttackHandler(w http.ResponseWriter, r *http.Request) {
 	var countries map[string]CountryInfo
 	json.NewDecoder(file).Decode(&countries)
 
+	// Vérifier que le joueur n'attaque pas déjà un autre pays
+	for name, info := range countries {
+		if info.AttackedBy != nil && *info.AttackedBy == playerID {
+			http.Error(w, fmt.Sprintf("You're already attacking a country : %s", name), http.StatusBadRequest)
+			return
+		}
+	}
+
 	countryInfo, ok := countries[country]
 	if !ok {
 		http.Error(w, "Country not found", http.StatusNotFound)
@@ -519,6 +531,14 @@ func ConquerHandler(w http.ResponseWriter, r *http.Request) {
 
 	var countries map[string]CountryInfo
 	json.NewDecoder(file).Decode(&countries)
+
+	// Vérifier que le joueur n'attaque pas déjà un autre pays
+	for name, info := range countries {
+		if info.ConqueredBy != nil && *info.ConqueredBy == playerID {
+			http.Error(w, fmt.Sprintf("You're already conquering a country : %s", name), http.StatusBadRequest)
+			return
+		}
+	}
 
 	countryInfo, ok := countries[country]
 	if !ok {

@@ -48,19 +48,19 @@ export default class UserInterface extends Component {
                     <div style={rowStyle}>
                         <span>🪖 Soldats: {troops.soldiers}</span>
                         <button style={buttonStyle} onClick={() => buyTroop('soldiers')} disabled={playerGold < 1}>
-                            Acheter 1 or
+                            Acheter 10 or
                         </button>
                     </div>
                     <div style={rowStyle}>
                         <span>🦖 Tanks: {troops.tanks}</span>
                         <button style={buttonStyle} onClick={() => buyTroop('tanks')} disabled={playerGold < 2}>
-                            Acheter 2 or
+                            Acheter 20 or
                         </button>
                     </div>
                     <div style={rowStyle}>
                         <span>✈️ Avions: {troops.planes}</span>
                         <button style={buttonStyle} onClick={() => buyTroop('planes')} disabled={playerGold < 3}>
-                            Acheter 3 or
+                            Acheter 30 or
                         </button>
                     </div>
                 </div>

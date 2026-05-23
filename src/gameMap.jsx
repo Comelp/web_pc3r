@@ -230,15 +230,21 @@ export default class GameMap extends Component {
     }
 
     renderActionButton(leader, ressources) {
-        const { gamePhase, currentUser, playerGold, countryInfo } = this.state;
+        const { gamePhase, currentUser, playerGold, countryInfo, mapInfos, countryName } = this.state;
 
         if (!currentUser || !countryInfo) return null;
 
         const level = countryInfo.level ?? 0;
-        const upgradeCost =
-            countryInfo.produced_gold * 1000 * 2 * (level + 1);
-
+        const upgradeCost = countryInfo.produced_gold * 1000 * 2 * (level + 1);
         const canUpgrade = level < 3 && playerGold >= upgradeCost;
+
+        const alreadyAttacking = Object.entries(mapInfos).find(
+            ([name, info]) => info.attacked_by === currentUser && name !== countryName
+        )?.[0] ?? null;
+
+        const alreadyConquering = Object.entries(mapInfos).find(
+            ([name, info]) => info.conquered_by === currentUser && name !== countryName
+        )?.[0] ?? null;
 
         const button = (props, text) => (
             <button style={{ marginTop: '10px', ...props.style }} {...props}>
@@ -249,17 +255,23 @@ export default class GameMap extends Component {
         if (gamePhase === 'Attaque 🪖') {
             if (leader === "Non occupé" || leader === currentUser) return null;
 
-            return countryInfo.attacked_by
-                ? button({ disabled: true, style: { opacity: 0.6 } }, "Déjà en guerre")
-                : button({ onClick: () => this.attackCountry() }, "Attaquer");
+            if (countryInfo.attacked_by)
+                return button({ disabled: true, style: { opacity: 0.6 } }, "Déjà en guerre");
+            if (alreadyAttacking)
+                return button({ disabled: true, style: { opacity: 0.6 } }, `Attaque en cours : ${alreadyAttacking}`);
+
+            return button({ onClick: () => this.attackCountry() }, "Attaquer");
         }
 
         if (gamePhase !== 'Paix 🤝') return null;
 
         if (leader === "Non occupé") {
-            return (countryInfo.attacked_by || countryInfo.conquered_by)
-                ? button({ disabled: true, style: { opacity: 0.6 } }, "Déjà en conquête")
-                : button({ onClick: () => this.conquerCountry() }, "Conquérir");
+            if (countryInfo.attacked_by || countryInfo.conquered_by)
+                return button({ disabled: true, style: { opacity: 0.6 } }, "Déjà en conquête");
+            if (alreadyConquering)
+                return button({ disabled: true, style: { opacity: 0.6 } }, `Conquête en cours : ${alreadyConquering}`);
+
+            return button({ onClick: () => this.conquerCountry() }, "Conquérir");
         }
 
         if (leader === currentUser) {
@@ -267,10 +279,7 @@ export default class GameMap extends Component {
                 {
                     onClick: () => canUpgrade && this.upgradeCountry(),
                     disabled: !canUpgrade,
-                    style: {
-                        opacity: canUpgrade ? 1 : 0.5,
-                        cursor: canUpgrade ? 'pointer' : 'not-allowed'
-                    }
+                    style: { opacity: canUpgrade ? 1 : 0.5, cursor: canUpgrade ? 'pointer' : 'not-allowed' }
                 },
                 canUpgrade ? `Améliorer (${ressources})` : "Déjà Niveau Max"
             );

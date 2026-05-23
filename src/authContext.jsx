@@ -53,9 +53,9 @@ export class AuthProvider extends Component {
 
     buyTroop = (troopType) => { // Todo: send to server and refresh gold/troops from server response
         const costs = {
-            soldiers: 1,
-            tanks: 2,
-            planes: 3
+            soldiers: 10,
+            tanks: 20,
+            planes: 30
         };
 
         const cost = costs[troopType];
