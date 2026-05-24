@@ -233,6 +233,31 @@ func onPhaseEnd(lastPhase string) {
 			countries[name] = country
 		}
 
+		// cas d'une défense qui n'a pas servie
+		for name, country := range countries {
+			if country.AttackedBy != nil {
+				continue
+			}
+			if country.TroopsDefending.Count == 0 {
+				continue
+			}
+			if country.LeaderID == nil {
+				continue
+			}
+
+			leaderID := *country.LeaderID
+			if p, ok := players[leaderID]; ok {
+				if p.Troops == nil {
+					p.Troops = map[string]int{}
+				}
+				p.Troops[country.TroopsDefending.Type] += country.TroopsDefending.Count
+				players[leaderID] = p
+			}
+
+			country.TroopsDefending = TroopData{}
+			countries[name] = country
+		}
+
 	case Distribution:
 		// appliquer les conquêtes en période de paix
 		for name, country := range countries {
