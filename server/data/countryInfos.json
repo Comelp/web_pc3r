@@ -4,8 +4,8 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 19,
-      "condition": "Partly cloudy"
+      "temperature": 25.4,
+      "condition": "Partly Cloudy"
     },
     "produced_gold": 10,
     "level": 1,
@@ -23,8 +23,8 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 21,
-      "condition": "Clear"
+      "temperature": 24.1,
+      "condition": "Sunny"
     },
     "produced_gold": 10,
     "level": 1,
@@ -42,8 +42,8 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 17.1,
-      "condition": "Clear"
+      "temperature": 29.2,
+      "condition": "Sunny"
     },
     "produced_gold": 10,
     "level": 1,
@@ -61,8 +61,8 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 19.3,
-      "condition": "Clear"
+      "temperature": 28.3,
+      "condition": "Sunny"
     },
     "produced_gold": 10,
     "level": 1,
@@ -80,8 +80,8 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 15,
-      "condition": "Overcast"
+      "temperature": 20.3,
+      "condition": "Partly cloudy"
     },
     "produced_gold": 10,
     "level": 0,
@@ -99,8 +99,8 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 18.2,
-      "condition": "Clear"
+      "temperature": 28.4,
+      "condition": "Sunny"
     },
     "produced_gold": 10,
     "level": 0,
@@ -118,7 +118,7 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 10.3,
+      "temperature": 10.8,
       "condition": "Clear"
     },
     "produced_gold": 10,
@@ -137,8 +137,8 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 17.3,
-      "condition": "Clear"
+      "temperature": 25.2,
+      "condition": "Sunny"
     },
     "produced_gold": 10,
     "level": 3,
@@ -156,8 +156,8 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 13.3,
-      "condition": "Moderate or heavy rain shower"
+      "temperature": 18.3,
+      "condition": "Sunny"
     },
     "produced_gold": 10,
     "level": 0,
@@ -171,15 +171,15 @@
     }
   },
   "France": {
-    "leader_id": "Yvan",
+    "leader_id": "Malenfant",
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 21.3,
-      "condition": "Clear"
+      "temperature": 30,
+      "condition": "Sunny"
     },
     "produced_gold": 10,
-    "level": 3,
+    "level": 0,
     "troops_attacking": {
       "type": "",
       "count": 0
@@ -194,8 +194,8 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 18.3,
-      "condition": "Clear"
+      "temperature": 25.2,
+      "condition": "Sunny"
     },
     "produced_gold": 10,
     "level": 0,
@@ -213,8 +213,8 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 18.2,
-      "condition": "Clear"
+      "temperature": 26.3,
+      "condition": "Sunny"
     },
     "produced_gold": 10,
     "level": 0,
@@ -232,8 +232,8 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 19.1,
-      "condition": "Clear"
+      "temperature": 28.4,
+      "condition": "Sunny"
     },
     "produced_gold": 10,
     "level": 0,
@@ -251,11 +251,11 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 8.1,
+      "temperature": 11.1,
       "condition": "Partly cloudy"
     },
     "produced_gold": 10,
-    "level": 0,
+    "level": 3,
     "troops_attacking": {
       "type": "",
       "count": 0
@@ -270,8 +270,8 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 16.4,
-      "condition": "Partly Cloudy"
+      "temperature": 24,
+      "condition": "Sunny"
     },
     "produced_gold": 10,
     "level": 2,
@@ -289,8 +289,8 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 18,
-      "condition": "Clear"
+      "temperature": 27.2,
+      "condition": "Sunny"
     },
     "produced_gold": 10,
     "level": 3,
@@ -299,8 +299,8 @@
       "count": 1
     },
     "troops_defending": {
-      "type": "",
-      "count": 0
+      "type": "soldiers",
+      "count": 1
     }
   },
   "Kazakhstan": {
@@ -308,8 +308,8 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 15.1,
-      "condition": "Overcast"
+      "temperature": 16.1,
+      "condition": "Clear"
     },
     "produced_gold": 10,
     "level": 0,
@@ -327,8 +327,8 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 10.6,
-      "condition": "Clear"
+      "temperature": 23.2,
+      "condition": "Sunny"
     },
     "produced_gold": 10,
     "level": 0,
@@ -346,8 +346,8 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 19.2,
-      "condition": "Clear"
+      "temperature": 25.2,
+      "condition": "Sunny"
     },
     "produced_gold": 10,
     "level": 0,
@@ -365,8 +365,8 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 19.4,
-      "condition": "Clear"
+      "temperature": 31.2,
+      "condition": "Sunny"
     },
     "produced_gold": 10,
     "level": 0,
@@ -384,8 +384,8 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 15.2,
-      "condition": "Clear"
+      "temperature": 23.3,
+      "condition": "Sunny"
     },
     "produced_gold": 10,
     "level": 0,
@@ -403,8 +403,8 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 10.3,
-      "condition": "Overcast"
+      "temperature": 20.2,
+      "condition": "Sunny"
     },
     "produced_gold": 10,
     "level": 2,
@@ -413,17 +413,17 @@
       "count": 0
     },
     "troops_defending": {
-      "type": "",
-      "count": 0
+      "type": "soldiers",
+      "count": 1
     }
   },
   "Poland": {
-    "leader_id": "Yvan",
+    "leader_id": null,
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 15.1,
-      "condition": "Clear"
+      "temperature": 19,
+      "condition": "Moderate or heavy rain with thunder"
     },
     "produced_gold": 10,
     "level": 0,
@@ -441,8 +441,8 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 16.2,
-      "condition": "Clear"
+      "temperature": 27,
+      "condition": "Overcast"
     },
     "produced_gold": 10,
     "level": 0,
@@ -460,8 +460,8 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 18.3,
-      "condition": "Clear"
+      "temperature": 25.2,
+      "condition": "Partly Cloudy"
     },
     "produced_gold": 10,
     "level": 0,
@@ -475,15 +475,15 @@
     }
   },
   "Russia": {
-    "leader_id": "Malenfant",
+    "leader_id": null,
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 13.3,
-      "condition": "Partly Cloudy"
+      "temperature": 18.3,
+      "condition": "Patchy rain nearby"
     },
     "produced_gold": 10,
-    "level": 3,
+    "level": 0,
     "troops_attacking": {
       "type": "soldiers",
       "count": 15
@@ -494,31 +494,31 @@
     }
   },
   "Spain": {
-    "leader_id": "Rodriguez",
+    "leader_id": "Yvan",
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 24,
-      "condition": "Clear"
+      "temperature": 32.2,
+      "condition": "Sunny"
     },
     "produced_gold": 10,
     "level": 0,
     "troops_attacking": {
-      "type": "soldiers",
-      "count": 1
+      "type": "",
+      "count": 0
     },
     "troops_defending": {
-      "type": "soldiers",
-      "count": 4
+      "type": "",
+      "count": 0
     }
   },
   "Sweden": {
-    "leader_id": null,
+    "leader_id": "Yvan",
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 16.3,
-      "condition": "Clear"
+      "temperature": 21.3,
+      "condition": "Sunny"
     },
     "produced_gold": 10,
     "level": 0,
@@ -527,8 +527,8 @@
       "count": 0
     },
     "troops_defending": {
-      "type": "",
-      "count": 0
+      "type": "soldiers",
+      "count": 1
     }
   },
   "Switzerland": {
@@ -536,8 +536,8 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 13.3,
-      "condition": "Clear"
+      "temperature": 28.2,
+      "condition": "Sunny"
     },
     "produced_gold": 10,
     "level": 0,
@@ -555,8 +555,8 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 18.4,
-      "condition": "Clear"
+      "temperature": 24.1,
+      "condition": "Sunny"
     },
     "produced_gold": 10,
     "level": 0,
@@ -574,8 +574,8 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 13,
-      "condition": "Partly cloudy"
+      "temperature": 14.2,
+      "condition": "Moderate or heavy rain with thunder"
     },
     "produced_gold": 10,
     "level": 0,
@@ -593,7 +593,7 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 22.5,
+      "temperature": 27.2,
       "condition": "Clear"
     },
     "produced_gold": 10,
@@ -612,8 +612,8 @@
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 18.3,
-      "condition": "Clear"
+      "temperature": 30.4,
+      "condition": "Sunny"
     },
     "produced_gold": 10,
     "level": 3,
@@ -627,11 +627,11 @@
     }
   },
   "Yugoslavia": {
-    "leader_id": "Yvan",
+    "leader_id": "Rodriguez",
     "attacked_by": null,
     "conquered_by": null,
     "meteo": {
-      "temperature": 18.4,
+      "temperature": 27.2,
       "condition": "Sunny"
     },
     "produced_gold": 10,

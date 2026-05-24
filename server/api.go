@@ -732,3 +732,99 @@ func DeployTroopHandler(w http.ResponseWriter, r *http.Request) {
 		"count":   troopCount,
 	})
 }
+
+func RetraiteTroopHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	if GetCurrentPhase() != Attack {
+		http.Error(w, "Withdraw only allowed during Attack phase", http.StatusBadRequest)
+		return
+	}
+
+	country := r.URL.Query().Get("country")
+	mode := r.URL.Query().Get("mode") // "attacking" ou "defending"
+
+	if mode != "attacking" && mode != "defending" {
+		http.Error(w, "Mode invalide (attacking ou defending)", http.StatusBadRequest)
+		return
+	}
+
+	cookie, err := r.Cookie("session_id")
+	if err != nil {
+		http.Error(w, "Not connected", http.StatusUnauthorized)
+		return
+	}
+	playerID, ok := getSession(cookie.Value)
+	if !ok {
+		http.Error(w, "Invalid session", http.StatusUnauthorized)
+		return
+	}
+
+	countries := gameState.GetCountries()
+	countryInfo, ok := countries[country]
+	if !ok {
+		http.Error(w, "Country not found", http.StatusNotFound)
+		return
+	}
+
+	players := gameState.GetPlayers()
+	player, ok := players[playerID]
+	if !ok {
+		http.Error(w, "Player not found", http.StatusNotFound)
+		return
+	}
+
+	switch mode {
+	case "attacking":
+		if countryInfo.AttackedBy == nil || *countryInfo.AttackedBy != playerID {
+			http.Error(w, "Vous n'attaquez pas ce pays", http.StatusForbidden)
+			return
+		}
+		if countryInfo.TroopsAttacking.Count == 0 {
+			http.Error(w, "Aucune troupe déployée en attaque", http.StatusBadRequest)
+			return
+		}
+		if player.Troops == nil {
+			player.Troops = map[string]int{}
+		}
+		player.Troops[countryInfo.TroopsAttacking.Type] += countryInfo.TroopsAttacking.Count
+		countryInfo.TroopsAttacking = TroopData{}
+
+	case "defending":
+		if countryInfo.LeaderID == nil || *countryInfo.LeaderID != playerID {
+			http.Error(w, "Vous n'êtes pas le leader de ce pays", http.StatusForbidden)
+			return
+		}
+		if countryInfo.TroopsDefending.Count == 0 {
+			http.Error(w, "Aucune troupe déployée en défense", http.StatusBadRequest)
+			return
+		}
+		if player.Troops == nil {
+			player.Troops = map[string]int{}
+		}
+		player.Troops[countryInfo.TroopsDefending.Type] += countryInfo.TroopsDefending.Count
+		countryInfo.TroopsDefending = TroopData{}
+	}
+
+	countries[country] = countryInfo
+	players[playerID] = player
+
+	gameState.SetCountries(countries)
+	gameState.SetPlayers(players)
+
+	countryData, _ := json.MarshalIndent(countries, "", "  ")
+	os.WriteFile("server/data/countryInfos.json", countryData, 0644)
+	playerData, _ := json.MarshalIndent(players, "", "  ")
+	os.WriteFile("server/data/playerInfos.json", playerData, 0644)
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(map[string]any{
+		"status":  "retraite",
+		"country": country,
+		"mode":    mode,
+		"troops":  player.Troops,
+	})
+}

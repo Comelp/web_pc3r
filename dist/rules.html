@@ -1,10 +1,62 @@
 <!DOCTYPE html>
-    <html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <title>Règles du jeu</title>
-    </head>
-    <body>
-        <h1>Règles du jeu en cours de construction</h1>
-    </body>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Règles du jeu</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            max-width: 600px;
+            margin: 60px auto;
+            padding: 0 20px;
+            color: #111;
+            line-height: 1.7;
+        }
+        h1 { font-size: 24px; margin-bottom: 8px; }
+        h2 { font-size: 17px; margin-top: 32px; margin-bottom: 6px; border-bottom: 1px solid #ccc; padding-bottom: 4px; }
+        ul { padding-left: 20px; margin: 8px 0; }
+        li { margin-bottom: 6px; }
+        .note {
+            background: #f5f5f5;
+            border-left: 3px solid #999;
+            padding: 8px 12px;
+            margin-top: 10px;
+            font-size: 14px;
+            color: #444;
+        }
+    </style>
+</head>
+<body>
+    <h1>Règles du jeu</h1>
+    <p><strong>Objectif :</strong> conquérir toute l'Europe !</p>
+
+    <h2>🤝 Phase de Paix</h2>
+    <ul>
+        <li>Conquérir un pays <strong>inoccupé</strong> (un seul par phase).</li>
+        <li>Améliorer un pays que vous possédez pour booster sa production d'or (max niveau 3).</li>
+        <li>Acheter des troupes pour préparer la prochaine phase de combat.</li>
+    </ul>
+    <div class="note">À la fin de la phase : les conquêtes sont validées, les niveaux appliqués, et chaque joueur reçoit de l'or selon ses territoires.</div>
+
+    <h2>🪖 Phase de Combat</h2>
+    <ul>
+        <li>Attaquer un pays appartenant à un adversaire (un seul par phase).</li>
+        <li>Déployer des troupes <strong>en attaque</strong> sur le pays ciblé.</li>
+        <li>Déployer des troupes <strong>en défense</strong> sur vos propres pays.</li>
+        <li>Vous pouvez retirer vos troupes et changer de stratégie avant la fin de la phase.</li>
+    </ul>
+    <div class="note">À la fin de la phase : tous les combats sont résolus. Le perdant perd toutes ses troupes, le gagnant en perd une partie.</div>
+
+    <h2>⚔️ Système de combat</h2>
+    <p>Fonctionne comme un pierre-feuille-ciseau :</p>
+    <ul>
+        <li>✈️ Avions &gt; 🪖 Soldats</li>
+        <li>🪖 Soldats &gt; 🦖 Tanks</li>
+        <li>🦖 Tanks &gt; ✈️ Avions</li>
+    </ul>
+    <p>Un avantage de type double vos chances de victoire — mais le hasard reste présent.</p>
+
+    <h2>🌩️ Météo</h2>
+    <p>À la fin de <strong>chaque phase</strong>, tout pays subissant de la pluie ou un orage est perdu par son propriétaire (niveau remis à zéro). Surveillez la météo !</p>
+</body>
 </html>

@@ -49,6 +49,7 @@ func main() {
 	http.HandleFunc("/getRules", RuleHandler)
 	http.HandleFunc("/buyTroop", BuyTroopHandler)
 	http.HandleFunc("/deployTroop", DeployTroopHandler)
+	http.HandleFunc("/retraiteTroop", RetraiteTroopHandler)
 
 	log.Println("Server starting on http://localhost:8080")
 	http.ListenAndServe(":8080", nil)

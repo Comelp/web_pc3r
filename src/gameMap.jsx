@@ -196,7 +196,7 @@ export default class GameMap extends Component {
     }
 
     renderDeployButton() {
-        const { countryInfo, gamePhase } = this.state;
+        const { countryInfo, countryName, gamePhase } = this.state;
         const { currentUser } = this.context;
         if (!currentUser || !countryInfo) return null;
         if (gamePhase !== 'Attaque 🪖') return null;
@@ -210,13 +210,40 @@ export default class GameMap extends Component {
         const slot = isLeader ? countryInfo.troops_defending : countryInfo.troops_attacking;
         const alreadyDeployed = slot?.count > 0;
 
+        const withdrawTroops = () => {
+            fetch(`/retraiteTroop?country=${countryName}&mode=${mode}`, {
+                method: 'POST',
+                credentials: 'include'
+            })
+                .then(async res => {
+                    const text = await res.text();
+                    if (!res.ok) throw new Error(text);
+                    this.context.refreshAuth();
+                    return fetch(`/getState?country=${countryName}`);
+                })
+                .then(res => res.json())
+                .then(data => this.setState({ countryInfo: data, deployView: false }))
+                .catch(err => alert(err.message));
+        };
+
+        if (alreadyDeployed) {
+            const troopSlot = isLeader ? countryInfo.troops_defending : countryInfo.troops_attacking;
+            return (
+                <button
+                    style={{ marginTop: '8px', display: 'block', color: 'darkred', cursor: 'pointer' }}
+                    onClick={withdrawTroops}
+                >
+                    ↩ Retirer {troopSlot.count} {troopSlot.type} ({mode === 'defending' ? 'défense' : 'attaque'})
+                </button>
+            );
+        }
+
         return (
             <button
-                style={{ marginTop: '8px', display: 'block', opacity: alreadyDeployed ? 0.5 : 1, cursor: alreadyDeployed ? 'not-allowed' : 'pointer' }}
-                disabled={alreadyDeployed}
-                onClick={() => !alreadyDeployed && this.setState({ deployView: { mode } })}
+                style={{ marginTop: '8px', display: 'block' }}
+                onClick={() => this.setState({ deployView: { mode } })}
             >
-                {alreadyDeployed ? "Déploiement déjà fait" : (isLeader ? "Déployer la Défense" : "Déployer l'Attaque")}
+                {isLeader ? "Déployer la Défense" : "Déployer l'Attaque"}
             </button>
         );
     }
