@@ -70,17 +70,8 @@ func getWeatherForCountry(countryName string) (*MeteoInfo, error) {
 }
 
 func updateWeatherData() {
-	data, err := os.ReadFile(countryInfoFile)
-	if err != nil {
-		log.Printf("Error reading file: %v", err)
-		return
-	}
-
-	var countries map[string]CountryInfo
-	if err := json.Unmarshal(data, &countries); err != nil {
-		log.Printf("Error unmarshaling JSON: %v", err)
-		return
-	}
+	// Lire l'état depuis gameState (mémoire)
+	countries := gameState.GetCountries()
 
 	for name, country := range countries {
 		weather, err := getWeatherForCountry(name)
@@ -93,6 +84,8 @@ func updateWeatherData() {
 		log.Printf("Updated weather for %s", name)
 	}
 
+	// Mettre à jour l'état en mémoire et persister
+	gameState.SetCountries(countries)
 	updatedData, err := json.MarshalIndent(countries, "", "  ")
 	if err != nil {
 		log.Printf("Error marshaling JSON: %v", err)

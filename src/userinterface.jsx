@@ -40,25 +40,25 @@ export default class UserInterface extends Component {
         return (
             <div style={panelStyle}>
                 <div>Bonjour {currentUser}</div>
-                <div>💰 Or: {gold}</div>
+                <div>💰 Or: {gold/1000}K</div>
                 <div style={{ borderTop: '1px solid #999', paddingTop: '8px', display: 'grid', gap: '8px' }}>
                     <div style={{ fontWeight: 'bold' }}>Troupes</div>
                     <div style={rowStyle}>
                         <span>🪖 Soldats: {troops.soldiers}</span>
                         <button style={buttonStyle(10)} onClick={() => buyTroop('soldiers')} disabled={gold < 10}>
-                            Acheter 10 or
+                            Acheter 1K or
                         </button>
                     </div>
                     <div style={rowStyle}>
                         <span>🦖 Tanks: {troops.tanks}</span>
                         <button style={buttonStyle(20)} onClick={() => buyTroop('tanks')} disabled={gold < 20}>
-                            Acheter 20 or
+                            Acheter 2K or
                         </button>
                     </div>
                     <div style={rowStyle}>
                         <span>✈️ Avions: {troops.planes}</span>
                         <button style={buttonStyle(30)} onClick={() => buyTroop('planes')} disabled={gold < 30}>
-                            Acheter 30 or
+                            Acheter 3K or
                         </button>
                     </div>
                 </div>

@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"regexp"
+	"sync"
 	"time"
 )
 
@@ -43,15 +44,37 @@ type CountryMapInfo struct {
 }
 
 var troopCosts = map[string]int{
-	"soldiers": 10,
-	"tanks":    20,
-	"planes":   30,
+	"soldiers": 1000,
+	"tanks":    2000,
+	"planes":   3000,
 }
 
 var validInput = regexp.MustCompile(`^[a-zA-Z0-9_]+$`)
 
 // Sessions en mémoire qui sont sauvegardés
+// Protégé par un lock (car étant dans l'api, plusieurs goroutines peuvent y accéder en même temps)
 var sessions = map[string]string{}
+var sessionsMu sync.RWMutex
+
+// helper functions pour gérer les sessions de manière thread-safe:
+func getSession(sessionID string) (string, bool) {
+	sessionsMu.RLock()
+	defer sessionsMu.RUnlock()
+	username, ok := sessions[sessionID]
+	return username, ok
+}
+
+func setSession(sessionID, username string) {
+	sessionsMu.Lock()
+	sessions[sessionID] = username
+	sessionsMu.Unlock()
+}
+
+func deleteSession(sessionID string) {
+	sessionsMu.Lock()
+	delete(sessions, sessionID)
+	sessionsMu.Unlock()
+}
 
 func newSessionID(username string) string {
 	// Produit l'id de session. Exemple : "Paul-124345786"
@@ -67,21 +90,13 @@ func MeHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	username, ok := sessions[cookie.Value]
+	username, ok := getSession(cookie.Value)
 	if !ok {
 		http.Error(w, "Invalid session", http.StatusUnauthorized)
 		return
 	}
 
-	file, err := os.Open("server/data/playerInfos.json")
-	if err != nil {
-		http.Error(w, "Cannot open file", http.StatusInternalServerError)
-		return
-	}
-	defer file.Close()
-
-	var players map[string]PlayerInfo
-	json.NewDecoder(file).Decode(&players)
+	players := gameState.GetPlayers()
 
 	player, ok := players[username]
 	if !ok {
@@ -102,15 +117,7 @@ func RegisterHandler(w http.ResponseWriter, r *http.Request) {
 	password := r.FormValue("password")
 	couleur := r.FormValue("couleur")
 
-	file, err := os.Open("server/data/playerInfos.json")
-	if err != nil {
-		http.Error(w, "Cannot open file : playerInfos.json", http.StatusInternalServerError)
-		return
-	}
-	defer file.Close()
-
-	var players map[string]PlayerInfo
-	json.NewDecoder(file).Decode(&players)
+	players := gameState.GetPlayers()
 
 	if _, exists := players[username]; exists {
 		http.Error(w, "Utilisateur déjà existant", http.StatusConflict)
@@ -137,21 +144,13 @@ func RegisterHandler(w http.ResponseWriter, r *http.Request) {
 		Password: password,
 	}
 
-	file.Close()
-
-	file, err = os.Create("server/data/playerInfos.json")
-	if err != nil {
-		http.Error(w, "Cannot write file : playerInfos.json", http.StatusInternalServerError)
-		return
-	}
-	defer file.Close()
-
-	encoder := json.NewEncoder(file)
-	encoder.SetIndent("", "  ")
-	encoder.Encode(players)
+	// sauvegarder en mémoire et sur disque
+	gameState.SetPlayers(players)
+	playerData, _ := json.MarshalIndent(players, "", "  ")
+	os.WriteFile("server/data/playerInfos.json", playerData, 0644)
 
 	sessionID := newSessionID(username)
-	sessions[sessionID] = username
+	setSession(sessionID, username)
 
 	http.SetCookie(w, &http.Cookie{
 		Name:     "session_id",
@@ -175,15 +174,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	username := r.FormValue("username")
 	password := r.FormValue("password")
 
-	file, err := os.Open("server/data/playerInfos.json")
-	if err != nil {
-		http.Error(w, "Cannot open file : playerInfos.json", http.StatusInternalServerError)
-		return
-	}
-	defer file.Close()
-
-	var players map[string]PlayerInfo
-	json.NewDecoder(file).Decode(&players)
+	players := gameState.GetPlayers()
 
 	player, ok := players[username]
 	if !ok {
@@ -196,7 +187,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	sessionID := newSessionID(username)
-	sessions[sessionID] = username
+	setSession(sessionID, username)
 
 	http.SetCookie(w, &http.Cookie{
 		Name:     "session_id", // nom du cookie
@@ -212,7 +203,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 func LogoutHandler(w http.ResponseWriter, r *http.Request) {
 	if cookie, err := r.Cookie("session_id"); err == nil {
 		// on supprime la session localement
-		delete(sessions, cookie.Value)
+		deleteSession(cookie.Value)
 	}
 	// On supprime le cookie côté serveur
 	http.SetCookie(w, &http.Cookie{Name: "session_id", Value: "", Path: "/", MaxAge: -1})
@@ -221,25 +212,8 @@ func LogoutHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func MapInfosHandler(w http.ResponseWriter, r *http.Request) {
-	countryFile, err1 := os.Open("server/data/countryInfos.json")
-	if err1 != nil {
-		println("ERREUR OPEN:", err1.Error())
-		http.Error(w, "Cannot open file", http.StatusInternalServerError)
-		return
-	}
-	defer countryFile.Close()
-	playerFile, err2 := os.Open("server/data/playerInfos.json")
-	if err2 != nil {
-		println("ERREUR OPEN:", err2.Error())
-		http.Error(w, "Cannot open file", http.StatusInternalServerError)
-		return
-	}
-	defer playerFile.Close()
-
-	var countries map[string]CountryInfo
-	var players map[string]PlayerInfo
-	json.NewDecoder(countryFile).Decode(&countries)
-	json.NewDecoder(playerFile).Decode(&players)
+	countries := gameState.GetCountries()
+	players := gameState.GetPlayers()
 
 	result := make(map[string]CountryMapInfo)
 
@@ -266,25 +240,7 @@ func MapInfosHandler(w http.ResponseWriter, r *http.Request) {
 func StateHandler(w http.ResponseWriter, r *http.Request) {
 	country := r.URL.Query().Get("country")
 	println("country reçu =", country)
-
-	file, err := os.Open("server/data/countryInfos.json")
-	if err != nil {
-		println("ERREUR OPEN:", err.Error())
-		http.Error(w, "Cannot open file", http.StatusInternalServerError)
-		return
-	}
-	defer file.Close()
-
-	var data map[string]CountryInfo
-
-	err = json.NewDecoder(file).Decode(&data)
-	if err != nil {
-		println("ERREUR JSON:", err.Error())
-		http.Error(w, "Invalid JSON", http.StatusInternalServerError)
-		return
-	}
-
-	println("JSON chargé OK")
+	data := gameState.GetCountries()
 
 	info, ok := data[country]
 	if !ok {
@@ -382,7 +338,7 @@ func UpgradeHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Not connected", http.StatusUnauthorized)
 		return
 	}
-	playerID, ok := sessions[cookie.Value]
+	playerID, ok := getSession(cookie.Value)
 	if !ok {
 		http.Error(w, "Invalid session", http.StatusUnauthorized)
 		return
@@ -391,15 +347,7 @@ func UpgradeHandler(w http.ResponseWriter, r *http.Request) {
 	println("-- utilisateur bien connecté")
 
 	// --- Charger les pays ---
-	countryFile, err := os.Open("server/data/countryInfos.json")
-	if err != nil {
-		http.Error(w, "Cannot open file", http.StatusInternalServerError)
-		return
-	}
-	defer countryFile.Close()
-
-	var countries map[string]CountryInfo
-	json.NewDecoder(countryFile).Decode(&countries)
+	countries := gameState.GetCountries()
 
 	countryInfo, ok := countries[country]
 	if !ok {
@@ -424,15 +372,7 @@ func UpgradeHandler(w http.ResponseWriter, r *http.Request) {
 	println("-- possible de level up")
 
 	// --- Charger les joueurs ---
-	playerFile, err := os.Open("server/data/playerInfos.json")
-	if err != nil {
-		http.Error(w, "Cannot open file", http.StatusInternalServerError)
-		return
-	}
-	defer playerFile.Close()
-
-	var players map[string]PlayerInfo
-	json.NewDecoder(playerFile).Decode(&players)
+	players := gameState.GetPlayers()
 
 	playerInfo, ok := players[playerID]
 	if !ok {
@@ -456,7 +396,9 @@ func UpgradeHandler(w http.ResponseWriter, r *http.Request) {
 	players[playerID] = playerInfo
 	countries[country] = countryInfo
 
-	// --- Sauvegarder les deux fichiers ---
+	// --- Sauvegarder ---
+	gameState.SetCountries(countries)
+	gameState.SetPlayers(players)
 	countryData, _ := json.MarshalIndent(countries, "", "  ")
 	os.WriteFile("server/data/countryInfos.json", countryData, 0644)
 
@@ -487,21 +429,13 @@ func AttackHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	playerID, ok := sessions[cookie.Value]
+	playerID, ok := getSession(cookie.Value)
 	if !ok {
 		http.Error(w, "Invalid session", http.StatusUnauthorized)
 		return
 	}
 
-	file, err := os.Open("server/data/countryInfos.json")
-	if err != nil {
-		http.Error(w, "Cannot open file", http.StatusInternalServerError)
-		return
-	}
-	defer file.Close()
-
-	var countries map[string]CountryInfo
-	json.NewDecoder(file).Decode(&countries)
+	countries := gameState.GetCountries()
 
 	// Vérifier que le joueur n'attaque pas déjà un autre pays
 	for name, info := range countries {
@@ -539,7 +473,7 @@ func AttackHandler(w http.ResponseWriter, r *http.Request) {
 
 	countryInfo.AttackedBy = &playerID
 	countries[country] = countryInfo
-
+	gameState.SetCountries(countries)
 	data, _ := json.MarshalIndent(countries, "", "  ")
 	os.WriteFile("server/data/countryInfos.json", data, 0644)
 
@@ -566,21 +500,13 @@ func ConquerHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	playerID, ok := sessions[cookie.Value]
+	playerID, ok := getSession(cookie.Value)
 	if !ok {
 		http.Error(w, "Invalid session", http.StatusUnauthorized)
 		return
 	}
 
-	file, err := os.Open("server/data/countryInfos.json")
-	if err != nil {
-		http.Error(w, "Cannot open file", http.StatusInternalServerError)
-		return
-	}
-	defer file.Close()
-
-	var countries map[string]CountryInfo
-	json.NewDecoder(file).Decode(&countries)
+	countries := gameState.GetCountries()
 
 	// Vérifier que le joueur n'attaque pas déjà un autre pays
 	for name, info := range countries {
@@ -614,7 +540,7 @@ func ConquerHandler(w http.ResponseWriter, r *http.Request) {
 	countryInfo.ConqueredBy = &playerID
 
 	countries[country] = countryInfo
-
+	gameState.SetCountries(countries)
 	data, _ := json.MarshalIndent(countries, "", "  ")
 	os.WriteFile("server/data/countryInfos.json", data, 0644)
 
@@ -652,21 +578,13 @@ func BuyTroopHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Not connected", http.StatusUnauthorized)
 		return
 	}
-	playerID, ok := sessions[cookie.Value]
+	playerID, ok := getSession(cookie.Value)
 	if !ok {
 		http.Error(w, "Invalid session", http.StatusUnauthorized)
 		return
 	}
 
-	playerFile, err := os.Open("server/data/playerInfos.json")
-	if err != nil {
-		http.Error(w, "Cannot open file", http.StatusInternalServerError)
-		return
-	}
-	defer playerFile.Close()
-
-	var players map[string]PlayerInfo
-	json.NewDecoder(playerFile).Decode(&players)
+	players := gameState.GetPlayers()
 
 	player, ok := players[playerID]
 	if !ok {
@@ -685,7 +603,7 @@ func BuyTroopHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	player.Troops[troop] += 1
 	players[playerID] = player
-
+	gameState.SetPlayers(players)
 	data, _ := json.MarshalIndent(players, "", "  ")
 	os.WriteFile("server/data/playerInfos.json", data, 0644)
 
@@ -741,15 +659,7 @@ func DeployTroopHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	countryFile, err := os.Open("server/data/countryInfos.json")
-	if err != nil {
-		http.Error(w, "Cannot open file", http.StatusInternalServerError)
-		return
-	}
-	defer countryFile.Close()
-
-	var countries map[string]CountryInfo
-	json.NewDecoder(countryFile).Decode(&countries)
+	countries := gameState.GetCountries()
 
 	countryInfo, ok := countries[country]
 	if !ok {
@@ -757,15 +667,7 @@ func DeployTroopHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	playerFile, err := os.Open("server/data/playerInfos.json")
-	if err != nil {
-		http.Error(w, "Cannot open file", http.StatusInternalServerError)
-		return
-	}
-	defer playerFile.Close()
-
-	var players map[string]PlayerInfo
-	json.NewDecoder(playerFile).Decode(&players)
+	players := gameState.GetPlayers()
 
 	player, ok := players[playerID]
 	if !ok {
@@ -810,6 +712,10 @@ func DeployTroopHandler(w http.ResponseWriter, r *http.Request) {
 		countryInfo.TroopsDefending = troopData
 	}
 	countries[country] = countryInfo
+
+	// sauvegarder en mémoire et sur disque
+	gameState.SetCountries(countries)
+	gameState.SetPlayers(players)
 
 	countryData, _ := json.MarshalIndent(countries, "", "  ")
 	os.WriteFile("server/data/countryInfos.json", countryData, 0644)

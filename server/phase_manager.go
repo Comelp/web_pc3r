@@ -123,30 +123,23 @@ func StartPhaseWatcher() {
 }
 
 func savePhaseSnapshot() {
-	data, err := os.ReadFile("server/data/countryInfos.json")
+	// Crée le snapshot depuis l'état en mémoire (gameState)
+	countries := gameState.GetCountries()
+	data, err := json.MarshalIndent(countries, "", "  ")
 	if err != nil {
-		println("Erreur snapshot:", err.Error())
+		println("Erreur snapshot marshal:", err.Error())
 		return
 	}
 	os.WriteFile("server/data/phaseSnapshot.json", data, 0644)
 }
 
 func onPhaseEnd(lastPhase string) {
-	// Lire l'état courant des pays
-	countryFile, err := os.Open("server/data/countryInfos.json")
-	if err != nil {
-		println("Erreur open country file:", err.Error())
-		return
-	}
-	defer countryFile.Close()
-
-	var countries map[string]CountryInfo
-	if err := json.NewDecoder(countryFile).Decode(&countries); err != nil {
-		println("Erreur decode countries:", err.Error())
-		return
-	}
+	// Lire l'état courant des pays et des joueurs (protégé par un RLock)
+	countries := gameState.GetCountries()
+	players := gameState.GetPlayers()
 
 	// Charger le snapshot du début de phase pour détecter les changements
+	// (pas besoin de mutex car créé au début de la loope et pas modifié pendant)
 	snapshotFile, err := os.Open("server/data/phaseSnapshot.json")
 	if err != nil {
 		println("Erreur open snapshot:", err.Error())
@@ -171,20 +164,6 @@ func onPhaseEnd(lastPhase string) {
 	// Phase-specific processing
 	switch lastPhase {
 	case Attack:
-		// charger les joueurs pour appliquer les pertes de troupes
-		playerFile, err := os.Open("server/data/playerInfos.json")
-		if err != nil {
-			println("Erreur open playerInfos:", err.Error())
-			return
-		}
-		defer playerFile.Close()
-
-		var players map[string]PlayerInfo
-		if err := json.NewDecoder(playerFile).Decode(&players); err != nil {
-			println("Erreur decode players:", err.Error())
-			return
-		}
-
 		for name, country := range countries {
 			if country.AttackedBy == nil {
 				continue
@@ -254,10 +233,6 @@ func onPhaseEnd(lastPhase string) {
 			countries[name] = country
 		}
 
-		// sauvegarder les joueurs avec leurs pertes
-		playerData, _ := json.MarshalIndent(players, "", "  ")
-		os.WriteFile("server/data/playerInfos.json", playerData, 0644)
-
 	case Distribution:
 		// appliquer les conquêtes en période de paix
 		for name, country := range countries {
@@ -282,18 +257,7 @@ func onPhaseEnd(lastPhase string) {
 		}
 
 		// distribuer l'or : chaque pays rapporte (level+1) * produced_gold * 1000 à son leader
-		playerFile, err := os.Open("server/data/playerInfos.json")
-		if err != nil {
-			println("Erreur open playerInfos:", err.Error())
-			return
-		}
-		defer playerFile.Close()
-
-		var players map[string]PlayerInfo
-		if err := json.NewDecoder(playerFile).Decode(&players); err != nil {
-			println("Erreur decode players:", err.Error())
-			return
-		}
+		// Récupérer les joueurs depuis l'état en mémoire
 
 		goldPerPlayer := map[string]int{}
 
@@ -317,9 +281,6 @@ func onPhaseEnd(lastPhase string) {
 				Amount: amount,
 			})
 		}
-
-		playerData, _ := json.MarshalIndent(players, "", "  ")
-		os.WriteFile("server/data/playerInfos.json", playerData, 0644)
 
 	default:
 		println("Incohérence dans onPhaseEnd : phase reçue est \"" + lastPhase + "\"")
@@ -369,16 +330,15 @@ func onPhaseEnd(lastPhase string) {
 		}
 	}
 
-	// sauvegarder les pays modifiés
-	data, err := json.MarshalIndent(countries, "", "  ")
-	if err != nil {
-		println("Erreur marshal countries:", err.Error())
-		return
-	}
-	if err = os.WriteFile("server/data/countryInfos.json", data, 0644); err != nil {
-		println("Erreur write countries:", err.Error())
-		return
-	}
+	// sauvegarder les pays et les joueurs modifiés (protégé par un Lock)
+	gameState.SetCountries(countries)
+	gameState.SetPlayers(players)
+
+	data, _ := json.MarshalIndent(countries, "", "  ")
+	os.WriteFile("server/data/countryInfos.json", data, 0644)
+
+	playerData, _ := json.MarshalIndent(players, "", "  ")
+	os.WriteFile("server/data/playerInfos.json", playerData, 0644)
 
 	// construire le popup à envoyer au client
 	popup := map[string]any{

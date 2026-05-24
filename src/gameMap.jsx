@@ -60,6 +60,8 @@ export default class GameMap extends Component {
 
                 if (shouldShow) {
                     this.setState({ phasePopup: data });
+                    // Rafraîchir les données du joueur pour mettre à jour les golds
+                    this.context.refreshAuth();
                 } else {
                     this.setState({ phasePopup: null }); // IMPORTANT
                 }
@@ -336,9 +338,9 @@ export default class GameMap extends Component {
             let label = "Améliorer";
 
             if (isMaxLevel) {
-                label = "Déjà Niveau Max";
+                label = "Améliorer (Déjà Niveau Max)";
             } else if (!hasEnoughGold) {
-                label = "Or insuffisant";
+                label = "Améliorer (Or insuffisant)";
             } else {
                 label = `Améliorer (${production}K) - Coût: ${Math.round((countryInfo.produced_gold * 1000 * 2 * (level + 1)) / 1000)}K`;
             }
