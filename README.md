@@ -347,7 +347,7 @@ On n'a pas utilisé de framework CSS, les styles sont essentiellement en inline 
 
 ---
 
-## 11. Description semi-formelle des composants serveur
+## 11. Description des composants serveur
 
 ### `MeHandler` — `GET /me`
 
