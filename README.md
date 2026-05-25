@@ -10,12 +10,12 @@ L'application qu'on a développée est un jeu web multijoueur de conquête terri
 
 Les principales fonctionnalités du jeu sont :
 - **Inscription et connexion** avec un système de sessions basique.
-- **Une carte interactive** de l'Europe où on voit en temps réel qui contrôle quoi.
+- **Une carte interactive** de l'Europe où on voit en temps réel qui contrôle et intéragit quoi.
 - **Achat et déploiement de troupes** : soldats, tanks, avions.
 - **Attaque et défense de pays**, avec un système de combat résolu automatiquement à la fin de chaque phase.
 - **Amélioration des pays** pour augmenter leur production d'or.
 - **Affichage de la météo** pour chaque pays, récupérée depuis une API externe.
-- **Un système de phases cycliques** (toutes les 10 minutes) avec une phase "Attaque" et une phase "Distribution".
+- **Un système de phases cycliques** (toutes les 10 minutes) avec une phase "Attaque" et une phase "Paix".
 
 Le jeu tourne sur un serveur Go qui gère toute la logique, et le client est une SPA React. Les règles du jeu sont accessibles directement depuis le site.
 
@@ -43,7 +43,7 @@ http://api.weatherapi.com/v1/current.json?key=XXXX&q=Paris
 
 Les données météo sont stockées dans le champ `Meteo` de chaque `CountryInfo` en mémoire, puis sauvegardées dans `server/data/countryInfos.json`. Côté client, ces infos s'affichent dans le panneau d'information d'un pays quand on clique dessus.
 
-La météo a aussi un effet sur la logique de jeu : si la météo d'un pays contient "rain" ou "thunder", le leader peut perdre son contrôle du pays à la fin de la phase.
+La météo a aussi un effet sur la logique de jeu : si la météo d'un pays contient "rain" ou "thunder", son leader perd le contrôle du pays à la fin de la phase.
 
 ### Quand l'API est appelée
 
@@ -64,12 +64,14 @@ La fonction `StartWeatherPuller()` tourne en arrière-plan côté serveur et app
 
 ### Côté client (React)
 
-- Carte interactive de l'Europe avec coloration des pays par joueur.
+- Carte interactive de l'Europe avec coloration des pays en fonction de la couleur de chaque joueur.
 - Icônes `⚔️` et `🏛️` affichées sur les pays en combat ou en conquête.
 - Panneau utilisateur avec l'or disponible et les boutons d'achat de troupes.
 - Formulaire de déploiement de troupes (`DeployForm`).
 - Timer de phase affiché en haut de page.
 - Popup récapitulatif de fin de phase avec les résultats des combats, les conquêtes, l'or gagné, etc.
+- Règles du jeu
+- Interface de connection / registration complète, qui ne laisse pas passer n'importe quels inputs.
 
 ---
 
@@ -77,13 +79,13 @@ La fonction `StartWeatherPuller()` tourne en arrière-plan côté serveur et app
 
 ### Yvan profite d'une phase de paix
 Yvan se reconnecte après deux jours d'absence. Il voit que la phase en cours est "Paix 🤝" et que son compteur d'or a bien grimpé, ses pays ont produit pendant ce temps. Il possède la France et l'Espagne, toutes les deux au niveau 1. Il décide de les améliorer au niveau maximum en cliquant dessus l'une après l'autre et en confirmant l'upgrade à chaque fois. Ça lui coûte une bonne partie de son or mais la production future sera bien meilleure.
-Il jette ensuite un œil à l'Italie. Le pays est libre, son ancien propriétaire dont le pseudo est MichaelJackson69 l'a perdu la semaine dernière à cause d'une tempête détectée par la météo. Yvan clique sur l'Italie et appuie sur "Conquérir". Il n'a plus qu'à attendre la fin de la phase.
+Il jette ensuite un œil à l'Italie. Le pays est libre, son ancien propriétaire dont le pseudo est MichaelJackson69 l'a perdu la semaine dernière à cause d'une tempête détectée par la météo. Yvan clique sur l'Italie et appuie sur "Conquérir" et y déploie des soldats. Il n'a plus qu'à attendre la fin de la phase.
 
 ## Alice découvre le jeu
-Alice tombe sur le lien du jeu partagé par un ami. Elle arrive sur la page et voit une carte de l'Europe couverte de couleurs vives : du rouge sur la France, du bleu sur l'Allemagne, du vert un peu partout. Elle ne comprend pas vraiment ce qui se passe alors elle clique sur "Règles". Après avoir lu, elle comprend le principe : conquérir des pays, acheter des troupes, survivre aux autres joueurs. Elle crée un compte avec la couleur orange, et découvre qu'elle commence avec un peu d'or mais aucun pays. Elle clique sur la Pologne — personne ne la contrôle. Le bouton "Conquérir" s'affiche. Elle clique, et attend la fin de la phase pour voir si ça marche.
+Alice tombe sur le lien du jeu partagé par un ami. Elle arrive sur la page et voit une carte de l'Europe couverte de couleurs vives : du rouge sur la France, du bleu sur l'Allemagne, du vert un peu partout. Elle ne comprend pas vraiment ce qui se passe alors elle clique sur "Règles". Après avoir lu, elle comprend le principe : conquérir des pays, acheter des troupes, survivre aux autres joueurs. Elle crée un compte avec la couleur orange, et découvre qu'elle commence avec un peu d'or mais aucun pays. Elle clique sur la Pologne. Le bouton "Conquérir" s'affiche. Elle clique, et attend la fin de la phase pour voir si ça marche.
 
 ## Karim tente une attaque risquée
-Karim est en phase "Attaque 🪖" et il lorgne sur l'Allemagne depuis un moment, contrôlée par Alice qui a peu de troupes en défense d'après ce qu'il a vu au dernier tour. Il achète trois tanks, les déploie en attaque sur l'Allemagne, et appuie sur "Attaquer". Le timer de phase indique encore quatre minutes. Il attend, un peu stressé. La fin de phase arrive, le popup s'affiche : "Attaque ratée, Karim a échoué contre l'Allemagne (owner: Alice)". Alice avait apparemment déployé des soldats en défense juste avant la fin. Karim perd ses tanks et repart sans rien. La prochaine fois il vérifiera la météo d'abord.
+Karim est en phase "Attaque 🪖" et il lorgne sur l'Allemagne depuis un moment, contrôlée par Alice qui à l'air d'avoir peu de troupes à placer en défense. Il achète trois tanks, attaque l'Allemagne et les déploie en attaque. Le timer de phase indique encore quatre minutes. Il attend, un peu stressé. La fin de phase arrive, le popup s'affiche : "Attaque ratée, Karim a échoué contre l'Allemagne (owner: Alice)". Alice avait apparemment déployé des soldats en défense juste avant la fin. Karim perd ses tanks et repart sans rien. La prochaine fois il vérifiera la météo d'abord.
 
 ---
 
@@ -122,7 +124,7 @@ PlayerInfo
 - troops    : { soldiers: int, tanks: int, planes: int }
 ```
 
-Les sessions sont gardées en mémoire uniquement (non persistées), donc elles disparaissent si le serveur redémarre.
+Les sessions sont gardées en mémoire uniquement (non persistantes), donc elles disparaissent si le serveur redémarre. De plus, les cookies utilisés pour les sessions sont gardés pour un maximum de 24 heures.
 
 ---
 
@@ -146,7 +148,7 @@ Deux goroutines tournent en permanence en arrière-plan :
 
 ### Synchronisation côté client
 
-Le client ne reçoit pas de notifications push — il interroge le serveur périodiquement :
+Le client ne reçoit pas de notifications push, il interroge le serveur périodiquement :
 - `/getMapInfos` toutes les **5 secondes** (dans `GameMap`).
 - `/getPhasePopup` toutes les **6 secondes** (dans `GameMap`).
 - `/getPhase` toutes les **5 secondes** (dans `Timer`).
@@ -159,7 +161,7 @@ Les modifications sensibles (résolution de combats) sont atomiques grâce aux m
 
 ### Architecture choisie
 
-Le serveur est en **Go** et expose des endpoints HTTP. L'architecture est un mélange entre ressources et services — c'est un choix pragmatique pour un jeu.
+Le serveur est en **Go** et expose des endpoints HTTP. L'architecture est un mélange entre ressources et services : c'est un choix censé pour un jeu.
 
 D'un côté, on a des endpoints de lecture qui exposent les ressources (`/getMapInfos`, `/me`, `/getState`). De l'autre, on a des endpoints actionnels qui déclenchent des opérations métier (`/buyTroop`, `/attackCountry`, `/deployTroop`, etc.).
 
@@ -184,7 +186,7 @@ D'un côté, on a des endpoints de lecture qui exposent les ressources (`/getMap
 
 ### Type d'application
 
-C'est une **Single Page Application (SPA)** en React. Le serveur Go sert les fichiers statiques compilés (dans `dist/`) via `http.FileServer`. Il n'y a pas de navigation multi-pages — tout se passe sur une seule page sans rechargement.
+C'est une **Single Page Application (SPA)** en React. Le serveur Go sert les fichiers statiques compilés (dans `dist/`) via `http.FileServer`. Il n'y a pas de navigation multi-pages : tout se passe sur une seule page sans rechargement.
 
 ### Écrans principaux
 
